@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+
+	<application>
+		<view-handler>br.com.classmanager.web.componentes.jsf.ClassManagerViewHandler</view-handler>
+
+		<resource-bundle>
+			<base-name>br/com/classmanager/web/messages/messageResources</base-name>
+			<var>message</var>
+		</resource-bundle>
+
+		<resource-bundle>
+			<base-name>br/com/classmanager/web/messages/messageResourcesException</base-name>
+			<var>messageException</var>
+		</resource-bundle>
+
+		<resource-bundle>
+			<base-name>br/com/classmanager/web/messages/messageResourcesValidation</base-name>
+			<var>messageValidation</var>
+		</resource-bundle>
+	</application>
+
+</faces-config>

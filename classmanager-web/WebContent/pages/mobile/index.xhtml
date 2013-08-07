@@ -1,0 +1,66 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:h="http://java.sun.com/jsf/html" contentType="text/html">
+	<pm:page title="Mobile" defaultPageTransition="pop">
+
+		<f:facet name="preinit">
+			<h:outputScript library="js" name="funcoes.js"></h:outputScript>
+		</f:facet>
+
+		<pm:view id="viewA" swatch="a">
+			<pm:header title="A" swatch="e">
+				<f:facet name="right">
+					<p:button value="Go B" icon="gear" href="#viewB" />
+				</f:facet>
+			</pm:header>
+			<pm:content>
+				<p:messages autoUpdate="true" closable="true"></p:messages>
+
+				<span id="pushComment" />
+				<p:socket channel="/chat-web" onMessage="handleMessage"></p:socket>
+				<h:form>
+					<p:remoteCommand name="atualizarLista" immediate="true"
+						autoRun="true" actionListener="#{testeBean.atualizarLista()}"
+						oncomplete="handleComplete(xhr, status, args)" />
+
+					<p:inputText value="#{testeBean.texto}" id="textoTeste" />
+					<p:commandButton value="Update" update="textoTeste"
+						actionListener="#{testeBean.publish}" />
+					<p:commandButton value="Go Page B" action="#{testeBean.testar}" />
+				</h:form>
+			</pm:content>
+		</pm:view>
+		<pm:view id="viewB" swatch="b">
+			<pm:header title="B" swatch="b">
+				<f:facet name="left">
+					<p:button value="Back A" icon="back" href="#viewA" />
+				</f:facet>
+				<f:facet name="right">
+					<p:button value="Go C" icon="gear" href="#viewC" />
+				</f:facet>
+			</pm:header>
+			<p:commandButton value="Back Page A" action="pm:viewA?reverse=true" />
+			<pm:content>
+B View
+</pm:content>
+		</pm:view>
+		<pm:view id="viewC" swatch="d">
+			<pm:header title="NavBar" swatch="d">
+				<f:facet name="left">
+					<p:button value="Back B" icon="back" href="#viewB" />
+				</f:facet>
+				<pm:navBar>
+					<p:button value="Page A" icon="home" href="#viewA?reverse=true"
+						styleClass="ui-btn-active" />
+					<p:button value="Page B" icon="info" href="#viewB?reverse=true" />
+					<p:button value="Page C" icon="search" href="#viewC?reverse=true" />
+				</pm:navBar>
+			</pm:header>
+			<pm:content>
+			</pm:content>
+		</pm:view>
+
+	</pm:page>
+</f:view>

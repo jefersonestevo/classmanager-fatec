@@ -1,0 +1,17 @@
+<jboss-deployment-structure>
+
+	<ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+
+	<deployment>
+
+	<!-- <dependencies> -->
+	<!-- <module name="javaee.api" /> -->
+	<!-- <module name="com.sun.jsf-impl" /> -->
+	<!-- <module name="org.hibernate.validator" /> -->
+	<!-- <module name="org.jboss.as.web" /> -->
+	<!-- <module name="org.jboss.logging" /> -->
+	<!-- </dependencies> -->
+
+	</deployment>
+
+</jboss-deployment-structure>
