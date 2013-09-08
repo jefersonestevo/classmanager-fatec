@@ -15,24 +15,20 @@
 		<class>br.com.classmanager.client.entidades.geral.Email</class>
 
 		<class>br.com.classmanager.client.entidades.usuario.Usuario</class>
-		<class>br.com.classmanager.client.entidades.usuario.Aluno</class>
-		<class>br.com.classmanager.client.entidades.usuario.Professor</class>
-		<class>br.com.classmanager.client.entidades.usuario.Administrador</class>
-		<class>br.com.classmanager.client.entidades.usuario.Visitante</class>
 
 		<class>br.com.classmanager.client.entidades.endereco.Cidade</class>
 		<class>br.com.classmanager.client.entidades.endereco.Pais</class>
 		<class>br.com.classmanager.client.entidades.endereco.Estado</class>
 		<class>br.com.classmanager.client.entidades.endereco.Endereco</class>
 		<class>br.com.classmanager.client.entidades.endereco.Local</class>
-
-		<class>br.com.classmanager.client.entidades.core.PeriodoEstudo</class>
-		<class>br.com.classmanager.client.entidades.core.Evento</class>
+		<class>br.com.classmanager.client.entidades.core.Postagem</class>
+		<class>br.com.classmanager.client.entidades.core.ServicoEnvio</class>
+		<class>br.com.classmanager.client.entidades.core.Grupo</class>
+		<class>br.com.classmanager.client.entidades.core.Aviso</class>
+		<class>br.com.classmanager.client.entidades.core.Anuncio</class>
+		<class>br.com.classmanager.client.entidades.core.Vaga</class>
 		<class>br.com.classmanager.client.entidades.core.Conteudo</class>
-		<class>br.com.classmanager.client.entidades.core.Instituicao</class>
-		<class>br.com.classmanager.client.entidades.core.Disciplina</class>
-		<class>br.com.classmanager.client.entidades.core.PeriodoLetivo</class>
-		<class>br.com.classmanager.client.entidades.core.Turma</class>
+		<class>br.com.classmanager.client.entidades.core.UsuarioGrupo</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

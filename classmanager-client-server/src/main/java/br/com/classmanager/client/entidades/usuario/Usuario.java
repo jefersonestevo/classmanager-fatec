@@ -22,7 +22,6 @@ import br.com.classmanager.client.componentes.validators.EmailValido;
 import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.Sexo;
-import br.com.classmanager.client.entidades.enums.TipoUsuario;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Audited
@@ -40,16 +39,6 @@ public class Usuario extends BeanJPA<Long> {
 		super();
 	}
 
-	public Usuario(TipoUsuario tipo) {
-		super();
-		this.tipo = tipo;
-	}
-
-	public Usuario(Long id, TipoUsuario tipo) {
-		super(id);
-		this.tipo = tipo;
-	}
-
 	@Id
 	@GeneratedValue(generator = "seq_usuario", strategy = GenerationType.AUTO)
 	private Long id;
@@ -65,10 +54,6 @@ public class Usuario extends BeanJPA<Long> {
 	@EmailValido
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String email;
-
-	@Enumerated(EnumType.ORDINAL)
-	@Column
-	private TipoUsuario tipo;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column
@@ -117,14 +102,6 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setSobreNome(String sobreNome) {
 		this.sobreNome = sobreNome;
-	}
-
-	public TipoUsuario getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoUsuario tipo) {
-		this.tipo = tipo;
 	}
 
 	public Sexo getSexo() {
