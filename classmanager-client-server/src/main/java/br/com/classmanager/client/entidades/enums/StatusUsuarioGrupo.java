@@ -4,6 +4,6 @@ public enum StatusUsuarioGrupo {
 	AGUARDANDO_APROVACAO, //
 	SOLICITANDO_PARTICIPACAO, //
 	PARTICIPANTE, //
-	EXPULSO, //
+	BANIDO, //
 	;
 }

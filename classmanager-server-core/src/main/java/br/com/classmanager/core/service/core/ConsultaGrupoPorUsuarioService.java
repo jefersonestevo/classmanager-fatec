@@ -36,7 +36,7 @@ public class ConsultaGrupoPorUsuarioService extends
 			throws ClassManagerException {
 
 		List<Grupo> listaGrupoUsuario = daoGrupo
-				.pesquisarGrupoPorUsuario(request.getIdUsuario());
+				.pesquisarGrupoAtivoPorUsuario(request.getIdUsuario());
 
 		List<Long> idGrupos = new ArrayList<Long>();
 		for (Grupo grupo : listaGrupoUsuario) {
