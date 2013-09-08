@@ -14,6 +14,7 @@ import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.core.Postagem;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoGrupo;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoPostagem;
 import br.com.classmanager.server.domain.service.Servico;
@@ -23,9 +24,11 @@ public class ConsultaGrupoPorUsuarioService extends
 		Servico<ConsultaGrupoPorUsuarioAction, ListaDTO<GrupoSimples>> {
 
 	@Inject
+	@DAO
 	private IDaoPostagem daoPostagem;
 
 	@Inject
+	@DAO
 	private IDaoGrupo daoGrupo;
 
 	@Override
