@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import org.primefaces.push.PushContextFactory;
 
 import br.com.classmanager.client.EventoTeste;
-import br.com.classmanager.client.dto.action.ManterGrupoAction;
+import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.exceptions.ClassManagerException;

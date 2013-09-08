@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -31,6 +33,7 @@ import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Audited
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = Postagem.NOME_ENTIDADE)
 @SequenceGenerator(name = "seq_postagem", sequenceName = "seq_postagem", initialValue = 1000)
 public abstract class Postagem extends BeanJPA<Long> {

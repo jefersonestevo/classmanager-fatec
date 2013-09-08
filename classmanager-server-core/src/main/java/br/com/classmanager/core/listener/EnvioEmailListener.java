@@ -40,10 +40,10 @@ import br.com.classmanager.core.exceptions.ClassManagerEmailException;
 import br.com.classmanager.core.exceptions.ClassManagerEmailException.DadosEmailException;
 import br.com.classmanager.server.domain.eventos.EnvioEmailEvento;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoConteudoEmail;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoEmail;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoEnvioEmail;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoUsuario;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.geral.IDaoConteudoEmail;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.geral.IDaoEmail;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.geral.IDaoEnvioEmail;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.usuario.IDaoUsuario;
 
 @Named("EnvioEmailServiceCore")
 @Stateless(name = "EnvioEmailListener")
