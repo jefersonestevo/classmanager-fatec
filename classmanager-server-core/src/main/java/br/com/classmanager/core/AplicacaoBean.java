@@ -28,9 +28,9 @@ import br.com.classmanager.core.componentes.interceptors.UserAware;
 import br.com.classmanager.server.domain.eventos.EnvioEmailEvento;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.exceptions.ClassManagerConstraintBDException;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.geral.IDaoConteudoEmail;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.geral.IDaoEmail;
-import br.com.classmanager.server.domain.modelo.dao.interfaces.usuario.IDaoUsuario;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoConteudoEmail;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoEmail;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.IDaoUsuario;
 
 @ApplicationScoped
 @Stateful
