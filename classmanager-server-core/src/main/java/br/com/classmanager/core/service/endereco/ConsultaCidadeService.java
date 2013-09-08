@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.classmanager.client.dto.action.endereco.ConsultaCidadeAction;
-import br.com.classmanager.client.dto.core.ListaDTO;
+import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.endereco.Cidade;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.core.service.utils.AtualizadorLista;

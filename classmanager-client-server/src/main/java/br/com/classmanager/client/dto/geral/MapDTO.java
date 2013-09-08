@@ -1,4 +1,4 @@
-package br.com.classmanager.client.dto.core;
+package br.com.classmanager.client.dto.geral;
 
 import java.util.HashMap;
 import java.util.Map;

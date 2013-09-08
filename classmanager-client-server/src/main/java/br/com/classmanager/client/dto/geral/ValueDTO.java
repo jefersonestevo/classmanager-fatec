@@ -1,4 +1,4 @@
-package br.com.classmanager.client.dto.core;
+package br.com.classmanager.client.dto.geral;
 
 import br.com.classmanager.client.dto.def.DTO;
 

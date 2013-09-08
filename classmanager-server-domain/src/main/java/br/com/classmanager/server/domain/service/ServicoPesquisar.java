@@ -1,8 +1,8 @@
 package br.com.classmanager.server.domain.service;
 
-import br.com.classmanager.client.dto.core.ListaDTO;
 import br.com.classmanager.client.dto.def.DTO;
 import br.com.classmanager.client.dto.def.DTOPesquisarAction;
+import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoPesquisar;
 import br.com.classmanager.client.exceptions.ClassManagerException;

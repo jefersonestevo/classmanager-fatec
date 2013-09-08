@@ -1,7 +1,7 @@
 package br.com.classmanager.server.domain.service.impl;
 
-import br.com.classmanager.client.dto.core.ListaDTO;
 import br.com.classmanager.client.dto.def.impl.DTOManterActionBase;
+import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
