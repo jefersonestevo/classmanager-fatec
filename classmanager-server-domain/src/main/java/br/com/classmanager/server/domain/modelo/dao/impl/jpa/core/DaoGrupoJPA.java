@@ -1,8 +1,11 @@
 package br.com.classmanager.server.domain.modelo.dao.impl.jpa.core;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import br.com.classmanager.client.entidades.core.Grupo;
+import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.def.impl.jpa.DaoCRUDJPA;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoGrupo;
@@ -16,6 +19,20 @@ public class DaoGrupoJPA extends DaoCRUDJPA<Grupo, Long> implements IDaoGrupo {
 	@Override
 	protected Class<Grupo> getEntidadePersistente() {
 		return Grupo.class;
+	}
+
+	@Override
+	public List<Grupo> pesquisarGrupoPorUsuario(Long idUsuario)
+			throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT DISTINCT g FROM ");
+		query.append(Grupo.class.getName() + " AS g ");
+		query.append(" JOIN g.usuariosGrupo AS ug ");
+		query.append(" WHERE g.usuarioCriador.id = ? ");
+		query.append(" OR ug.usuario.id = ? ");
+
+		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+				query.toString(), new Object[] { idUsuario });
 	}
 
 }

@@ -77,7 +77,7 @@ public abstract class Postagem extends BeanJPA<Long> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_grupo_gerador")
-	private UsuarioGrupo gerador;
+	private UsuarioGrupo usuarioGrupo;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_geracao")
@@ -115,12 +115,12 @@ public abstract class Postagem extends BeanJPA<Long> {
 		this.listaArquivos = listaArquivos;
 	}
 
-	public UsuarioGrupo getGerador() {
-		return gerador;
+	public UsuarioGrupo getUsuarioGrupo() {
+		return usuarioGrupo;
 	}
 
-	public void setGerador(UsuarioGrupo gerador) {
-		this.gerador = gerador;
+	public void setUsuarioGrupo(UsuarioGrupo gerador) {
+		this.usuarioGrupo = gerador;
 	}
 
 	public Date getDataGeracao() {

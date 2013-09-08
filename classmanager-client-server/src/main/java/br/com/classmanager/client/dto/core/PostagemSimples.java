@@ -3,6 +3,7 @@ package br.com.classmanager.client.dto.core;
 import java.util.Date;
 
 import br.com.classmanager.client.dto.def.DTO;
+import br.com.classmanager.client.entidades.core.Postagem;
 
 public class PostagemSimples implements DTO {
 
@@ -11,6 +12,15 @@ public class PostagemSimples implements DTO {
 	private String titulo;
 	private String nomeUsuario;
 	private Date dataPostagem;
+
+	public PostagemSimples() {
+	}
+
+	public PostagemSimples(Postagem postagem) {
+		this.titulo = postagem.getTitulo();
+		this.dataPostagem = postagem.getDataGeracao();
+		this.nomeUsuario = postagem.getUsuarioGrupo().getUsuario().getNome();
+	}
 
 	public String getTitulo() {
 		return titulo;
