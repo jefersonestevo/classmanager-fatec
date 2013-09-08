@@ -5,5 +5,6 @@ public enum TipoPostagem {
 	AVISO, //
 	ANUNCIO, //
 	VAGA, //
+	TAREFA, //
 	;
 }
