@@ -32,9 +32,11 @@ public class DaoGrupoJPA extends DaoCRUDJPA<Grupo, Long> implements IDaoGrupo {
 		query.append(" WHERE g.usuarioCriador.id = ? ");
 		query.append(" OR ( ug.usuario.id = ? AND ug.status = ? ) ");
 
-		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+		return getTemplate().pesquisarQuery(
+				getEntidadePersistente(),
 				query.toString(),
-				new Object[] { idUsuario, StatusUsuarioGrupo.PARTICIPANTE });
+				new Object[] { idUsuario, idUsuario,
+						StatusUsuarioGrupo.PARTICIPANTE });
 	}
 
 }

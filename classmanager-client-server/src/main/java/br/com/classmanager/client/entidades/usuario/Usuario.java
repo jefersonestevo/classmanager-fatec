@@ -47,9 +47,6 @@ public class Usuario extends BeanJPA<Long> {
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String nome;
 
-	@Column(name = "sobre_nome", length = TamanhoCampo.TAMANHO_MEDIO)
-	private String sobreNome;
-
 	@NotEmpty
 	@EmailValido
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
@@ -94,14 +91,6 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getSobreNome() {
-		return sobreNome;
-	}
-
-	public void setSobreNome(String sobreNome) {
-		this.sobreNome = sobreNome;
 	}
 
 	public Sexo getSexo() {
