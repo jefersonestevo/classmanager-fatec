@@ -1,32 +1,38 @@
 package br.com.classmanager.client.entidades.usuario;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import br.com.classmanager.client.componentes.validators.EmailValido;
 import br.com.classmanager.client.componentes.validators.NotEmpty;
+import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.Sexo;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Audited
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = Usuario.NOME_ENTIDADE)
 @SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", initialValue = 1000)
 public class Usuario extends BeanJPA<Long> {
@@ -68,6 +74,11 @@ public class Usuario extends BeanJPA<Long> {
 
 	@Column(length = TamanhoCampo.TAMANHO_PEQUENO)
 	private String celular2;
+
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@JoinTable(name = "rel_usuario_servico_envio", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
+	private List<ServicoEnvio> servicosHabilitados = new ArrayList<ServicoEnvio>();
 
 	public Long getId() {
 		return id;
@@ -131,6 +142,14 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setCelular2(String celular2) {
 		this.celular2 = celular2;
+	}
+
+	public List<ServicoEnvio> getServicosHabilitados() {
+		return servicosHabilitados;
+	}
+
+	public void setServicosHabilitados(List<ServicoEnvio> servicosHabilitados) {
+		this.servicosHabilitados = servicosHabilitados;
 	}
 
 }

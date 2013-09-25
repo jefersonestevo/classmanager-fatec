@@ -5,7 +5,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import br.com.classmanager.client.dto.action.core.EditarMeuUsuarioAction;
+import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
@@ -26,17 +29,23 @@ public class EditarMeuUsuarioService extends
 			throws ClassManagerException {
 
 		Usuario us = request.getUsuario();
-		Usuario usuarioAlterado = daoUsuario.pesquisar(us
-				.getId());
+		Usuario usuarioAlterado = daoUsuario.pesquisar(us.getId());
 
 		usuarioAlterado.setNome(us.getNome());
 		usuarioAlterado.setTelefone(us.getTelefone());
 		usuarioAlterado.setCelular1(us.getCelular1());
 		usuarioAlterado.setCelular2(us.getCelular2());
+
+		usuarioAlterado.getServicosHabilitados().clear();
+		if (CollectionUtils.isNotEmpty(us.getServicosHabilitados())) {
+			for (ServicoEnvio servico : us.getServicosHabilitados()) {
+				usuarioAlterado.getServicosHabilitados().add(servico);
+			}
+		}
+
 		usuarioAlterado = daoUsuario.alterar(usuarioAlterado);
 
 		return usuarioAlterado;
 	}
 
 }
-
