@@ -50,8 +50,8 @@
 		<servlet-name>Push Servlet</servlet-name>
 		<url-pattern>/primepush/*</url-pattern>
 	</servlet-mapping>
-
-	<login-config>
+	
+		<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>classmanager-auth</realm-name>
 		<form-login-config>
@@ -71,5 +71,4 @@
 			<role-name>ADM</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 </web-app>

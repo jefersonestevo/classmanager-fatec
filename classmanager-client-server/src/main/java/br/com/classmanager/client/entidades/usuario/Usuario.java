@@ -58,6 +58,12 @@ public class Usuario extends BeanJPA<Long> {
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String email;
 
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
+	private String login;
+
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
+	private String senha;
+
 	@Enumerated(EnumType.ORDINAL)
 	@Column
 	private Sexo sexo;
@@ -150,6 +156,22 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setServicosHabilitados(List<ServicoEnvio> servicosHabilitados) {
 		this.servicosHabilitados = servicosHabilitados;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 }
