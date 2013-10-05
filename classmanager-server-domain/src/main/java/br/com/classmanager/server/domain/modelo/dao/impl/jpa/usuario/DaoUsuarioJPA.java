@@ -35,25 +35,42 @@ public class DaoUsuarioJPA extends DaoCRUDJPA<Usuario, Long> implements
 	@Override
 	public List<Usuario> pesquisarLista(String nome, String login, String email)
 			throws ClassManagerException {
+		boolean hasWhere = false;
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT u FROM ");
 		query.append(getEntidadePersistente().getName() + " AS u ");
-		query.append(" WHERE ");
-		query.append(" 1 = 1 ");
 
 		if (StringUtils.isNotEmpty(nome)) {
-			query.append(" AND ");
-			query.append(" u.nome LIKE '%" + nome + "%' ");
+			if (!hasWhere) {
+				query.append(" WHERE ");
+				hasWhere = true;
+			} else {
+				query.append(" AND ");
+			}
+			query.append(" upper(u.nome) LIKE '%" + StringUtils.upperCase(nome)
+					+ "%' ");
 		}
 
 		if (StringUtils.isNotEmpty(login)) {
-			query.append(" AND ");
-			query.append(" u.login LIKE '%" + login + "%' ");
+			if (!hasWhere) {
+				query.append(" WHERE ");
+				hasWhere = true;
+			} else {
+				query.append(" AND ");
+			}
+			query.append(" upper(u.login) LIKE '%"
+					+ StringUtils.upperCase(login) + "%' ");
 		}
 
 		if (StringUtils.isNotEmpty(email)) {
-			query.append(" AND ");
-			query.append(" u.email LIKE '%" + email + "%' ");
+			if (!hasWhere) {
+				query.append(" WHERE ");
+				hasWhere = true;
+			} else {
+				query.append(" AND ");
+			}
+			query.append(" upper(u.email) LIKE '%"
+					+ StringUtils.upperCase(email) + "%' ");
 		}
 
 		return getTemplate().pesquisarQuery(getEntidadePersistente(),
@@ -61,8 +78,7 @@ public class DaoUsuarioJPA extends DaoCRUDJPA<Usuario, Long> implements
 	}
 
 	@Override
-	public Usuario pesquisarPorLogin(String login)
-			throws ClassManagerException {
+	public Usuario pesquisarPorLogin(String login) throws ClassManagerException {
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT u FROM ");
 		query.append(getEntidadePersistente().getName() + " AS u ");

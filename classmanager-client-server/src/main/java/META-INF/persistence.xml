@@ -15,6 +15,7 @@
 		<class>br.com.classmanager.client.entidades.geral.Email</class>
 
 		<class>br.com.classmanager.client.entidades.usuario.Usuario</class>
+		<class>br.com.classmanager.client.entidades.usuario.FotoUsuario</class>
 
 		<class>br.com.classmanager.client.entidades.endereco.Cidade</class>
 		<class>br.com.classmanager.client.entidades.endereco.Pais</class>

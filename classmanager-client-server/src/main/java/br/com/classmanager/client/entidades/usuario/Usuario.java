@@ -16,16 +16,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
-import br.com.classmanager.client.componentes.validators.EmailValido;
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.PerfilUsuario;
@@ -50,12 +50,9 @@ public class Usuario extends BeanJPA<Long> {
 	@GeneratedValue(generator = "seq_usuario", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String nome;
 
-	@NotEmpty
-	@EmailValido
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String email;
 
@@ -85,6 +82,11 @@ public class Usuario extends BeanJPA<Long> {
 
 	@Column(length = TamanhoCampo.TAMANHO_PEQUENO)
 	private String celular2;
+
+	@NotAudited
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	@JoinColumn(name = "id_foto_usuario")
+	private FotoUsuario fotoUsuario;
 
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
