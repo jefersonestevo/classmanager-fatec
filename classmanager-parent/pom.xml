@@ -99,6 +99,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.jboss.as</groupId>
+				<artifactId>jboss-as-security</artifactId>
+				<version>7.1.1.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>br.com.classmanager</groupId>
 				<artifactId>utils</artifactId>
 				<version>1.0.0-SNAPSHOT</version>

@@ -4,7 +4,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
+import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.usuario.Usuario;
+import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.usuario.IDaoUsuario;
 import br.com.classmanager.server.domain.service.impl.ServicoManterBase;
@@ -20,6 +22,13 @@ public class ManterUsuarioService extends
 	@Override
 	protected IDaoUsuario getDao() {
 		return dao;
+	}
+
+	@Override
+	protected ListaDTO<Usuario> pesquisarLista(ManterUsuarioAction request)
+			throws ClassManagerException {
+		return new ListaDTO<Usuario>(getDao().pesquisarLista(request.getNome(),
+				request.getLogin(), request.getEmail()));
 	}
 
 }

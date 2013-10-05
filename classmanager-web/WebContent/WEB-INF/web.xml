@@ -61,14 +61,29 @@
 	</login-config>
 
 	<security-constraint>
-		<display-name>Paginas Gerais</display-name>
+		<display-name>Paginas Gerais WEB</display-name>
 		<web-resource-collection>
 			<web-resource-name>Paginas Gerais</web-resource-name>
 			<description />
-			<url-pattern>/pages/*</url-pattern>
+			<url-pattern>/pages/web/restrito/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>ADM</role-name>
+			<role-name>MEMBRO</role-name>
 		</auth-constraint>
 	</security-constraint>
+
+	<security-constraint>
+		<display-name>Paginas Gerais MOBILe</display-name>
+		<web-resource-collection>
+			<web-resource-name>Paginas Gerais</web-resource-name>
+			<description />
+			<url-pattern>/pages/mobile/restrito/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADM</role-name>
+			<role-name>MEMBRO</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
 </web-app>

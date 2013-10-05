@@ -11,4 +11,10 @@ public interface IDaoUsuario extends IDaoCRUD<Usuario, Long> {
 	public List<Usuario> pesquisarLista(List<Long> idUsuarios)
 			throws ClassManagerException;
 
+	public List<Usuario> pesquisarLista(String nome, String login, String email)
+			throws ClassManagerException;
+
+	public Usuario pesquisarPorLogin(String login)
+			throws ClassManagerException;
+
 }

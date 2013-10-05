@@ -28,6 +28,7 @@ import br.com.classmanager.client.componentes.validators.EmailValido;
 import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.def.BeanJPA;
+import br.com.classmanager.client.entidades.enums.PerfilUsuario;
 import br.com.classmanager.client.entidades.enums.Sexo;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
@@ -63,6 +64,10 @@ public class Usuario extends BeanJPA<Long> {
 
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String senha;
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column
+	private PerfilUsuario perfilUsuario;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column
@@ -172,6 +177,14 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public PerfilUsuario getPerfilUsuario() {
+		return perfilUsuario;
+	}
+
+	public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
+		this.perfilUsuario = perfilUsuario;
 	}
 
 }
