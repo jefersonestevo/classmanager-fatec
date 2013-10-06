@@ -25,6 +25,29 @@ public class ManterUsuarioService extends
 	}
 
 	@Override
+	protected Usuario inserir(ManterUsuarioAction request)
+			throws ClassManagerException {
+		if (request.getEntidade() != null
+				&& request.getEntidade().getFotoUsuario() != null
+				&& request.getEntidade().getFotoUsuario().getFoto() == null) {
+			request.getEntidade().setFotoUsuario(null);
+		}
+		getDao().inserir(request.getEntidade());
+		return request.getEntidade();
+	}
+
+	@Override
+	protected Usuario alterar(ManterUsuarioAction request)
+			throws ClassManagerException {
+		if (request.getEntidade() != null
+				&& request.getEntidade().getFotoUsuario() != null
+				&& request.getEntidade().getFotoUsuario().getFoto() == null) {
+			request.getEntidade().setFotoUsuario(null);
+		}
+		return getDao().alterar(request.getEntidade());
+	}
+
+	@Override
 	protected ListaDTO<Usuario> pesquisarLista(ManterUsuarioAction request)
 			throws ClassManagerException {
 		return new ListaDTO<Usuario>(getDao().pesquisarLista(request.getNome(),

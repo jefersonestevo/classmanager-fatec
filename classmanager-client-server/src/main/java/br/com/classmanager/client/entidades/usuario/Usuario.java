@@ -189,4 +189,12 @@ public class Usuario extends BeanJPA<Long> {
 		this.perfilUsuario = perfilUsuario;
 	}
 
+	public FotoUsuario getFotoUsuario() {
+		return fotoUsuario;
+	}
+
+	public void setFotoUsuario(FotoUsuario fotoUsuario) {
+		this.fotoUsuario = fotoUsuario;
+	}
+
 }
