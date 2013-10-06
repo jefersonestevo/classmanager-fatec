@@ -10,9 +10,9 @@
 		<h:graphicImage library="imagens" name="avatar.png" width="68px" height="68px" />
 	</div>
 	<div style="float: right">
-		Denis Ricci<br /> Membro desde: 27/07/2013<br />
+		<h:outputText value="#{sessionBean.usuario.nome}" />
 		<h:form>
-			<h:commandLink action="#{userBean.novo}">Alterar a senha</h:commandLink>
+			<h:commandLink>Alterar a senha</h:commandLink>
 		</h:form>
 	</div>
 </div>

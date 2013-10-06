@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="../template/template.xhtml">
+	<ui:define name="title">
+	   	Hinter - Usuário 
+	</ui:define>
+	<ui:define name="content">
+		<h:form>	
+			<p:panel header="Cadastro de Usuários">
+				<h:panelGrid columns="2">										
+					<h:outputLabel value="Nome: " for="nome" />
+					<p:inputText id="nome" label="nome" required="true"
+						value="#{usuarioBean.usuario.nome}" />
+
+					<h:outputLabel value="E-mail: " for="email" />
+					<p:inputText id="email" label="email" required="false"
+						value="#{usuarioBean.usuario.email}" />
+
+					<h:outputText value="Telefone: " />
+					<p:inputMask mask="(99) 9999-9999"
+						value="#{usuarioBean.usuario.telefone}" />
+
+					<h:outputText value="Celular: " />
+					<p:inputMask mask="(99) 99999-9999"
+						value="#{usuarioBean.usuario.celular1}" />
+
+					<h:outputText value="Celular 2: " />
+					<p:inputMask mask="(99) 99999-9999"
+						value="#{usuarioBean.usuario.celular2}" />
+
+					<h:outputLabel value="Data de Nascimento " for="dt_nacimento" />
+					<p:calendar navigator="true" effect="explode" value="#{usuarioBean.usuario.dataNascimento}"
+						id="dt_nacimento" />
+
+					<h:outputText value="Sexo: " />
+					<p:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="F" />
+						<f:selectItem itemLabel="Feminino" itemValue="M" />
+					</p:selectOneRadio>
+
+					<h:outputLabel value="Login: " for="login" />
+					<p:inputText id="login" label="login" required="true" maxlength="10"
+						value="#{usuarioBean.usuario.login}" />
+
+					<h:outputLabel value="Senha: " for="senha" />
+					<p:password id="senha" label="senha" required="true" maxlength="8"	feedback="true" />
+
+					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
+					<p:password id="confirmPassword" label="confirmPassword" maxlength="8"
+						required="false" value="#{usuarioBean.confirmaSenha}" />																				
+					<p:commandButton immediate="true" value="Excluir" action="#{usuarioBean.excluiMeuUsuario}" onclick = "if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;" icon="ui-icon-disk"/>
+					<p:commandButton value="Alterar" action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"/>																				
+				</h:panelGrid>
+			</p:panel>
+			<p:spacer width="0" height="50" />
+			<p:commandButton immediate="true" value="Retornar" action="#{usuarioBean.retornarParaPesquisa}" icon="ui-icon-arrowreturnthick-1-w"/>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

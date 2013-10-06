@@ -6,24 +6,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
-		<p:megaMenu autoDisplay="false">
-			<p:submenu label="Usuários" icon="ui-icon-document">
-				<p:column>
-					<p:submenu label="Usuário">
-						<p:menuitem value="Novo Usuário"
-							action="/pages/web/restrito/usuario.xhtml" />
-						<p:menuitem value="Lista de Usuários" url="#" />
-					</p:submenu>
-				</p:column>
-			</p:submenu>
-			<p:submenu label="Grupos" icon="ui-icon-document">
-				<p:column>
-					<p:submenu label="Grupo">
-						<p:menuitem value="Novo grupo" url="#" />
-						<p:menuitem value="Meus Grupos" url="#" />
-					</p:submenu>
-				</p:column>
-			</p:submenu>
+		<p:megaMenu autoDisplay="false">			
+			<p:menuitem value="Usuário" action="/pages/web/restrito/pesquisa_usuario.jsf" />
+			<p:menuitem value="Grupo" action="/pages/web/restrito/pesquisa_usuario.jsf" />
+			<p:menuitem value="Sobre" action="/pages/web/publico/sobre.jsf" />		
 		</p:megaMenu>
 	</h:form>
 </ui:composition>

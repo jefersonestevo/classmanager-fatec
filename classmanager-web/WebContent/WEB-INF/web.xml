@@ -84,6 +84,6 @@
 			<role-name>ADM</role-name>
 			<role-name>MEMBRO</role-name>
 		</auth-constraint>
-	</security-constraint>
+	</security-constraint>	
 	
 </web-app>
