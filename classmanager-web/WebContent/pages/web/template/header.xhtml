@@ -5,19 +5,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<div id="avatar">
-	<div style="float: left; margin-right: 10px;">
-		<h:graphicImage library="imagens" name="avatar.png" width="68px" height="68px" />
+	<div id="avatar">
+		<div style="float: left; margin-right: 10px;">
+			<h:graphicImage library="imagens" name="avatar.png" width="68px"
+				height="68px" />
+		</div>
+		<div style="float: right">
+			<h:outputText value="#{sessionBean.usuario.nome}" />
+			<h:form>
+				<p:panelGrid columns="1">
+					<h:commandLink>Alterar a senha</h:commandLink>
+					<h:commandLink immediate="true" action="#{sessionBean.deslogar}">Sair</h:commandLink>
+				</p:panelGrid>
+			</h:form>
+		</div>
 	</div>
-	<div style="float: right">
-		<h:outputText value="#{sessionBean.usuario.nome}" />
-		<h:form>
-			<h:commandLink>Alterar a senha</h:commandLink>
-		</h:form>
-	</div>
-</div>
 
-<div id = "title">
-	Hinter
-</div>
+	<div id="title">Hinter</div>
 </ui:composition>

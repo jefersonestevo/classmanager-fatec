@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template_publico.xhtml">
+	<ui:define name="title">
+	   Login - Hinter
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="login"
+			onsubmit="document.getElementById('login').action='j_security_check';"
+			prependId="false">
+			<p:outputPanel style="width: 100%; text-align: center;"
+				layout="block">
+				<h:outputText rendered="#{param['error']}" style="color: red;"
+					value="#{message.Erro_Login}"></h:outputText>
+				<br />
+				<p:outputPanel
+					style="width: 40%; text-align: center; padding-left:30%;"
+					layout="block">
+					<p:fieldset legend="Login Hinter" style="text-align: left;">
+						<h:panelGrid columns="2" style="width: 100%">
+							<p:outputLabel for="j_username" value="Login" />
+							<p:inputText id="j_username" name="j_username" />
+							<p:outputLabel for="j_password" value="Senha" />
+							<p:password id="j_password" name="j_password" />
+							<h:outputLabel />
+							<p:commandButton id="submit" value="Logar" ajax="false" />
+						</h:panelGrid>
+					</p:fieldset>
+				</p:outputPanel>
+				<br />
+				<br />
+				<p:commandButton id="esqueciMinhaSenha"
+					value="#{message.Esqueci_Senha}"
+					action="/pages/web/publico/esqueci_senha.jsf" />
+				<p:commandButton id="criarUsuario" value="#{message.Criar_Usuario}"
+					action="/pages/web/publico/criar_usuario.jsf" />
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

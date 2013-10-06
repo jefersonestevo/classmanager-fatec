@@ -8,6 +8,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginException;
 
+import org.apache.log4j.Logger;
 import org.jboss.security.SimpleGroup;
 import org.jboss.security.SimplePrincipal;
 import org.jboss.security.auth.spi.UsernamePasswordLoginModule;
@@ -20,6 +21,9 @@ import br.com.classmanager.core.utils.ServiceResolver;
 import br.com.classmanager.server.domain.service.IService;
 
 public class ClassManagerLoginModulo extends UsernamePasswordLoginModule {
+
+	private static final Logger log = Logger
+			.getLogger(ClassManagerLoginModulo.class);
 
 	public void initialize(Subject subject, CallbackHandler callbackHandler,
 			Map<String, ?> sharedState, Map<String, ?> options) {
@@ -66,11 +70,10 @@ public class ClassManagerLoginModulo extends UsernamePasswordLoginModule {
 					.getServiceFor(ConsultarUsuarioAction.class);
 			return service.execute(consultaUsuario);
 		} catch (NamingException e) {
-			e.printStackTrace();
+			log.error("Erro ao realizar login.", e);
 		} catch (ClassManagerException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Erro ao realizar login.", e);
 		}
 		return null;
 	}

@@ -53,13 +53,13 @@ public class SessionBean extends GenericManagedBean {
 				.getExternalContext().getSession(false);
 		if (session != null) {
 			session.invalidate();
-			try {
-				ExternalContext ext = FacesContext.getCurrentInstance()
-						.getExternalContext();
-				ext.redirect(ext.getRequestContextPath()
-						+ "/pages/web/restrito/usuario.jsf");
-			} catch (IOException e) {
-			}
+		}
+		try {
+			ExternalContext ext = FacesContext.getCurrentInstance()
+					.getExternalContext();
+			ext.redirect(ext.getRequestContextPath()
+					+ "/pages/web/restrito/main.jsf");
+		} catch (IOException e) {
 		}
 	}
 
