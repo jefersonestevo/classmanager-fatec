@@ -1,0 +1,37 @@
+package br.com.classmanager.client.dto.action.core;
+
+import br.com.classmanager.client.dto.def.DTOServicoAction;
+
+public class AlterarSenhaAction extends DTOServicoAction {
+
+	private static final long serialVersionUID = 1L;
+
+	private String senhaAtual;
+	private String senhaNova;
+	private String senhaNovaConfirmacao;
+
+	public String getSenhaAtual() {
+		return senhaAtual;
+	}
+
+	public void setSenhaAtual(String senhaAtual) {
+		this.senhaAtual = senhaAtual;
+	}
+
+	public String getSenhaNova() {
+		return senhaNova;
+	}
+
+	public void setSenhaNova(String senhaNova) {
+		this.senhaNova = senhaNova;
+	}
+
+	public String getSenhaNovaConfirmacao() {
+		return senhaNovaConfirmacao;
+	}
+
+	public void setSenhaNovaConfirmacao(String senhaNovaConfirmacao) {
+		this.senhaNovaConfirmacao = senhaNovaConfirmacao;
+	}
+
+}

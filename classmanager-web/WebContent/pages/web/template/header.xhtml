@@ -18,7 +18,9 @@
 						value="#{sessionBean.usuario.nome}" type="button" />
 					<p:menu overlay="true" trigger="meuUsuario" my="left top"
 						at="left bottom">
-						<p:menuitem value="Alterar a senha" icon="ui-icon-disk" />
+						<p:menuitem value="#{message.Header_Alterar_Senha}"
+							action="/pages/web/restrito/usuario/alterar_senha.xhtml"
+							immediate="true" icon="ui-icon-disk" />
 						<p:menuitem value="Sair" action="#{sessionBean.deslogar}"
 							icon="ui-icon-arrowrefresh-1-w" />
 					</p:menu>

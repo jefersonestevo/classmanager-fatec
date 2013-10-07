@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
+
+	<ui:define name="title">
+	   	#{message.Nome_Aplicacao} - #{message.Header_Alterar_Senha}
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Alterar_Senha}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="formAlterarSenha">
+			<p:fieldset>
+
+				<h:panelGrid columns="2" styleClass="tabela-simples">
+					<h:outputLabel value="#{message.Login}" />
+					<h:outputText value="#{sessionBean.usuario.login}" />
+
+					<h:outputLabel value="#{message.Senha_Atual}" for="senhaAtual" />
+					<p:password id="senhaAtual"
+						value="#{alterarSenhaBean.action.senhaAtual}" required="true"
+						requiredMessage="#{message.Senha_Atual_Obrigatoria}" />
+
+					<h:outputLabel value="#{message.Senha_Nova}" for="senhaNova" />
+					<p:password id="senhaNova" feedback="true"
+						value="#{alterarSenhaBean.action.senhaNova}" required="true"
+						requiredMessage="#{message.Senha_Nova_Obrigatoria}" />
+
+					<h:outputLabel value="#{message.Senha_Nova_Confirmacao}"
+						for="senhaNovaConfirmacao" />
+					<p:password id="senhaNovaConfirmacao"
+						value="#{alterarSenhaBean.action.senhaNovaConfirmacao}"
+						required="true"
+						requiredMessage="#{message.Senha_Nova_Confirmacao_Obrigatoria}" />
+
+				</h:panelGrid>
+
+				<p:commandButton value="#{message.Alterar_Senha}"
+					action="#{alterarSenhaBean.alterarSenha}" icon="ui-icon-disk"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
+				<p:commandButton immediate="true" value="#{message.Retornar}"
+					action="#{alterarSenhaBean.voltarTelaHome}"
+					icon="ui-icon-arrowreturnthick-1-w" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()" />
+
+			</p:fieldset>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
