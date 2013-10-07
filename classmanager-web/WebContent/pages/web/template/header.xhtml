@@ -5,21 +5,28 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<div id="avatar">
-		<div style="float: left; margin-right: 10px;">
-			<h:graphicImage library="imagens" name="avatar.png" width="68px"
-				height="68px" />
-		</div>
-		<div style="float: right">
-			<h:outputText value="#{sessionBean.usuario.nome}" />
-			<h:form>
-				<p:panelGrid columns="1">
-					<h:commandLink>Alterar a senha</h:commandLink>
-					<h:commandLink immediate="true" action="#{sessionBean.deslogar}">Sair</h:commandLink>
+	<p:fieldset style="padding: 0px;">
+		<h:form>
+			<p:panelGrid id="panelTituloAplicacao" columns="3"
+				style="width: 100%;"
+				columnClasses="label-titulo-aplicacao, dados-titulo-aplicacao, imagem-titulo-aplicacao">
+				<p:outputPanel layout="block" styleClass="tituloAplicacao">
+					<h:outputText value="#{message.Nome_Aplicacao}" />
+				</p:outputPanel>
+				<p:panelGrid columns="1" styleClass="menu-titulo-usuario">
+					<p:commandButton id="meuUsuario"
+						value="#{sessionBean.usuario.nome}" type="button" />
+					<p:menu overlay="true" trigger="meuUsuario" my="left top"
+						at="left bottom">
+						<p:menuitem value="Alterar a senha" icon="ui-icon-disk" />
+						<p:menuitem value="Sair" action="#{sessionBean.deslogar}"
+							icon="ui-icon-arrowrefresh-1-w" />
+					</p:menu>
 				</p:panelGrid>
-			</h:form>
-		</div>
-	</div>
+				<h:graphicImage library="imagens" name="avatar.png" width="68px"
+					height="68px" />
+			</p:panelGrid>
+		</h:form>
+	</p:fieldset>
 
-	<div id="title">Hinter</div>
 </ui:composition>

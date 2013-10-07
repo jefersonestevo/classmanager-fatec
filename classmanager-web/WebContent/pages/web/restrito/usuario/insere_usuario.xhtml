@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
 
-<ui:composition template="../template/template.xhtml">
 	<ui:define name="title">
 	   	Hinter - Cadastro de Usuário 
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Usuario}"
+				action="#{usuarioBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Insercao_Usuario}" url="#" />
+		</p:breadCrumb>
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
@@ -19,11 +27,11 @@
 						value="#{usuarioBean.usuario.nome}" />
 
 					<h:outputLabel value="E-mail: " for="email" />
-					<p:inputText id="email" label="email" required="false"
+					<p:inputText id="email" label="email" required="true"
 						value="#{usuarioBean.usuario.email}" />
 
 					<h:outputText value="Telefone: " />
-					<p:inputMask mask="(99) 9999-9999"
+					<p:inputMask mask="(99) 99999-9999"
 						value="#{usuarioBean.usuario.telefone}" />
 
 					<h:outputText value="Celular: " />
@@ -35,8 +43,8 @@
 						value="#{usuarioBean.usuario.celular2}" />
 
 					<h:outputLabel value="Data de Nascimento " for="dt_nacimento" />
-					<p:calendar value="#{usuarioBean.usuario.dataNascimento}"
-						id="dt_nacimento" />
+					<p:calendar navigator="true" effect="explode"
+						value="#{usuarioBean.usuario.dataNascimento}" id="dt_nacimento" />
 
 					<h:outputText value="Sexo: " />
 					<p:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
@@ -46,23 +54,28 @@
 
 					<h:outputLabel value="Login: " for="login" />
 					<p:inputText id="login" label="login" required="true"
-						value="#{usuarioBean.usuario.login}" />
+						maxlength="10" value="#{usuarioBean.usuario.login}" />
 
 					<h:outputLabel value="Senha: " for="senha" />
-					<p:password id="senha" label="senha" required="true"
-						feedback="true" />
-
+					<p:password id="senha" label="senha" required="true" maxlength="8"
+						feedback="true" value="#{usuarioBean.usuario.senha}" />
 					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
 					<p:password id="confirmPassword" label="confirmPassword"
-						required="false" value="#{usuarioBean.usuario.senha}" />
+						required="true" value="#{usuarioBean.confirmaSenha}" />
 
-					<h:outputText />
-					<h:commandButton value="Salvar" action="#{usuarioBean.inserir}" />
+					<h:outputLabel value="Foto:" />
+					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}"
+						mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						value="#{usuarioBean.file}" />
 
+					<p:commandButton immediate="true" value="Retornar"
+						action="#{usuarioBean.retornarParaPesquisa}"
+						icon="ui-icon-arrowreturnthick-1-w" />
+					<p:commandButton value="Salvar" action="#{usuarioBean.inserir}"
+						icon="ui-icon-disk" />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>
 
 	</ui:define>
 </ui:composition>
-</html>

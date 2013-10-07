@@ -6,10 +6,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
-		<p:megaMenu autoDisplay="false">			
-			<p:menuitem value="Usuário" action="/pages/web/restrito/pesquisa_usuario.jsf" />
-			<p:menuitem value="Grupo" action="/pages/web/restrito/pesquisa_usuario.jsf" />
-			<p:menuitem value="Sobre" action="/pages/web/publico/sobre.jsf" />		
+		<p:megaMenu autoDisplay="false">
+			<p:menuitem value="Usuário"
+				action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
+			<p:menuitem value="Grupo"
+				action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
+			<p:menuitem value="Sobre" action="/pages/web/restrito/sobre.jsf"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 		</p:megaMenu>
 	</h:form>
 </ui:composition>

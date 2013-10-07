@@ -24,7 +24,9 @@
 					<p:fieldset legend="Login Hinter" style="text-align: left;">
 						<h:panelGrid columns="2" style="width: 100%">
 							<p:outputLabel for="j_username" value="Login" />
-							<p:inputText id="j_username" name="j_username" />
+							<p:inputText id="j_username" name="j_username">
+								<p:focus />
+							</p:inputText>
 							<p:outputLabel for="j_password" value="Senha" />
 							<p:password id="j_password" name="j_password" />
 							<h:outputLabel />

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
 
-<ui:composition template="../template/template.xhtml">
 	<ui:define name="title">
 	   	Hinter - Usuário 
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Usuario}"
+				action="#{usuarioBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Visualizacao_Usuario}" url="#" />
+		</p:breadCrumb>
 	</ui:define>
 	<ui:define name="content">
 		<h:form>	
@@ -53,7 +61,12 @@
 
 					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
 					<p:password id="confirmPassword" label="confirmPassword" maxlength="8"
-						required="false" value="#{usuarioBean.confirmaSenha}" />																				
+						required="false" value="#{usuarioBean.confirmaSenha}" />
+						
+					<h:outputLabel value="Foto:" />
+					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						value="#{usuarioBean.file}" />	
+																										
 					<p:commandButton immediate="true" value="Excluir" action="#{usuarioBean.excluiMeuUsuario}" onclick = "if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;" icon="ui-icon-disk"/>
 					<p:commandButton value="Alterar" action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"/>																				
 				</h:panelGrid>
@@ -64,4 +77,3 @@
 
 	</ui:define>
 </ui:composition>
-</html>

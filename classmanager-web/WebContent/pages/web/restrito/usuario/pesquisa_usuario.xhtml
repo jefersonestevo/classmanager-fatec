@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
+
+	<ui:define name="title">
+	   	#{message.Nome_Aplicacao} - #{message.Header_Pesquisa_Usuario}
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Usuario}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<p:panel header="Consulta Usuários">
+				<h:panelGrid columns="2" styleClass="tabela-simples">
+					<h:outputLabel value="Nome: " for="nome" />
+					<p:inputText id="nome" label="nome"
+						value="#{usuarioBean.usuario.nome}" />
+					<h:outputLabel value="Login: " for="login" />
+					<p:inputText id="login" label="login"
+						value="#{usuarioBean.usuario.login}" maxlength="10" />
+
+					<h:outputLabel value="Email: " for="email" />
+					<p:inputText id="email" label="email"
+						value="#{usuarioBean.usuario.email}" />
+
+				</h:panelGrid>
+
+				<p:outputPanel layout="block" styleClass="tabela-botao-centralizado">
+					<p:commandButton value="Buscar" update="usuarios" immediate="true"
+						actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search"
+						onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
+					<p:commandButton immediate="true" value="Novo"
+						action="#{usuarioBean.irParaTelaInsercao}" icon="ui-icon-plus"
+						onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
+				</p:outputPanel>
+			</p:panel>
+			<p:spacer styleClass="espaco-tabela" />
+			<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
+				emptyMessage="#{message.Nenhum_Item_Exibicao}">
+				<p:column headerText="Nome">
+					<h:outputText value="#{list.nome}" />
+				</p:column>
+
+				<p:column headerText="E-mail">
+					<h:outputText value="#{list.email}" />
+				</p:column>
+
+				<p:column headerText="Celular">
+					<h:outputText value="#{list.celular1}" />
+				</p:column>
+
+				<p:column>
+					<p:commandLink action="#{usuarioBean.visualizaMeuUsuario}">
+						<h:graphicImage library="imagens" name="visualizar2.png"
+							style="border:0" />
+						<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+							value="#{list}"></f:setPropertyActionListener>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

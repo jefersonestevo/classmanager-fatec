@@ -6,10 +6,17 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/pages/web/template/template.xhtml">
-	<ui:define name="title">
-	   	Hinter
-	</ui:define>
 
 	<ui:define name="content">
+		<p:fieldset legend="#{message.Nome_Aplicacao}"
+			styleClass="quadro-sobre">
+			<p:panelGrid columns="1" styleClass="quadro-sobre">
+				<h:outputText value="#{message.Nome_Faculdade}" />
+				<h:outputText value="#{message.Nome_Disciplina}" />
+				<h:outputText value="#{message.Nome_Aluno_1}" />
+				<h:outputText value="#{message.Nome_Aluno_2}" />
+				<h:outputText value="#{message.Nome_Aluno_3}" />
+			</p:panelGrid>
+		</p:fieldset>
 	</ui:define>
 </ui:composition>

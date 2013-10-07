@@ -3,6 +3,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h1>Conteudo Padrão</h1>
+	<h:form>
+		<p:fieldset legend="#{message.Em_Construcao}">
+			<p:commandButton action="/pages/web/restrito/main.jsf"
+				value="#{message.Voltar_Tela_Inicial}" icon="ui-back">
+			</p:commandButton>
+		</p:fieldset>
+	</h:form>
 
 </ui:composition>

@@ -48,19 +48,21 @@ public class SessionBean extends GenericManagedBean {
 		this.usuario = usuario;
 	}
 
-	public void deslogar() {
+	public String deslogar() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
 		if (session != null) {
 			session.invalidate();
+			try {
+				ExternalContext ext = FacesContext.getCurrentInstance()
+						.getExternalContext();
+				ext.redirect(ext.getRequestContextPath()
+						+ "/pages/web/restrito/main.jsf");
+			} catch (IOException e) {
+			}
 		}
-		try {
-			ExternalContext ext = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			ext.redirect(ext.getRequestContextPath()
-					+ "/pages/web/restrito/main.jsf");
-		} catch (IOException e) {
-		}
+		
+		return null;
 	}
 
 	private synchronized void atualizarUsuario() throws ClassManagerException {

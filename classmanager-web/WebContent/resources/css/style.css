@@ -1,69 +1,114 @@
 .ui-widget {
-    font-size: 12px !important;
+	font-size: 12px !important;
 }
 
-body{	
+.ui-panelgrid tr,.ui-panelgrid td,.panel-grid tr,.panel-grid td {
+	border: none !important;
+}
+
+.ui-datatable-empty-message{
+	text-align: center;
+}
+
+body {
 	height: 100%;
 }
 
-html{
+html {
 	height: 100%;
 }
 
 #page {
-	
 	width: 1000px;
 	height: 100%;
 	margin: 0 auto;
 	float: center;
 }
 
-#header{
+#header {
 	width: 1000px;
 	height: 68px;
-	border: solid 1px;
+	border: none;
 }
 
-#title {
-	position:relative;
+#title,.tituloAplicacao {
+	position: relative;
 	float: left;
 	font-size: 35pt;
 	font-variant: small-caps;
 	font-weight: bold;
 }
 
-#avatar{
-	position:relative;
+.label-titulo-aplicacao {
+	width: 70%;
+}
+
+.imagem-titulo-aplicacao {
+	width: 10%;
+	text-align: right !important;
+}
+
+.dados-titulo-aplicacao {
+	width: 20%;
+	text-align: right !important;
+}
+
+.menu-titulo-usuario {
+	width: 100%;
+	text-align: right !important;
+}
+
+#avatar {
+	position: relative;
 	float: right;
 	font-size: 10pt;
 	font-variant: small-caps;
 	font-weight: bold;
-	margin-right: 10px; 	
+	margin-right: 10px;
 }
 
-
-#menu{
-	width:1000px;
-	height:50px;	
+#menu {
+	width: 1000px;
+	height: 50px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
-	
+
 #content {
-	position:relative;
+	position: relative;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	min-height: 300px;
-	width:100%;
+	width: 100%;
 }
 
 #footer {
-	position: absolute;
-	bottom:0;
+	position: fixed;
+	bottom: 0;
 	width: 1000px;
-	background-color: #ADD8E6;
-	text-align: center;
-	font-size: 18pt;
+	text-align: right;
+	font-size: 18pt !important;
 	font-variant: small-caps;
 	font-weight: bold;
+}
+
+.quadro-sobre {
+	width: 100%;
+	text-align: center;
+	font-size: 17pt;
+	font-variant: small-caps;
+	font-weight: bold;
+}
+
+.tabela-simples {
+	width: 100%;
+}
+
+.tabela-botao-centralizado{
+	width: 100%;
+	text-align: center;
+}
+
+.espaco-tabela {
+	height: 10px;
 }

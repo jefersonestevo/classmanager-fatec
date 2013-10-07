@@ -6,10 +6,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <f:view contentType="text/html">
 	<h:head>
-		<title><ui:insert name="title">Hinter</ui:insert></title>
+		<title><ui:insert name="title">#{message.Nome_Aplicacao}</ui:insert></title>
 		<h:outputScript library="js" name="funcoes.js"></h:outputScript>
 		<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
 	</h:head>
@@ -25,18 +25,35 @@
 					<ui:include src="/pages/web/template/menu.xhtml" />
 				</ui:insert>
 			</div>
+			<div id="endereco">
+				<h:form>
+					<ui:insert name="endereco">
+					</ui:insert>
+				</h:form>
+			</div>
 			<p:messages closable="true" autoUpdate="true" />
 			<div id="content">
 				<ui:insert name="content">
 					<ui:include src="/pages/web/template/content.xhtml" />
 				</ui:insert>
 			</div>
+			<br />
 			<div id="footer">
 				<ui:insert name="footer">
 					<ui:include src="/pages/web/template/footer.xhtml" />
 				</ui:insert>
 			</div>
 		</div>
+		<h:form>
+			<p:outputPanel styles="display: none;">
+				<p:dialog modal="true" widgetVar="modalStatus" width="200"
+					id="modalCarregandoStatus" height="150"
+					header="#{message.Carregando}" draggable="false" closable="false"
+					styleClass="align-center" resizable="false">
+					<p:graphicImage name="carregando.gif" library="imagens" />
+				</p:dialog>
+			</p:outputPanel>
+		</h:form>
 	</h:body>
 </f:view>
 </html>

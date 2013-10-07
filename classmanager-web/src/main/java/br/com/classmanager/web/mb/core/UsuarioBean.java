@@ -1,8 +1,5 @@
 package br.com.classmanager.web.mb.core;
 
-import java.awt.Event;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -33,39 +30,7 @@ public class UsuarioBean extends GenericManagedBean {
 	private Usuario usuario = new Usuario();
 	private List<Usuario> list;
 	private String confirmaSenha;
-	private UploadedFile file = new UploadedFile() {
-		
-		@Override
-		public long getSize() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-		
-		@Override
-		public InputStream getInputstream() throws IOException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		@Override
-		public String getFileName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		@Override
-		public byte[] getContents() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		@Override
-		public String getContentType() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
-	
+	private UploadedFile file;
 	@Inject
 	@ServiceView
 	
@@ -79,7 +44,7 @@ public class UsuarioBean extends GenericManagedBean {
 			if (this.confirmaSenha!=null && usuario.getSenha()!=null && this.confirmaSenha.equals(usuario.getSenha())){
 				try{					
 					if (file!=null){
-						byte[] foto = null;
+						byte[] foto = new byte[(int)file.getSize()];
 						file.getInputstream().read(foto);
 						FotoUsuario fotoUsuario= new FotoUsuario();
 						fotoUsuario.setFoto(foto);
@@ -118,7 +83,7 @@ public class UsuarioBean extends GenericManagedBean {
 			addExceptionMessage(e);
 		}
 
-		return "/pages/web/restrito/pesquisa_usuario.jsf";
+		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
 	}
 	
 	public String excluiMeuUsuario(){
@@ -156,17 +121,17 @@ public class UsuarioBean extends GenericManagedBean {
 	
 	public String irParaTelaInsercao(){
 		this.usuario = new Usuario();
-		return "/pages/web/restrito/insere_usuario.jsf";
+		return "/pages/web/restrito/usuario/insere_usuario.jsf";
 	}
 	
 	public String visualizaMeuUsuario(){
-		return "/pages/web/restrito/visualiza_usuario.jsf";
+		return "/pages/web/restrito/usuario/visualiza_usuario.jsf";
 	}
 	
 	
 	public String retornarParaPesquisa(){
 		this.usuario = new Usuario();
-		return "/pages/web/restrito/pesquisa_usuario.jsf";
+		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
 	}	
 
 	public Usuario getUsuario() {
@@ -186,12 +151,10 @@ public class UsuarioBean extends GenericManagedBean {
 	}
 
 	public UploadedFile getFile() {
-		System.out.print("getFile");
 		return file;
 	}
 
 	public void setFile(UploadedFile file) {
-		System.out.print("setFile");
 		this.file = file;
 	}
 	
