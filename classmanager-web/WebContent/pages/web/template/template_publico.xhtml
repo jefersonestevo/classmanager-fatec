@@ -33,6 +33,17 @@
 				</ui:insert>
 			</div>
 		</div>
+
+		<h:form>
+			<p:outputPanel styles="display: none;">
+				<p:dialog modal="true" widgetVar="modalStatus" width="200"
+					id="modalCarregandoStatus" height="150"
+					header="#{message.Carregando}" draggable="false" closable="false"
+					styleClass="align-center" resizable="false">
+					<p:graphicImage name="carregando.gif" library="imagens" />
+				</p:dialog>
+			</p:outputPanel>
+		</h:form>
 	</h:body>
 </f:view>
 </html>

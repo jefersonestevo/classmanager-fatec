@@ -48,6 +48,20 @@ public abstract class GenericManagedBean implements Serializable {
 
 	/**
 	 * 
+	 * Adiciona uma mensagem de nível FacesMessage.SEVERITY_ERROR às mensagens
+	 * do JSF.
+	 * 
+	 * @param titulo
+	 *            - Título da mensagem a ser exibida
+	 * @param message
+	 *            - Descrição da mensagem a ser exibida
+	 */
+	public void addErrorMessage(String titulo) {
+		addErrorMessage(titulo, (Object[]) null);
+	}
+
+	/**
+	 * 
 	 * Adiciona uma mensagem de nível FacesMessage.SEVERITY_INFO às mensagens
 	 * do JSF.
 	 * 

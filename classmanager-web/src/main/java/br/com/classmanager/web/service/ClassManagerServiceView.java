@@ -31,7 +31,12 @@ public class ClassManagerServiceView implements Serializable {
 	private SessionBean sessionBean;
 
 	public DTO execute(DTOAction vo) throws ClassManagerException {
-		if (vo.getUsuarioAtual() == null) {
+		return execute(vo, false);
+	}
+
+	public DTO execute(DTOAction vo, boolean acaoPublica)
+			throws ClassManagerException {
+		if (!acaoPublica && vo.getUsuarioAtual() == null) {
 			vo.setUsuarioAtual(sessionBean.getUsuario());
 		}
 		return delegator.execute(vo);

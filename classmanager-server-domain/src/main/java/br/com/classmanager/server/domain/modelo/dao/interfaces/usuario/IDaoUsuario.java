@@ -17,4 +17,6 @@ public interface IDaoUsuario extends IDaoCRUD<Usuario, Long> {
 	public Usuario pesquisarPorLogin(String login)
 			throws ClassManagerException;
 
+	public Usuario pesquisarPorEmail(String email) throws ClassManagerException;
+
 }

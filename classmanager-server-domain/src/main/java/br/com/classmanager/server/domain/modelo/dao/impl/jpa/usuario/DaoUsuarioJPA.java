@@ -94,4 +94,21 @@ public class DaoUsuarioJPA extends DaoCRUDJPA<Usuario, Long> implements
 		return null;
 	}
 
+	@Override
+	public Usuario pesquisarPorEmail(String email) throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT u FROM ");
+		query.append(getEntidadePersistente().getName() + " AS u ");
+		query.append(" WHERE ");
+		query.append(" u.email = ? ");
+
+		List<Usuario> lista = getTemplate().pesquisarQuery(
+				getEntidadePersistente(), query.toString(),
+				new Object[] { email });
+		if (CollectionUtils.isNotEmpty(lista)) {
+			return lista.get(0);
+		}
+		return null;
+	}
+
 }
