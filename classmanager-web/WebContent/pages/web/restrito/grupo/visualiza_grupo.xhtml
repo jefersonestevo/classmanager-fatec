@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
+
+	<ui:define name="title">
+	   	Hinter - Usuário 
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Usuario}"
+				action="#{usuarioBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Visualizacao_Usuario}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	<ui:define name="content">
+		<h:form>	
+			<p:panel header="Cadastro de Usuários">
+				<h:panelGrid columns="2">										
+					<h:outputLabel value="#{message.Titulo}" for="titulo" />
+					<p:inputText id="titulo" label="titulo" required="true"
+						value="#{grupoBean.grupo.titulo}" />
+					
+					<h:outputLabel value="#{message.Descricao}" for="descricao" />
+					<p:inputTextarea rows="8" cols="50" counter="counter" maxlength="200"       
+    					counterTemplate="{0} caracteres restantes." autoResize="false" value = "#{grupoBean.grupo.descricao}"/>  
+					<p:spacer/>
+					<h:outputText id="counter" />	
+					<h:outputLabel value="#{message.Status}" for="titulo" />
+					<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}"> 
+  						<f:selectItems value="#{grupoBean.statusGrupo}"/>
+					</p:selectOneMenu>																															
+					<p:commandButton immediate="true" value="Excluir" action="#{grupoBean.excluiMeuGrupo}" onclick = "if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;" icon="ui-icon-disk"/>
+					<p:commandButton value="Alterar" action="#{grupoBean.alteraMeuGrupo}" icon="ui-icon-disk"/>																				
+				</h:panelGrid>
+			</p:panel>
+			<p:spacer width="0" height="50" />
+			<p:commandButton immediate="true" value="Retornar" action="#{grupoBean.retornarParaPesquisa}" icon="ui-icon-arrowreturnthick-1-w"/>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

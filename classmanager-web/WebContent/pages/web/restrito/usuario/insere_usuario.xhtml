@@ -22,41 +22,42 @@
 		<h:form>
 			<p:panel header="Cadastro de Usuários">
 				<h:panelGrid columns="2">
-					<h:outputLabel value="Nome: " for="nome" />
+					<h:outputLabel value="#{message.Nome}" for="nome" />
 					<p:inputText id="nome" label="nome" required="true"
 						value="#{usuarioBean.usuario.nome}" />
 
-					<h:outputLabel value="E-mail: " for="email" />
+					<h:outputLabel value="#{message.Email}" for="email" />
 					<p:inputText id="email" label="email" required="true"
 						value="#{usuarioBean.usuario.email}" />
 
-					<h:outputText value="Telefone: " />
+					<h:outputText value="#{message.Telefone}" />
 					<p:inputMask mask="(99) 99999-9999"
 						value="#{usuarioBean.usuario.telefone}" />
 
-					<h:outputText value="Celular: " />
+					<h:outputText value="#{message.Celular_1}" />
 					<p:inputMask mask="(99) 99999-9999"
 						value="#{usuarioBean.usuario.celular1}" />
 
-					<h:outputText value="Celular 2: " />
+					<h:outputText value="#{message.Celular_2}" />
 					<p:inputMask mask="(99) 99999-9999"
 						value="#{usuarioBean.usuario.celular2}" />
 
-					<h:outputLabel value="Data de Nascimento " for="dt_nacimento" />
+					<h:outputLabel value="#{message.Data_Nascimento}"
+						for="dt_nacimento" />
 					<p:calendar navigator="true" effect="explode"
 						value="#{usuarioBean.usuario.dataNascimento}" id="dt_nacimento" />
 
-					<h:outputText value="Sexo: " />
+					<h:outputText value="#{message.Sexo}" />
 					<p:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
 						<f:selectItem itemLabel="Masculino" itemValue="F" />
 						<f:selectItem itemLabel="Feminino" itemValue="M" />
 					</p:selectOneRadio>
 
-					<h:outputLabel value="Login: " for="login" />
+					<h:outputLabel value="#{message.Login}" for="login" />
 					<p:inputText id="login" label="login" required="true"
 						maxlength="10" value="#{usuarioBean.usuario.login}" />
 
-					<h:outputLabel value="Senha: " for="senha" />
+					<h:outputLabel value="#{message.Senha}" for="senha" />
 					<p:password id="senha" label="senha" required="true" maxlength="8"
 						feedback="true" value="#{usuarioBean.usuario.senha}" />
 					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
@@ -64,15 +65,18 @@
 						required="true" value="#{usuarioBean.confirmaSenha}" />
 
 					<h:outputLabel value="Foto:" />
-					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}"
-						mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-						value="#{usuarioBean.file}" />
-
-					<p:commandButton immediate="true" value="Retornar"
+					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}" value = "#{usuarioBean.foto}" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="foto"/>
+					
+					<p:spacer />
+					<p:fieldset legend="Foto">
+						<p:graphicImage id="foto" value="#{usuarioBean.foto}" />
+					</p:fieldset>					
+					
+					<p:commandButton immediate="true" value="#{message.Retornar}"
 						action="#{usuarioBean.retornarParaPesquisa}"
 						icon="ui-icon-arrowreturnthick-1-w" />
-					<p:commandButton value="Salvar" action="#{usuarioBean.inserir}"
-						icon="ui-icon-disk" />
+					<p:commandButton value="#{message.Salvar}"
+						action="#{usuarioBean.inserir}" icon="ui-icon-disk" />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>

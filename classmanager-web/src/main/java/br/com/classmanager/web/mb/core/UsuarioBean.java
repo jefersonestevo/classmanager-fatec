@@ -1,14 +1,15 @@
 package br.com.classmanager.web.mb.core;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
@@ -30,7 +31,9 @@ public class UsuarioBean extends GenericManagedBean {
 	private Usuario usuario = new Usuario();
 	private List<Usuario> list;
 	private String confirmaSenha;
-	private UploadedFile file;
+	private StreamedContent foto;
+	UploadedFile file;
+	
 	@Inject
 	@ServiceView
 	
@@ -41,27 +44,14 @@ public class UsuarioBean extends GenericManagedBean {
 
 	public String inserir() {
 		try {
-			if (this.confirmaSenha!=null && usuario.getSenha()!=null && this.confirmaSenha.equals(usuario.getSenha())){
-				try{					
-					if (file!=null){
-						byte[] foto = new byte[(int)file.getSize()];
-						file.getInputstream().read(foto);
-						FotoUsuario fotoUsuario= new FotoUsuario();
-						fotoUsuario.setFoto(foto);
-						usuario.setFotoUsuario(fotoUsuario);
-					}
-					
-				}catch(Exception e){
-					System.out.println("Erro ao fazer upload do arquivo");
-				}
+			if (this.confirmaSenha!=null && usuario.getSenha()!=null && this.confirmaSenha.equals(usuario.getSenha())){				
 				ManterUsuarioAction action = new ManterUsuarioAction(
 						AcaoManter.INSERIR);
 				action.setEntidade(usuario);
 				this.usuario = (Usuario) service.execute(action);
 				this.usuario = new Usuario();  
 			}else{
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("A senha não foi confirmada corretamente"));
+				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
 			}
 				
@@ -79,6 +69,7 @@ public class UsuarioBean extends GenericManagedBean {
 			action.setNome(usuario.getNome());
 			action.setLogin(usuario.getLogin());
 			this.list = ((ListaDTO) service.execute(action)).getLista();
+			usuario = new Usuario();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
@@ -106,8 +97,7 @@ public class UsuarioBean extends GenericManagedBean {
 				action.setEntidade(usuario);
 				service.execute(action);
 			}else{
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("A senha não foi confirmada corretamente"));
+				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
 			}
 			this.usuario = new Usuario();
@@ -149,17 +139,21 @@ public class UsuarioBean extends GenericManagedBean {
 	public void setList(List<Usuario> list) {
 		this.list = list;
 	}
-
-	public UploadedFile getFile() {
-		return file;
-	}
-
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
 	
 	public void doUpload(FileUploadEvent e){
-		this.file = e.getFile();
+		file = e.getFile();
+		try{					
+			if (file!=null){
+				byte[] foto = new byte[(int)file.getSize()];
+				file.getInputstream().read(foto);
+				FotoUsuario fotoUsuario= new FotoUsuario();
+				fotoUsuario.setFoto(foto);
+				fotoUsuario.setUsuario(usuario);
+				usuario.setFotoUsuario(fotoUsuario);
+			}				
+		}catch(Exception er){
+			System.out.println("Erro ao fazer upload do arquivo");
+		}		
 	}
 
 	public String getConfirmaSenha() {
@@ -168,6 +162,27 @@ public class UsuarioBean extends GenericManagedBean {
 
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
+	}
+
+	public StreamedContent getFoto() {
+		if(usuario.getFotoUsuario()!=null){
+			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario.getFotoUsuario().getFoto()));
+		}else{
+			foto = new DefaultStreamedContent();
+		}
+		return foto;
+	}
+
+	public void setFoto(StreamedContent foto) {
+		this.foto = foto;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
 	}
 
 

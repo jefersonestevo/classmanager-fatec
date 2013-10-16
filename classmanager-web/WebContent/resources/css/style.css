@@ -112,3 +112,33 @@ html {
 .espaco-tabela {
 	height: 10px;
 }
+
+
+#cadgrupo {
+	width: 410px;
+	height: 100%;
+	margin: 0 auto;
+	float: left;
+}
+
+#cadmembros {
+	width: 590px;
+	height: 100%;
+	margin: 0 auto;
+	float: right;
+}
+
+#cadusuario{
+	width: 410px;
+	height: 100%;
+	margin: 0 auto;
+	float: left;
+	
+}
+
+#cadusuariofoto{
+	width: 400px;
+	height: 100%;
+	margin: 0 auto;
+	float: right;		
+}

@@ -8,60 +8,52 @@
 	template="/pages/web/template/template.xhtml">
 
 	<ui:define name="title">
-	   	#{message.Nome_Aplicacao} - #{message.Header_Pesquisa_Usuario}
+		   	#{message.Nome_Aplicacao} - #{message.Header_Pesquisa_Grupo}
 	</ui:define>
 	<ui:define name="endereco">
 		<p:breadCrumb>
 			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
-			<p:menuitem value="#{message.Header_Pesquisa_Usuario}" url="#" />
+			<p:menuitem value="#{message.Header_Pesquisa_Grupo}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:panel header="Consulta Usuários">
+			<p:panel header="#{message.Header_Pesquisa_Grupo}">
 				<h:panelGrid columns="2" styleClass="tabela-simples">
-					<h:outputLabel value="#{message.Nome}" for="nome" />
-					<p:inputText id="nome" label="nome"
-						value="#{usuarioBean.usuario.nome}" />
-					<h:outputLabel value="#{message.Login}" for="login" />
-					<p:inputText id="login" label="login"
-						value="#{usuarioBean.usuario.login}" maxlength="10" />
-
-					<h:outputLabel value="#{message.Email}" for="email" />
-					<p:inputText id="email" label="email"
-						value="#{usuarioBean.usuario.email}" />
+					<h:outputLabel value="#{message.Titulo}" for="titulo" />
+					<p:inputText id="titulo" label="titulo"
+						value="#{grupoBean.grupo.titulo}" />
 
 				</h:panelGrid>
 
 				<p:outputPanel layout="block" styleClass="tabela-botao-centralizado">
-					<p:commandButton value="#{message.Buscar}" update="usuarios" 
-						actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search"
-						 />
+					<p:commandButton value="#{message.Buscar}" update="grupos"
+						actionListener="#{grupoBean.pesquisar}" icon="ui-icon-search" />
 					<p:commandButton immediate="true" value="#{message.Novo}"
-						action="#{usuarioBean.irParaTelaInsercao}" icon="ui-icon-plus"
+						action="#{grupoBean.irParaTelaInsercao}" icon="ui-icon-plus"
 						onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 				</p:outputPanel>
 			</p:panel>
 			<p:spacer styleClass="espaco-tabela" />
-			<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
+			<p:dataTable id="grupos" var="list" value="#{grupoBean.list}"
 				emptyMessage="#{message.Nenhum_Item_Exibicao}">
-				<p:column headerText="Nome">
-					<h:outputText value="#{list.nome}" />
+				<p:column headerText="#{message.Titulo}">
+					<h:outputText value="#{list.titulo}" />
 				</p:column>
-
-				<p:column headerText="E-mail">
-					<h:outputText value="#{list.email}" />
+				<p:column headerText="#{message.Data_Criacao}">
+					<h:outputText value="#{list.dataCriacao}" />
 				</p:column>
-
-				<p:column headerText="Celular">
-					<h:outputText value="#{list.celular1}" />
+				<p:column headerText="#{message.Status}">
+					<h:outputText value="#{list.status}" />
 				</p:column>
-
+<!-- 				<p:column headerText="#{message.Dono}"> -->
+<!-- 					<h:outputText value="#{list.usuarioCriador.nome}" /> -->
+<!-- 				</p:column> -->
 				<p:column>
-					<p:commandLink action="#{usuarioBean.visualizaMeuUsuario}">
+					<p:commandLink action="#{grupoBean.visualizaMeuGrupo}">
 						<h:graphicImage library="imagens" name="visualizar2.png"
 							style="border:0" />
-						<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+						<f:setPropertyActionListener target="#{grupoBean.grupo}"
 							value="#{list}"></f:setPropertyActionListener>
 					</p:commandLink>
 				</p:column>

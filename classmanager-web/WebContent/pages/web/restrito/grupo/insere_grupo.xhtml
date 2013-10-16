@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
+
+	<ui:define name="title">
+	   		#{message.Nome_Aplicacao} - #{message.Header_Insercao_Grupo} 
+	</ui:define>
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Grupo}"
+				action="#{grupoBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Insercao_Grupo}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<div id="cadgrupo">
+				<p:panel header="#{message.Header_Insercao_Grupo}">
+					<h:panelGrid columns="2">
+						<h:outputLabel value="#{message.Titulo}" for="titulo" />
+						<p:inputText id="titulo" label="titulo" required="true"
+							value="#{grupoBean.grupo.titulo}" />
+
+						<h:outputLabel value="#{message.Descricao}" for="descricao" />
+						<p:inputTextarea rows="8" cols="50" counter="counter"
+							maxlength="200" counterTemplate="{0} caracteres restantes."
+							autoResize="false" value="#{grupoBean.grupo.descricao}" />
+						<p:spacer />
+						<h:outputText id="counter" />
+
+						<h:outputLabel value="#{message.Status}" for="titulo" />
+						<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}">
+							<f:selectItems value="#{grupoBean.statusGrupo}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:panel>
+			<br/>	
+			<p:outputPanel layout="block"
+						styleClass="tabela-botao-centralizado">						
+			<p:commandButton value="#{message.Salvar}"
+				action="#{grupoBean.inserir}" icon="ui-icon-disk" />
+			</p:outputPanel>	
+			<br/>
+				<p:commandButton immediate="true" value="#{message.Retornar}"
+				action="#{grupoBean.retornarParaPesquisa}"
+				icon="ui-icon-arrowreturnthick-1-w" />
+				
+			</div>
+			
+		</h:form>
+		
+		<h:form>
+			<div id="cadmembros">
+				<p:panel header="#{message.Membros}">
+					<p:dataTable id="membros" var="list"
+						value="#{grupoBean.grupo.usuariosGrupo}"
+						emptyMessage="#{message.Nenhum_Item_Exibicao}">
+						<p:column headerText="#{message.Nome}">
+							<h:outputText value="#{list.usuario.celular}" />
+						</p:column>
+						<p:column headerText="#{message.Email}">
+							<h:outputText value="#{list.usuario.login}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<p:spacer width="30" />
+
+				<p:fieldset legend="#{message.Buscar_Membros}">
+					<h:panelGrid columns="2" styleClass="tabela-simples">
+						<h:outputLabel value="#{message.Nome}" for="nome" />
+						<p:inputText id="nome" label="nome"
+							value="#{usuarioBean.usuario.nome}" />
+
+						<h:outputLabel value="#{message.Email}" for="email" />
+						<p:inputText id="email" label="email"
+							value="#{usuarioBean.usuario.email}" />
+					
+						<p:commandButton value="#{message.Buscar}" update="usuarios"
+							actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search" />
+										
+					</h:panelGrid>				
+					<p:spacer styleClass="espaco-tabela" />
+				
+					<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
+						emptyMessage="#{message.Nenhum_Item_Exibicao}">
+						<p:column headerText="Nome">
+							<h:outputText value="#{list.nome}" />
+						</p:column>
+
+						<p:column headerText="E-mail">
+							<h:outputText value="#{list.email}" />
+						</p:column>
+
+
+						<p:column headerText="Convidar">
+							<p:commandLink update="usuarios"   action="#{grupoBean.convidaUsuario(usuarioBean.usuario)}">
+								<h:graphicImage library="imagens" name="adicionar12.png"
+									style="border:0" process="@this" update="membros" />
+								<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+									value="#{list}" ></f:setPropertyActionListener>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</div>
+			</h:form>			
+			
+	</ui:define>
+</ui:composition>
