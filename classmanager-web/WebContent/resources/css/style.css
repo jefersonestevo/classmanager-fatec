@@ -6,7 +6,7 @@
 	border: none !important;
 }
 
-.ui-datatable-empty-message{
+.ui-datatable-empty-message {
 	text-align: center;
 }
 
@@ -104,7 +104,7 @@ html {
 	width: 100%;
 }
 
-.tabela-botao-centralizado{
+.tabela-botao-centralizado {
 	width: 100%;
 	text-align: center;
 }
@@ -112,7 +112,6 @@ html {
 .espaco-tabela {
 	height: 10px;
 }
-
 
 #cadgrupo {
 	width: 410px;
@@ -128,17 +127,42 @@ html {
 	float: right;
 }
 
-#cadusuario{
+#cadusuario {
 	width: 410px;
 	height: 100%;
 	margin: 0 auto;
 	float: left;
-	
 }
 
-#cadusuariofoto{
+#cadusuariofoto {
 	width: 400px;
 	height: 100%;
 	margin: 0 auto;
-	float: right;		
+	float: right;
 }
+
+.width-20 {
+	width: 20%;
+}
+
+.width-50 {
+	width: 50%;
+}
+
+.width-80 {
+	width: 80%;
+}
+
+.width-full {
+	width: 100%;
+}
+
+.centro {
+	text-align: center;
+}
+
+.notificacao {
+	height: 210px;
+	overflow: auto;
+}
+
