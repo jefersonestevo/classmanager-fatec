@@ -19,6 +19,7 @@ import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
+import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
 import br.com.classmanager.web.service.ClassManagerServiceView;
 
@@ -33,38 +34,42 @@ public class UsuarioBean extends GenericManagedBean {
 	private String confirmaSenha;
 	private StreamedContent foto;
 	UploadedFile file;
-	
+
 	@Inject
 	@ServiceView
-	
 	private ClassManagerServiceView service;
+
+	@Inject
+	private SessionBean sessionBean;
 
 	public UsuarioBean() {
 	}
 
 	public String inserir() {
 		try {
-			if (this.confirmaSenha!=null && usuario.getSenha()!=null && this.confirmaSenha.equals(usuario.getSenha())){				
+			if (this.confirmaSenha != null && usuario.getSenha() != null
+					&& this.confirmaSenha.equals(usuario.getSenha())) {
 				ManterUsuarioAction action = new ManterUsuarioAction(
 						AcaoManter.INSERIR);
 				action.setEntidade(usuario);
 				this.usuario = (Usuario) service.execute(action);
-				this.usuario = new Usuario();  
-			}else{
+				this.usuario = new Usuario();
+			} else {
 				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
 			}
-				
+
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
 
 		return pesquisar();
 	}
-	
+
 	public String pesquisar() {
 		try {
-			ManterUsuarioAction action = new ManterUsuarioAction(AcaoManter.PESQUISAR_LISTA);
+			ManterUsuarioAction action = new ManterUsuarioAction(
+					AcaoManter.PESQUISAR_LISTA);
 			action.setEmail(usuario.getEmail());
 			action.setNome(usuario.getNome());
 			action.setLogin(usuario.getLogin());
@@ -76,27 +81,33 @@ public class UsuarioBean extends GenericManagedBean {
 
 		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
 	}
-	
-	public String excluiMeuUsuario(){
+
+	public String excluiMeuUsuario() {
 		try {
-			ManterUsuarioAction action = new ManterUsuarioAction(AcaoManter.REMOVER);
-			action.setEntidade(usuario);			
+			ManterUsuarioAction action = new ManterUsuarioAction(
+					AcaoManter.REMOVER);
+			action.setEntidade(usuario);
 			service.execute(action);
 			usuario = new Usuario();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
-		
-		return pesquisar();	
+
+		return pesquisar();
 	}
-	
-	public String alteraMeuUsuario(){
+
+	public String alteraMeuUsuario() {
 		try {
-			if (this.confirmaSenha!=null && usuario.getSenha()!=null && this.confirmaSenha.equals(usuario.getSenha())){
-				ManterUsuarioAction action = new ManterUsuarioAction(AcaoManter.ALTERAR);
+			if (this.confirmaSenha != null && usuario.getSenha() != null
+					&& this.confirmaSenha.equals(usuario.getSenha())) {
+				ManterUsuarioAction action = new ManterUsuarioAction(
+						AcaoManter.ALTERAR);
 				action.setEntidade(usuario);
 				service.execute(action);
-			}else{
+
+				sessionBean.setAtualizarUsuario(true);
+				sessionBean.getUsuario();
+			} else {
 				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
 			}
@@ -104,25 +115,23 @@ public class UsuarioBean extends GenericManagedBean {
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
-		
-		return pesquisar();	
+
+		return pesquisar();
 	}
-	
-	
-	public String irParaTelaInsercao(){
+
+	public String irParaTelaInsercao() {
 		this.usuario = new Usuario();
 		return "/pages/web/restrito/usuario/insere_usuario.jsf";
 	}
-	
-	public String visualizaMeuUsuario(){
+
+	public String visualizaMeuUsuario() {
 		return "/pages/web/restrito/usuario/visualiza_usuario.jsf";
 	}
-	
-	
-	public String retornarParaPesquisa(){
+
+	public String retornarParaPesquisa() {
 		this.usuario = new Usuario();
 		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
-	}	
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -139,21 +148,26 @@ public class UsuarioBean extends GenericManagedBean {
 	public void setList(List<Usuario> list) {
 		this.list = list;
 	}
-	
-	public void doUpload(FileUploadEvent e){
+
+	public void doUpload(FileUploadEvent e) {
 		file = e.getFile();
-		try{					
-			if (file!=null){
-				byte[] foto = new byte[(int)file.getSize()];
+		try {
+			if (file != null) {
+				byte[] foto = new byte[(int) file.getSize()];
 				file.getInputstream().read(foto);
-				FotoUsuario fotoUsuario= new FotoUsuario();
-				fotoUsuario.setFoto(foto);
-				fotoUsuario.setUsuario(usuario);
-				usuario.setFotoUsuario(fotoUsuario);
-			}				
-		}catch(Exception er){
+
+				if (getUsuario().getFotoUsuario() == null) {
+					FotoUsuario fotoUsuario = new FotoUsuario();
+					fotoUsuario.setFoto(foto);
+					fotoUsuario.setUsuario(usuario);
+					usuario.setFotoUsuario(fotoUsuario);
+				} else {
+					usuario.getFotoUsuario().setFoto(foto);
+				}
+			}
+		} catch (Exception er) {
 			System.out.println("Erro ao fazer upload do arquivo");
-		}		
+		}
 	}
 
 	public String getConfirmaSenha() {
@@ -165,9 +179,10 @@ public class UsuarioBean extends GenericManagedBean {
 	}
 
 	public StreamedContent getFoto() {
-		if(usuario.getFotoUsuario()!=null){
-			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario.getFotoUsuario().getFoto()));
-		}else{
+		if (usuario.getFotoUsuario() != null) {
+			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario
+					.getFotoUsuario().getFoto()));
+		} else {
 			foto = new DefaultStreamedContent();
 		}
 		return foto;
@@ -184,6 +199,5 @@ public class UsuarioBean extends GenericManagedBean {
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
-
 
 }

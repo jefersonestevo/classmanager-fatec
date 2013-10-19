@@ -70,7 +70,8 @@
 						<p:graphicImage id="foto" value="#{usuarioBean.foto}" /> 		
 					</p:fieldset>																					
 					<p:commandButton immediate="true" value="Excluir" action="#{usuarioBean.excluiMeuUsuario}" onclick = "if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;" icon="ui-icon-disk"/>
-					<p:commandButton value="Alterar" action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"/>																				
+					<p:commandButton value="Alterar" action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"
+						update=":formDisplayUsuario:fotoUsuario"/>																				
 				</h:panelGrid>				
 			</p:panel>
 			<p:spacer width="0" height="50" />

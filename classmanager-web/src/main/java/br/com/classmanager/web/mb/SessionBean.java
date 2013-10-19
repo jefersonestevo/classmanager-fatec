@@ -1,5 +1,6 @@
 package br.com.classmanager.web.mb;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.enterprise.context.SessionScoped;
@@ -10,6 +11,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import br.com.classmanager.client.dto.action.core.ConsultarUsuarioAction;
 import br.com.classmanager.client.entidades.usuario.Usuario;
@@ -73,6 +76,7 @@ public class SessionBean extends GenericManagedBean {
 		consultaUsuario.setLogin(login);
 		Usuario usr = (Usuario) service.execute(consultaUsuario);
 		setUsuario(usr);
+		atualizarUsuario = false;
 	}
 
 	public boolean isAtualizarUsuario() {
@@ -81,6 +85,20 @@ public class SessionBean extends GenericManagedBean {
 
 	public void setAtualizarUsuario(boolean atualizarUsuario) {
 		this.atualizarUsuario = atualizarUsuario;
+	}
+	
+	public StreamedContent getFotoUsuario() {
+		StreamedContent foto = null;
+		if (getUsuario().getFotoUsuario() != null) {
+			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario
+					.getFotoUsuario().getFoto()));
+		} else {
+			foto = new DefaultStreamedContent();
+		}
+		return foto;
+	}
+	
+	public void setFotoUsuario(StreamedContent foto) {
 	}
 
 }

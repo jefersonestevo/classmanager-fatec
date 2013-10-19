@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<p:fieldset style="padding: 0px;">
-		<h:form>
+		<h:form id="formDisplayUsuario">
 			<p:panelGrid id="panelTituloAplicacao" columns="3"
 				style="width: 100%;"
 				columnClasses="label-titulo-aplicacao, dados-titulo-aplicacao, imagem-titulo-aplicacao">
@@ -25,8 +25,9 @@
 							icon="ui-icon-arrowrefresh-1-w" />
 					</p:menu>
 				</p:panelGrid>
-				<h:graphicImage library="imagens" name="avatar.png" width="68px"
-					height="68px" />
+
+				<p:graphicImage id="fotoUsuario" value="#{sessionBean.fotoUsuario}"
+					width="68px" height="68px" />
 			</p:panelGrid>
 		</h:form>
 	</p:fieldset>
