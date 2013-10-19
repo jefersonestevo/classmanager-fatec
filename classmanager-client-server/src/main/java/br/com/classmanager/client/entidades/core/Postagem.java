@@ -36,7 +36,7 @@ import br.com.classmanager.client.utils.TamanhoCampo;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = Postagem.NOME_ENTIDADE)
 @SequenceGenerator(name = "seq_postagem", sequenceName = "seq_postagem", initialValue = 1000)
-public abstract class Postagem extends BeanJPA<Long> {
+public class Postagem extends BeanJPA<Long> {
 
 	private static final long serialVersionUID = 287640093730994882L;
 

@@ -8,39 +8,131 @@
 	template="/pages/web/template/template.xhtml">
 
 	<ui:define name="title">
-	   	Hinter - Usuário 
+	   	#{message.Nome_Aplicacao} - #{message.Header_Visualizacao_Grupo}
 	</ui:define>
 	<ui:define name="endereco">
 		<p:breadCrumb>
 			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
-			<p:menuitem value="#{message.Header_Pesquisa_Usuario}"
-				action="#{usuarioBean.retornarParaPesquisa}" immediate="true" />
-			<p:menuitem value="#{message.Header_Visualizacao_Usuario}" url="#" />
+			<p:menuitem value="#{message.Header_Pesquisa_Grupo}"
+				action="#{grupoBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Visualizacao_Grupo}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
 	<ui:define name="content">
-		<h:form>	
-			<p:panel header="Cadastro de Usuários">
-				<h:panelGrid columns="2">										
-					<h:outputLabel value="#{message.Titulo}" for="titulo" />
-					<p:inputText id="titulo" label="titulo" required="true"
-						value="#{grupoBean.grupo.titulo}" />
-					
-					<h:outputLabel value="#{message.Descricao}" for="descricao" />
-					<p:inputTextarea rows="8" cols="50" counter="counter" maxlength="200"       
-    					counterTemplate="{0} caracteres restantes." autoResize="false" value = "#{grupoBean.grupo.descricao}"/>  
-					<p:spacer/>
-					<h:outputText id="counter" />	
-					<h:outputLabel value="#{message.Status}" for="titulo" />
-					<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}"> 
-  						<f:selectItems value="#{grupoBean.statusGrupo}"/>
-					</p:selectOneMenu>																															
-					<p:commandButton immediate="true" value="Excluir" action="#{grupoBean.excluiMeuGrupo}" onclick = "if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;" icon="ui-icon-disk"/>
-					<p:commandButton value="Alterar" action="#{grupoBean.alteraMeuGrupo}" icon="ui-icon-disk"/>																				
-				</h:panelGrid>
-			</p:panel>
+		<h:form>
+			<h:panelGrid id="painelGeralVisualizacaoGrupo" columns="2"
+				columnClasses="width-50, width-50" styleClass="width-full">
+
+				<p:outputPanel>
+					<p:fieldset legend="#{message.Header_Grupo_Cadastro_Dados}"
+						toggleable="true">
+						<h:panelGrid columns="2">
+							<h:outputLabel value="#{message.Titulo}" for="titulo" />
+							<p:inputText id="titulo" label="titulo" required="true"
+								value="#{grupoBean.grupo.titulo}" />
+
+							<h:outputLabel value="#{message.Descricao}" for="descricao" />
+							<p:inputTextarea rows="8" cols="50" counter="counter"
+								maxlength="200" counterTemplate="{0} caracteres restantes."
+								autoResize="false" value="#{grupoBean.grupo.descricao}" />
+							<p:spacer />
+							<h:outputText id="counter" />
+							<h:outputLabel value="#{message.Status}" for="titulo" />
+							<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}">
+								<f:selectItems value="#{grupoBean.statusGrupo}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:fieldset>
+					<p:spacer height="10px"></p:spacer>
+					<p:fieldset legend="#{message.Header_Grupo_Tipo_Grupo}"
+						toggleable="true">
+
+						<h:panelGrid columns="2" columnClasses="width-30, width-70">
+							<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
+							<p:selectManyButton
+								value="#{grupoBean.tiposPostagemSelecionados}">
+								<f:selectItems value="#{grupoBean.tiposPostagem}" />
+							</p:selectManyButton>
+
+							<h:outputLabel value="#{message.Tipo_Servico_Envio_Habilitadas}" />
+							<p:selectManyButton
+								value="#{grupoBean.tiposServicosEnvioSelecionados}">
+								<f:selectItems value="#{grupoBean.tiposServicosEnvio}" />
+							</p:selectManyButton>
+
+						</h:panelGrid>
+					</p:fieldset>
+				</p:outputPanel>
+
+				<p:outputPanel>
+					<p:panel header="#{message.Membros}">
+						<p:dataTable id="membros" var="list"
+							value="#{grupoBean.grupo.usuariosGrupo}"
+							emptyMessage="#{message.Nenhum_Item_Exibicao}">
+							<p:column headerText="#{message.Nome}">
+								<h:outputText value="#{list.usuario.celular}" />
+							</p:column>
+							<p:column headerText="#{message.Email}">
+								<h:outputText value="#{list.usuario.login}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:spacer width="30" />
+
+					<p:fieldset legend="#{message.Buscar_Membros}">
+						<h:panelGrid columns="2" styleClass="tabela-simples">
+							<h:outputLabel value="#{message.Nome}" for="nome" />
+							<p:inputText id="nome" label="nome"
+								value="#{usuarioBean.usuario.nome}" />
+
+							<h:outputLabel value="#{message.Email}" for="email" />
+							<p:inputText id="email" label="email"
+								value="#{usuarioBean.usuario.email}" />
+
+							<p:commandButton value="#{message.Buscar}" update="usuarios"
+								actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search" />
+
+						</h:panelGrid>
+						<p:spacer styleClass="espaco-tabela" />
+
+						<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
+							emptyMessage="#{message.Nenhum_Item_Exibicao}">
+							<p:column headerText="Nome">
+								<h:outputText value="#{list.nome}" />
+							</p:column>
+
+							<p:column headerText="E-mail">
+								<h:outputText value="#{list.email}" />
+							</p:column>
+
+
+							<p:column headerText="Convidar">
+								<p:commandLink update="usuarios"
+									action="#{grupoBean.convidaUsuario(usuarioBean.usuario)}">
+									<h:graphicImage library="imagens" name="adicionar12.png"
+										style="border:0" process="@this" update="membros" />
+									<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+										value="#{list}"></f:setPropertyActionListener>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</p:fieldset>
+				</p:outputPanel>
+
+			</h:panelGrid>
+
+
+			<p:commandButton immediate="true" value="Excluir"
+				action="#{grupoBean.excluiMeuGrupo}"
+				onclick="if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;"
+				icon="ui-icon-disk" />
+			<p:commandButton value="Alterar" action="#{grupoBean.alteraMeuGrupo}"
+				icon="ui-icon-disk" />
+
 			<p:spacer width="0" height="50" />
-			<p:commandButton immediate="true" value="Retornar" action="#{grupoBean.retornarParaPesquisa}" icon="ui-icon-arrowreturnthick-1-w"/>
+			<p:commandButton immediate="true" value="Retornar"
+				action="#{grupoBean.retornarParaPesquisa}"
+				icon="ui-icon-arrowreturnthick-1-w" />
 		</h:form>
 
 	</ui:define>

@@ -113,7 +113,7 @@ public class ClassManagerServiceFacade implements IClassManagerService {
 			Class<DTOPesquisarAction> classVO, Usuario usuario)
 			throws ClassManagerSecurityException {
 		IService service = resolver.getServiceFor(classVO);
-		if (service instanceof ServicoManter) {
+		if (service instanceof ServicoPesquisar) {
 			return ((ServicoPesquisar) service).hasPermissao(acao, usuario);
 		}
 		throw new ClassManagerSecurityException(CodigoExcecao.ACESSO_RESTRITO);

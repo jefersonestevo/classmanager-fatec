@@ -7,6 +7,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/pages/web/template/template.xhtml">
 
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Sobre}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
 	<ui:define name="content">
 		<p:fieldset legend="#{message.Nome_Aplicacao}"
 			styleClass="quadro-sobre">

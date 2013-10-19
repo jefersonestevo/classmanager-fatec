@@ -1,6 +1,7 @@
 package br.com.classmanager.web.mb;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 
 import javax.enterprise.context.SessionScoped;
@@ -8,13 +9,16 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import br.com.classmanager.client.dto.action.core.ConsultarUsuarioAction;
+import br.com.classmanager.client.entidades.enums.Sexo;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
@@ -28,6 +32,8 @@ public class SessionBean extends GenericManagedBean {
 	private static final long serialVersionUID = 2290694929905000248L;
 
 	private static final Logger log = Logger.getLogger(SessionBean.class);
+
+	private String tema = "bluesky";
 
 	@Inject
 	@ServiceView
@@ -64,7 +70,7 @@ public class SessionBean extends GenericManagedBean {
 			} catch (IOException e) {
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -86,19 +92,38 @@ public class SessionBean extends GenericManagedBean {
 	public void setAtualizarUsuario(boolean atualizarUsuario) {
 		this.atualizarUsuario = atualizarUsuario;
 	}
-	
+
 	public StreamedContent getFotoUsuario() {
 		StreamedContent foto = null;
 		if (getUsuario().getFotoUsuario() != null) {
 			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario
 					.getFotoUsuario().getFoto()));
 		} else {
-			foto = new DefaultStreamedContent();
+			try {
+				String sexo = null;
+				if (Sexo.F.equals(getUsuario().getSexo())) {
+					sexo = "feminino";
+				} else {
+					sexo = "masculino";
+				}
+
+				ServletContext ctx = (ServletContext) FacesContext
+						.getCurrentInstance().getExternalContext().getContext();
+				String realPath = ctx.getRealPath("/");
+				realPath += "resources/imagens/usuario_" + sexo + ".jpg";
+				foto = new DefaultStreamedContent(new ByteArrayInputStream(
+						FileUtils.readFileToByteArray(new File(realPath))));
+			} catch (IOException e) {
+			}
 		}
 		return foto;
 	}
-	
+
 	public void setFotoUsuario(StreamedContent foto) {
+	}
+
+	public String getTema() {
+		return tema;
 	}
 
 }

@@ -6,15 +6,30 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
-		<p:megaMenu autoDisplay="false">
-			<p:menuitem value="Usuário"
-				action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
-				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
-			<p:menuitem value="Grupo"
-				action="/pages/web/restrito/grupo/pesquisa_grupo.jsf"
-				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
-			<p:menuitem value="Sobre" action="/pages/web/restrito/sobre.jsf"
-				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
-		</p:megaMenu>
+		<p:toolbar>
+			<p:toolbarGroup style="width: 100%;">
+
+				<p:commandLink
+					action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					<p:graphicImage library="imagens" name="usuario_masculino.jpg"
+						styleClass="iconeMenu" />
+				</p:commandLink>
+				<p:spacer width="50px;"></p:spacer>
+
+				<p:commandLink action="/pages/web/restrito/grupo/pesquisa_grupo.jsf"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					<p:graphicImage library="imagens" name="grupo_icone.jpg"
+						styleClass="iconeMenu" />
+				</p:commandLink>
+				<p:spacer width="50px;"></p:spacer>
+
+				<p:commandLink action="/pages/web/restrito/sobre.jsf"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					<p:graphicImage library="imagens" name="info_icone.jpg"
+						styleClass="iconeMenu" />
+				</p:commandLink>
+			</p:toolbarGroup>
+		</p:toolbar>
 	</h:form>
 </ui:composition>

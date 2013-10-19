@@ -65,13 +65,18 @@
 						required="true" value="#{usuarioBean.confirmaSenha}" />
 
 					<h:outputLabel value="Foto:" />
-					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}" value = "#{usuarioBean.foto}" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="foto"/>
-					
+					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}"
+						value="#{usuarioBean.foto}" mode="advanced"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this"
+						update="foto" />
+
 					<p:spacer />
 					<p:fieldset legend="Foto">
-						<p:graphicImage id="foto" value="#{usuarioBean.foto}" />
-					</p:fieldset>					
-					
+						<p:graphicImage id="foto"
+							rendered="#{usuarioBean.usuario.fotoUsuario ne null}"
+							value="#{usuarioBean.foto}" />	
+					</p:fieldset>
+
 					<p:commandButton immediate="true" value="#{message.Retornar}"
 						action="#{usuarioBean.retornarParaPesquisa}"
 						icon="ui-icon-arrowreturnthick-1-w" />

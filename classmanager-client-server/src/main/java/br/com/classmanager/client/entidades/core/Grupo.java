@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,9 +27,9 @@ import javax.persistence.TemporalType;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.StatusGrupo;
+import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
@@ -53,7 +55,6 @@ public class Grupo extends BeanJPA<Long> {
 	@GeneratedValue(generator = "seq_grupo", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
 	private String titulo;
 
@@ -76,6 +77,12 @@ public class Grupo extends BeanJPA<Long> {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "rel_grupo_servico_envio_habilitado", joinColumns = @JoinColumn(name = "id_grupo"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
 	private List<ServicoEnvio> servicosHabilitados = new ArrayList<ServicoEnvio>();
+
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ElementCollection(targetClass = TipoPostagem.class)
+	@Enumerated(EnumType.ORDINAL)
+	@CollectionTable(name = "rel_grupo_tipo_postagem_habilitado", joinColumns = @JoinColumn(name = "id_grupo"))
+	private List<TipoPostagem> tiposPostagensHabilitados = new ArrayList<TipoPostagem>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<UsuarioGrupo> usuariosGrupo = new ArrayList<UsuarioGrupo>();
@@ -142,6 +149,15 @@ public class Grupo extends BeanJPA<Long> {
 
 	public void setStatus(StatusGrupo status) {
 		this.status = status;
+	}
+
+	public List<TipoPostagem> getTiposPostagensHabilitados() {
+		return tiposPostagensHabilitados;
+	}
+
+	public void setTiposPostagensHabilitados(
+			List<TipoPostagem> tiposPostagensHabilitados) {
+		this.tiposPostagensHabilitados = tiposPostagensHabilitados;
 	}
 
 }

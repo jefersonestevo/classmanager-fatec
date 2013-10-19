@@ -22,7 +22,7 @@
 				<h:panelGrid columns="2" styleClass="tabela-simples">
 					<h:outputLabel value="#{message.Titulo}" for="titulo" />
 					<p:inputText id="titulo" label="titulo"
-						value="#{grupoBean.grupo.titulo}" />
+						value="#{grupoBean.tituloPesquisa}" />
 
 				</h:panelGrid>
 
@@ -35,26 +35,24 @@
 				</p:outputPanel>
 			</p:panel>
 			<p:spacer styleClass="espaco-tabela" />
-			<p:dataTable id="grupos" var="list" value="#{grupoBean.list}"
+			<p:dataTable id="grupos" var="grupo" value="#{grupoBean.list}"
 				emptyMessage="#{message.Nenhum_Item_Exibicao}">
-				<p:column headerText="#{message.Titulo}">
-					<h:outputText value="#{list.titulo}" />
+				<p:column headerText="#{message.Titulo}" styleClass="centro">
+					<h:outputText value="#{grupo.titulo}" />
 				</p:column>
-				<p:column headerText="#{message.Data_Criacao}">
-					<h:outputText value="#{list.dataCriacao}" />
+				<p:column headerText="#{message.Data_Criacao}" styleClass="centro">
+					<h:outputText value="#{grupo.dataCriacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
 				</p:column>
-				<p:column headerText="#{message.Status}">
-					<h:outputText value="#{list.status}" />
+				<p:column headerText="#{message.Status}" styleClass="centro">
+					<h:outputText value="#{grupo.status}" />
 				</p:column>
-<!-- 				<p:column headerText="#{message.Dono}"> -->
-<!-- 					<h:outputText value="#{list.usuarioCriador.nome}" /> -->
-<!-- 				</p:column> -->
-				<p:column>
+				<p:column styleClass="centro">
 					<p:commandLink action="#{grupoBean.visualizaMeuGrupo}">
 						<h:graphicImage library="imagens" name="visualizar2.png"
 							style="border:0" />
-						<f:setPropertyActionListener target="#{grupoBean.grupo}"
-							value="#{list}"></f:setPropertyActionListener>
+						<f:param id="id" name="id" value="#{grupo.id}"></f:param>
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>

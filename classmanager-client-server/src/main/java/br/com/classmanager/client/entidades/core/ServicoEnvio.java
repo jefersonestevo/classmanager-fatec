@@ -10,7 +10,7 @@ import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Entity
 @Table(name = ServicoEnvio.NOME_ENTIDADE)
-public abstract class ServicoEnvio extends BeanJPA<Long> {
+public class ServicoEnvio extends BeanJPA<Long> {
 
 	private static final long serialVersionUID = 2365094586648461115L;
 
