@@ -9,4 +9,60 @@
 	<ui:define name="title">
 	   Hinter - Criar Usuário
 	</ui:define>
+	<ui:define name="content">
+		<h:panelGrid columns="2">
+			<h:outputLabel value="#{message.Nome}" for="nome" />
+			<p:inputText id="nome" label="nome" required="true"
+				value="#{usuarioPublicoBean.usuario.nome}" />
+
+			<h:outputLabel value="#{message.Email}" for="email" />
+			<p:inputText id="email" label="email" required="true"
+				value="#{usuarioPublicoBean.usuario.email}" />
+
+			<h:outputText value="#{message.Telefone}" />
+			<p:inputMask mask="(99) 99999-9999"
+				value="#{usuarioPublicoBean.usuario.telefone}" />
+
+			<h:outputText value="#{message.Celular_1}" />
+			<p:inputMask mask="(99) 99999-9999"
+				value="#{usuarioPublicoBean.usuario.celular1}" />
+
+			<h:outputText value="#{message.Celular_2}" />
+			<p:inputMask mask="(99) 99999-9999"
+				value="#{usuarioPublicoBean.usuario.celular2}" />
+
+			<h:outputLabel value="#{message.Data_Nascimento}" for="dt_nacimento" />
+			<p:calendar navigator="true" effect="explode"
+				value="#{usuarioPublicoBean.usuario.dataNascimento}" id="dt_nacimento" />
+
+			<h:outputText value="#{message.Sexo}" />
+			<p:selectOneRadio id="sexo" value="#{usuarioPublicoBean.usuario.sexo}">
+				<f:selectItem itemLabel="Masculino" itemValue="F" />
+				<f:selectItem itemLabel="Feminino" itemValue="M" />
+			</p:selectOneRadio>
+
+			<h:outputLabel value="#{message.Login}" for="login" />
+			<p:inputText id="login" label="login" required="true" maxlength="10"
+				value="#{usuarioPublicoBean.usuario.login}" />
+
+			<h:outputLabel value="#{message.Senha}" for="senha" />
+			<p:password id="senha" label="senha" required="true" maxlength="8"
+				feedback="true" value="#{usuarioPublicoBean.usuario.senha}" />
+			<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
+			<p:password id="confirmPassword" label="confirmPassword"
+				required="true" value="#{usuarioPublicoBean.confirmaSenha}" />
+
+			<h:outputLabel value="Foto:" />
+			<p:fileUpload fileUploadListener="#{usuarioPublicoBean.doUpload}"
+				mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+				process="@this" update="foto" />
+			<p:spacer />
+			<p:fieldset legend="Foto">
+				<p:graphicImage id="foto" value="#{usuarioPublicoBean.foto}" width="68px"
+					height="68px" />					
+			</p:fieldset>
+			<p:commandButton value="#{message.Salvar}"
+						action="#{usuarioPublicoBean.inserir}" icon="ui-icon-disk" />
+		</h:panelGrid>
+	</ui:define>
 </ui:composition>

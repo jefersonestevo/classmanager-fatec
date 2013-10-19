@@ -22,14 +22,14 @@
 				<h:panelGrid columns="2" styleClass="tabela-simples">
 					<h:outputLabel value="#{message.Nome}" for="nome" />
 					<p:inputText id="nome" label="nome"
-						value="#{usuarioBean.usuario.nome}" />
+						value="#{usuarioBean.nome}" />
 					<h:outputLabel value="#{message.Login}" for="login" />
 					<p:inputText id="login" label="login"
-						value="#{usuarioBean.usuario.login}" maxlength="10" />
+						value="#{usuarioBean.login}" maxlength="10" />
 
 					<h:outputLabel value="#{message.Email}" for="email" />
 					<p:inputText id="email" label="email"
-						value="#{usuarioBean.usuario.email}" />
+						value="#{usuarioBean.email}" />
 
 				</h:panelGrid>
 
@@ -58,7 +58,7 @@
 				</p:column>
 
 				<p:column>
-					<p:commandLink action="#{usuarioBean.visualizaMeuUsuario}">
+					<p:commandLink action="#{usuarioBean.irParaTelaAlteracao}">
 						<h:graphicImage library="imagens" name="visualizar2.png"
 							style="border:0" />
 						<f:setPropertyActionListener target="#{usuarioBean.usuario}"

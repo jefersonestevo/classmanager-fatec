@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,29 +26,21 @@ import br.com.classmanager.web.mb.def.GenericManagedBean;
 import br.com.classmanager.web.service.ClassManagerServiceView;
 
 @Named
-@SessionScoped
-public class UsuarioBean extends GenericManagedBean {
+@ViewScoped
+public class UsuarioPublicoBean extends GenericManagedBean {
 
 	private static final long serialVersionUID = 5459527705332664135L;
 
 	private Usuario usuario = new Usuario();
-	private List<Usuario> list;
 	private String confirmaSenha;
 	private StreamedContent foto;
 	private UploadedFile file;
-	private String nome;
-	private String login;
-	private String email;
 		
-
 	@Inject
 	@ServiceView
 	private ClassManagerServiceView service;
-
-	@Inject
-	private SessionBean sessionBean;
-
-	public UsuarioBean() {
+	
+	public UsuarioPublicoBean() {
 	}
 
 	public String inserir() {
@@ -67,75 +61,9 @@ public class UsuarioBean extends GenericManagedBean {
 			addExceptionMessage(e);
 		}
 
-		return pesquisar();
+		return "login";
 	}
 
-	public String pesquisar() {
-		try {
-			ManterUsuarioAction action = new ManterUsuarioAction(
-					AcaoManter.PESQUISAR_LISTA);
-			action.setEmail(getEmail());
-			action.setNome(getNome());
-			action.setLogin(getLogin());
-			this.list = ((ListaDTO) service.execute(action)).getLista();
-			usuario = new Usuario();
-		} catch (ClassManagerException e) {
-			addExceptionMessage(e);
-		}
-
-		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
-	}
-
-	public String excluiMeuUsuario() {
-		try {
-			ManterUsuarioAction action = new ManterUsuarioAction(
-					AcaoManter.REMOVER);
-			action.setEntidade(usuario);
-			service.execute(action);
-			usuario = new Usuario();
-		} catch (ClassManagerException e) {
-			addExceptionMessage(e);
-		}
-
-		return pesquisar();
-	}
-
-	public String alteraMeuUsuario() {
-		try {
-			if (this.confirmaSenha != null && usuario.getSenha() != null
-					&& this.confirmaSenha.equals(usuario.getSenha())) {
-				ManterUsuarioAction action = new ManterUsuarioAction(
-						AcaoManter.ALTERAR);
-				action.setEntidade(usuario);
-				service.execute(action);
-
-				sessionBean.setAtualizarUsuario(true);
-				sessionBean.getUsuario();
-			} else {
-				addErrorMessage(getMessage("Senha_Nao_Confere"));
-				return null;
-			}
-			this.usuario = new Usuario();
-		} catch (ClassManagerException e) {
-			addExceptionMessage(e);
-		}
-
-		return pesquisar();
-	}
-
-	public String irParaTelaInsercao() {
-		this.usuario = new Usuario();
-		return "/pages/web/restrito/usuario/insere_usuario.jsf";
-	}
-
-	public String irParaTelaAlteracao() {
-		return "/pages/web/restrito/usuario/altera_usuario.jsf";
-	}
-
-	public String retornarParaPesquisa() {
-		this.usuario = new Usuario();
-		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
-	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -143,14 +71,6 @@ public class UsuarioBean extends GenericManagedBean {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public List<Usuario> getList() {
-		return list;
-	}
-
-	public void setList(List<Usuario> list) {
-		this.list = list;
 	}
 
 	public void doUpload(FileUploadEvent e) {
@@ -203,29 +123,4 @@ public class UsuarioBean extends GenericManagedBean {
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 }
