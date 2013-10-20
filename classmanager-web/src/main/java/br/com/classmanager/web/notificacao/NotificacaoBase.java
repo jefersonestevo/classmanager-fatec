@@ -11,8 +11,4 @@ public interface NotificacaoBase extends Serializable {
 
 	public abstract List<NotificacaoPadrao> getListaNotificacao();
 
-	public abstract void atualizar();
-
-	public abstract String executar();
-
 }

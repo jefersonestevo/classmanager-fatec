@@ -72,6 +72,7 @@ public class ClassManagerLoginModulo extends UsernamePasswordLoginModule {
 		} catch (NamingException e) {
 			log.error("Erro ao realizar login.", e);
 		} catch (ClassManagerException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			log.error("Erro ao realizar login.", e);
 		}

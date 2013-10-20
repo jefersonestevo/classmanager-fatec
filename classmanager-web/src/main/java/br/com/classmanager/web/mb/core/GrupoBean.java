@@ -1,5 +1,6 @@
 package br.com.classmanager.web.mb.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,9 @@ import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import br.com.classmanager.client.dto.action.core.AdicionaUsuarioGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
+import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.dto.action.core.PesquisarServicoEnvioAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.Grupo;
@@ -39,6 +42,8 @@ public class GrupoBean extends GenericManagedBean {
 	private String tituloPesquisa;
 	private Grupo grupo = new Grupo();
 	private List<Grupo> list;
+
+	private ConsultaUsuario consultaUsuario = new ConsultaUsuario();
 
 	@Inject
 	@ServiceView
@@ -75,6 +80,7 @@ public class GrupoBean extends GenericManagedBean {
 			this.grupo = (Grupo) service.execute(action);
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 		return visualizaMeuGrupo(grupo.getId());
 	}
@@ -87,6 +93,7 @@ public class GrupoBean extends GenericManagedBean {
 			this.list = ((ListaDTO<Grupo>) service.execute(action)).getLista();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 
 		return "/pages/web/restrito/grupo/pesquisa_grupo.jsf";
@@ -100,6 +107,7 @@ public class GrupoBean extends GenericManagedBean {
 			grupo = new Grupo();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 
 		return pesquisar();
@@ -107,24 +115,79 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String alteraMeuGrupo() {
 		try {
+			if (grupo.getServicosHabilitados() == null)
+				grupo.setServicosHabilitados(new ArrayList<ServicoEnvio>());
+			grupo.getServicosHabilitados().clear();
+			if (CollectionUtils.isNotEmpty(tiposPostagemSelecionados)) {
+				for (String tipo : tiposPostagemSelecionados) {
+					grupo.getTiposPostagensHabilitados().add(
+							TipoPostagem.getTipoPostagem(tipo));
+				}
+			}
+
+			if (grupo.getServicosHabilitados() == null)
+				grupo.setServicosHabilitados(new ArrayList<ServicoEnvio>());
+			grupo.getServicosHabilitados().clear();
+			if (CollectionUtils.isNotEmpty(tiposServicosEnvioSelecionados)) {
+				for (String tipo : tiposServicosEnvioSelecionados) {
+					grupo.getServicosHabilitados().add(
+							new ServicoEnvio(Long.valueOf(tipo)));
+				}
+			}
+
 			ManterGrupoAction action = new ManterGrupoAction(AcaoManter.ALTERAR);
 			action.setEntidade(grupo);
 			service.execute(action);
-			this.grupo = new Grupo();
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+
+		return visualizaMeuGrupo(grupo.getId());
+	}
+
+	public void pesquisarUsuario() {
+		try {
+			ManterUsuarioAction action = new ManterUsuarioAction(
+					AcaoManter.PESQUISAR_LISTA);
+			action.setNome(consultaUsuario.getNome());
+			action.setEmail(consultaUsuario.getEmail());
+			List<Usuario> listaUsuario = ((ListaDTO) service.execute(action))
+					.getLista();
+
+			listaUsuario.remove(sessionBean.getUsuario());
+			for (UsuarioGrupo usuarioGrupo : grupo.getUsuariosGrupo()) {
+				listaUsuario.remove(usuarioGrupo.getUsuario());
+			}
+
+			this.consultaUsuario.setListaUsuario(listaUsuario);
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
-
-		return pesquisar();
 	}
 
-	public void convidaUsuario(Usuario usuario) {
-		UsuarioGrupo usuario_x_grupo = new UsuarioGrupo();
-		usuario_x_grupo.setUsuario(usuario);
-		usuario_x_grupo.setGrupo(grupo);
-		grupo.getUsuariosGrupo().add(usuario_x_grupo);
-		for (UsuarioGrupo usuarioGrupo : grupo.getUsuariosGrupo()) {
-			System.out.print(usuarioGrupo.getUsuario().getLogin());
+	public void convidaUsuario() {
+		try {
+			Long id = getLongParameter("idUsuario");
+
+			ManterUsuarioAction action = new ManterUsuarioAction(
+					AcaoManter.PESQUISAR);
+			action.setId(id);
+			Usuario usuario = (Usuario) service.execute(action);
+
+			AdicionaUsuarioGrupoAction adiciona = new AdicionaUsuarioGrupoAction();
+			adiciona.setUsuario(usuario);
+			adiciona.setGrupo(grupo);
+
+			UsuarioGrupo usuarioAdicionado = (UsuarioGrupo) service
+					.execute(adiciona);
+			grupo.getUsuariosGrupo().add(usuarioAdicionado);
+
+			// Realiza a pesquisa novamente para atualizar a lista pesquisada de
+			// usuários
+			pesquisarUsuario();
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
 		}
 	}
 
@@ -147,11 +210,26 @@ public class GrupoBean extends GenericManagedBean {
 			action.setId(id);
 			this.grupo = (Grupo) service.execute(action);
 
+			this.tiposServicosEnvioSelecionados = new ArrayList<String>();
 			if (CollectionUtils.isNotEmpty(this.grupo.getServicosHabilitados())) {
-				this.grupo.getServicosHabilitados().get(0).getId();
+				for (ServicoEnvio servico : this.grupo.getServicosHabilitados()) {
+					this.tiposServicosEnvioSelecionados.add(servico.getId()
+							.toString());
+				}
+			}
+
+			this.tiposPostagemSelecionados = new ArrayList<String>();
+			if (CollectionUtils.isNotEmpty(this.grupo
+					.getTiposPostagensHabilitados())) {
+				for (TipoPostagem tipo : this.grupo
+						.getTiposPostagensHabilitados()) {
+					this.tiposPostagemSelecionados.add(Integer.toString(tipo
+							.ordinal()));
+				}
 			}
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 		return "/pages/web/restrito/grupo/visualiza_grupo.jsf";
 	}
@@ -231,5 +309,47 @@ public class GrupoBean extends GenericManagedBean {
 	public void setTiposServicosEnvioSelecionados(
 			List<String> tiposServicosEnvioSelecionados) {
 		this.tiposServicosEnvioSelecionados = tiposServicosEnvioSelecionados;
+	}
+
+	public static class ConsultaUsuario implements Serializable {
+
+		private static final long serialVersionUID = -9067037336021699907L;
+
+		private String nome;
+		private String email;
+		private List<Usuario> listaUsuario = new ArrayList<Usuario>();
+
+		public String getNome() {
+			return nome;
+		}
+
+		public void setNome(String nome) {
+			this.nome = nome;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public List<Usuario> getListaUsuario() {
+			return listaUsuario;
+		}
+
+		public void setListaUsuario(List<Usuario> listaUsuario) {
+			this.listaUsuario = listaUsuario;
+		}
+
+	}
+
+	public ConsultaUsuario getConsultaUsuario() {
+		return consultaUsuario;
+	}
+
+	public void setConsultaUsuario(ConsultaUsuario consultaUsuario) {
+		this.consultaUsuario = consultaUsuario;
 	}
 }

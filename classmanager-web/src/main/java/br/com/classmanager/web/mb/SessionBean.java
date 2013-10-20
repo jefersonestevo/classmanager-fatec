@@ -3,6 +3,8 @@ package br.com.classmanager.web.mb;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -18,6 +20,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import br.com.classmanager.client.dto.action.core.ConsultarUsuarioAction;
+import br.com.classmanager.client.dto.action.core.ConsultarUsuarioGrupoAction;
+import br.com.classmanager.client.dto.geral.ListaDTO;
+import br.com.classmanager.client.entidades.core.UsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.Sexo;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
@@ -33,13 +38,12 @@ public class SessionBean extends GenericManagedBean {
 
 	private static final Logger log = Logger.getLogger(SessionBean.class);
 
-	private String tema = "bluesky";
-
 	@Inject
 	@ServiceView
 	private ClassManagerServiceView service;
 
 	private Usuario usuario;
+	private List<UsuarioGrupo> listaGrupos = new ArrayList<UsuarioGrupo>();
 	private boolean atualizarUsuario = false;
 
 	public Usuario getUsuario() {
@@ -82,6 +86,13 @@ public class SessionBean extends GenericManagedBean {
 		consultaUsuario.setLogin(login);
 		Usuario usr = (Usuario) service.execute(consultaUsuario);
 		setUsuario(usr);
+
+		ConsultarUsuarioGrupoAction consultaUsuarioGrupo = new ConsultarUsuarioGrupoAction();
+		consultaUsuarioGrupo.setIdUsuario(usr.getId());
+		ListaDTO<UsuarioGrupo> dto = (ListaDTO<UsuarioGrupo>) service
+				.execute(consultaUsuarioGrupo);
+		setListaGrupos(dto.getLista());
+
 		atualizarUsuario = false;
 	}
 
@@ -122,8 +133,13 @@ public class SessionBean extends GenericManagedBean {
 	public void setFotoUsuario(StreamedContent foto) {
 	}
 
-	public String getTema() {
-		return tema;
+	public List<UsuarioGrupo> getListaGrupos() {
+		getUsuario();
+		return listaGrupos;
+	}
+
+	public void setListaGrupos(List<UsuarioGrupo> listaGrupos) {
+		this.listaGrupos = listaGrupos;
 	}
 
 }

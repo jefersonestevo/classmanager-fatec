@@ -10,6 +10,7 @@
 	<ui:define name="title">
 	   	#{message.Nome_Aplicacao} - #{message.Header_Visualizacao_Grupo}
 	</ui:define>
+
 	<ui:define name="endereco">
 		<p:breadCrumb>
 			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
@@ -18,8 +19,9 @@
 			<p:menuitem value="#{message.Header_Visualizacao_Grupo}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
+
 	<ui:define name="content">
-		<h:form>
+		<h:form id="formGrupo">
 			<h:panelGrid id="painelGeralVisualizacaoGrupo" columns="2"
 				columnClasses="width-50, width-50" styleClass="width-full">
 
@@ -49,70 +51,75 @@
 
 						<h:panelGrid columns="2" columnClasses="width-30, width-70">
 							<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
-							<p:selectManyButton
+							<p:selectManyCheckbox
 								value="#{grupoBean.tiposPostagemSelecionados}">
 								<f:selectItems value="#{grupoBean.tiposPostagem}" />
-							</p:selectManyButton>
+							</p:selectManyCheckbox>
 
 							<h:outputLabel value="#{message.Tipo_Servico_Envio_Habilitadas}" />
-							<p:selectManyButton
+							<p:selectManyCheckbox
 								value="#{grupoBean.tiposServicosEnvioSelecionados}">
 								<f:selectItems value="#{grupoBean.tiposServicosEnvio}" />
-							</p:selectManyButton>
+							</p:selectManyCheckbox>
 
 						</h:panelGrid>
 					</p:fieldset>
 				</p:outputPanel>
 
 				<p:outputPanel>
-					<p:panel header="#{message.Membros}">
-						<p:dataTable id="membros" var="list"
+					<p:fieldset legend="#{message.Membros}" toggleable="true">
+						<p:dataTable id="membros" var="grupo" rows="5" paginator="true"
+							paginatorPosition="bottom" styleClass="centro"
 							value="#{grupoBean.grupo.usuariosGrupo}"
 							emptyMessage="#{message.Nenhum_Item_Exibicao}">
 							<p:column headerText="#{message.Nome}">
-								<h:outputText value="#{list.usuario.celular}" />
+								<h:outputText value="#{grupo.usuario.nome}" />
 							</p:column>
 							<p:column headerText="#{message.Email}">
-								<h:outputText value="#{list.usuario.login}" />
+								<h:outputText value="#{grupo.usuario.email}" />
 							</p:column>
 						</p:dataTable>
-					</p:panel>
+					</p:fieldset>
 					<p:spacer width="30" />
 
-					<p:fieldset legend="#{message.Buscar_Membros}">
+					<p:fieldset legend="#{message.Buscar_Membros}" toggleable="true"
+						collapsed="true">
 						<h:panelGrid columns="2" styleClass="tabela-simples">
 							<h:outputLabel value="#{message.Nome}" for="nome" />
 							<p:inputText id="nome" label="nome"
-								value="#{usuarioBean.usuario.nome}" />
+								value="#{grupoBean.consultaUsuario.nome}" />
 
 							<h:outputLabel value="#{message.Email}" for="email" />
 							<p:inputText id="email" label="email"
-								value="#{usuarioBean.usuario.email}" />
+								value="#{grupoBean.consultaUsuario.email}" />
 
 							<p:commandButton value="#{message.Buscar}" update="usuarios"
-								actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search" />
+								actionListener="#{grupoBean.pesquisarUsuario}"
+								icon="ui-icon-search" />
 
 						</h:panelGrid>
 						<p:spacer styleClass="espaco-tabela" />
 
-						<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
+						<p:dataTable id="usuarios" var="usuario"
+							value="#{grupoBean.consultaUsuario.listaUsuario}"
+							paginator="true" rows="5" paginatorPosition="bottom"
+							styleClass="centro"
 							emptyMessage="#{message.Nenhum_Item_Exibicao}">
 							<p:column headerText="Nome">
-								<h:outputText value="#{list.nome}" />
+								<h:outputText value="#{usuario.nome}" />
 							</p:column>
 
 							<p:column headerText="E-mail">
-								<h:outputText value="#{list.email}" />
+								<h:outputText value="#{usuario.email}" />
 							</p:column>
 
 
 							<p:column headerText="Convidar">
-								<p:commandLink update="usuarios"
-									action="#{grupoBean.convidaUsuario(usuarioBean.usuario)}">
+								<p:commandLink update=":formGrupo:membros,usuarios"
+									action="#{grupoBean.convidaUsuario}">
 									<h:graphicImage library="imagens" name="adicionar12.png"
-										style="border:0" process="@this" update="membros" />
-									<f:setPropertyActionListener target="#{usuarioBean.usuario}"
-										value="#{list}"></f:setPropertyActionListener>
+										style="border:0" />
+									<f:param id="idUsuario" name="idUsuario" value="#{usuario.id}" />
 								</p:commandLink>
 							</p:column>
 						</p:dataTable>

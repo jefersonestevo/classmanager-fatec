@@ -2,6 +2,8 @@ package br.com.classmanager.server.domain.modelo.dao.impl.jpa.usuario;
 
 import java.util.List;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -78,6 +80,7 @@ public class DaoUsuarioJPA extends DaoCRUDJPA<Usuario, Long> implements
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Usuario pesquisarPorLogin(String login) throws ClassManagerException {
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT u FROM ");

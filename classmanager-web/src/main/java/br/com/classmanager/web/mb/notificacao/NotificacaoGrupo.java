@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
+import br.com.classmanager.client.entidades.core.UsuarioGrupo;
+import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
+import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
 import br.com.classmanager.web.notificacao.NotificacaoBase;
 import br.com.classmanager.web.notificacao.NotificacaoPadrao;
@@ -17,38 +21,33 @@ public class NotificacaoGrupo extends GenericManagedBean implements
 
 	private static final long serialVersionUID = -7970955670574091916L;
 
+	@Inject
+	private SessionBean sessionBean;
+
 	@Override
 	public String getHeader() {
-		return "Teste01";
+		return getMessage("Notificacao_Grupo_Header");
 	}
 
 	@Override
 	public String getHeaderTabela() {
-		return "Teste Table 01";
+		return getMessage("Notificacao_Grupo_Header");
 	}
 
 	@Override
 	public List<NotificacaoPadrao> getListaNotificacao() {
 		List<NotificacaoPadrao> lista = new ArrayList<NotificacaoPadrao>();
 
-		NotificacaoPadrao notif = new NotificacaoPadrao();
-		notif.setTitulo("titulo 01");
-		lista.add(notif);
+		for (UsuarioGrupo usuarioGrupo : sessionBean.getListaGrupos()) {
+			NotificacaoPadrao notif = new NotificacaoPadrao();
+			if (StatusUsuarioGrupo.PARTICIPANTE
+					.equals(usuarioGrupo.getStatus())) {
+				notif.setTitulo(usuarioGrupo.getGrupo().getTitulo());
+				lista.add(notif);
+			}
+		}
 
-		notif = new NotificacaoPadrao();
-		notif.setTitulo("titulo 02");
-		lista.add(notif);
 		return lista;
-	}
-
-	@Override
-	public void atualizar() {
-
-	}
-
-	@Override
-	public String executar() {
-		return null;
 	}
 
 }

@@ -47,15 +47,16 @@
 
 					<h:panelGrid columns="2" columnClasses="width-30, width-70">
 						<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
-						<p:selectManyButton value="#{grupoBean.tiposPostagemSelecionados}">
+						<p:selectManyCheckbox
+							value="#{grupoBean.tiposPostagemSelecionados}">
 							<f:selectItems value="#{grupoBean.tiposPostagem}" />
-						</p:selectManyButton>
+						</p:selectManyCheckbox>
 
 						<h:outputLabel value="#{message.Tipo_Servico_Envio_Habilitadas}" />
-						<p:selectManyButton
+						<p:selectManyCheckbox
 							value="#{grupoBean.tiposServicosEnvioSelecionados}">
 							<f:selectItems value="#{grupoBean.tiposServicosEnvio}" />
-						</p:selectManyButton>
+						</p:selectManyCheckbox>
 
 					</h:panelGrid>
 				</p:fieldset>

@@ -5,6 +5,7 @@ import javax.inject.Named;
 
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
+import br.com.classmanager.client.entidades.enums.PerfilUsuario;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
@@ -31,6 +32,9 @@ public class ManterUsuarioService extends
 				&& request.getEntidade().getFotoUsuario() != null
 				&& request.getEntidade().getFotoUsuario().getFoto() == null) {
 			request.getEntidade().setFotoUsuario(null);
+		}
+		if (request.getEntidade().getPerfilUsuario() == null) {
+			request.getEntidade().setPerfilUsuario(PerfilUsuario.MEMBRO);
 		}
 		getDao().inserir(request.getEntidade());
 		return request.getEntidade();

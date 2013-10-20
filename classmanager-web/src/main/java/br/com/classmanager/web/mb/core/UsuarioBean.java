@@ -37,7 +37,6 @@ public class UsuarioBean extends GenericManagedBean {
 	private String nome;
 	private String login;
 	private String email;
-		
 
 	@Inject
 	@ServiceView
@@ -65,6 +64,7 @@ public class UsuarioBean extends GenericManagedBean {
 
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 
 		return pesquisar();
@@ -125,6 +125,9 @@ public class UsuarioBean extends GenericManagedBean {
 
 	public String irParaTelaInsercao() {
 		this.usuario = new Usuario();
+		this.foto = null;
+		this.confirmaSenha = null;
+		this.file = null;
 		return "/pages/web/restrito/usuario/insere_usuario.jsf";
 	}
 

@@ -1,6 +1,8 @@
 package br.com.classmanager.client.entidades.usuario;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,7 @@ public class FotoUsuario extends BeanJPA<Long> {
 	@GeneratedValue(generator = "seq_foto_usuario", strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Basic(fetch = FetchType.LAZY)
 	@Lob
 	private byte[] foto;
 

@@ -64,11 +64,17 @@
 					<p:password id="confirmPassword" label="confirmPassword"
 						required="true" value="#{usuarioBean.confirmaSenha}" />
 
-<h:outputLabel value="Foto:" />
-					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="foto"/>
-					<p:spacer/>	
-					<p:fieldset legend="Foto">
-						<p:graphicImage id="foto" value="#{usuarioBean.foto}" width="68px" height="68px" /> 		
+					<h:outputLabel value="Foto:" />
+					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}"
+						mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						process="@this" update="painelFoto" />
+					<p:spacer />
+					<p:fieldset legend="Foto" id="painelFoto">
+						<p:outputPanel
+							rendered="#{usuarioBean.usuario.fotoUsuario ne null}">
+							<p:graphicImage id="foto" value="#{usuarioBean.foto}"
+								width="68px" height="68px" />
+						</p:outputPanel>
 					</p:fieldset>
 					<p:commandButton immediate="true" value="#{message.Retornar}"
 						action="#{usuarioBean.retornarParaPesquisa}"

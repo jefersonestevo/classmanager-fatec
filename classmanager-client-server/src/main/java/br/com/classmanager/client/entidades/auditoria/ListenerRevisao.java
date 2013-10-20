@@ -15,7 +15,12 @@ public class ListenerRevisao implements RevisionListener {
 		EntidadeRevisao rev = (EntidadeRevisao) revisionEntity;
 
 		try {
-			SessionContext session = ServerUtils.getSessionContext();
+			SessionContext session = null;
+			try {
+				session = ServerUtils.getSessionContext();
+			} catch (IllegalStateException e) {
+				return;
+			}
 
 			Long id = (Long) session.getContextData().get(
 					session.getCallerPrincipal().getName());

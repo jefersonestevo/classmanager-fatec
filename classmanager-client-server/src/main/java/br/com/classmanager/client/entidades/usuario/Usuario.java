@@ -84,7 +84,7 @@ public class Usuario extends BeanJPA<Long> {
 	private String celular2;
 
 	@NotAudited
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "usuario")
 	@JoinColumn(name = "id_foto_usuario")
 	private FotoUsuario fotoUsuario;
 
