@@ -29,18 +29,30 @@
 					<p:fieldset legend="#{message.Header_Grupo_Cadastro_Dados}"
 						toggleable="true">
 						<h:panelGrid columns="2">
+							<h:outputLabel value="#{message.Identificador}" />
+							<h:outputText id="txtId" label="#{message.Identificador}"
+								value="#{grupoBean.grupo.id}" />
+
+							<h:outputLabel value="#{message.Dono}" />
+							<h:outputText id="txtDono" label="#{message.Dono}"
+								value="#{grupoBean.grupo.usuarioCriador.nome}" />
+
 							<h:outputLabel value="#{message.Titulo}" for="titulo" />
 							<p:inputText id="titulo" label="titulo" required="true"
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
 								value="#{grupoBean.grupo.titulo}" />
 
 							<h:outputLabel value="#{message.Descricao}" for="descricao" />
 							<p:inputTextarea rows="8" cols="50" counter="counter"
+								id="descricao"
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
 								maxlength="200" counterTemplate="{0} caracteres restantes."
 								autoResize="false" value="#{grupoBean.grupo.descricao}" />
 							<p:spacer />
 							<h:outputText id="counter" />
 							<h:outputLabel value="#{message.Status}" for="titulo" />
-							<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}">
+							<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}"
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}">
 								<f:selectItems value="#{grupoBean.statusGrupo}" />
 							</p:selectOneMenu>
 						</h:panelGrid>
@@ -52,12 +64,14 @@
 						<h:panelGrid columns="2" columnClasses="width-30, width-70">
 							<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
 							<p:selectManyCheckbox
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
 								value="#{grupoBean.tiposPostagemSelecionados}">
 								<f:selectItems value="#{grupoBean.tiposPostagem}" />
 							</p:selectManyCheckbox>
 
 							<h:outputLabel value="#{message.Tipo_Servico_Envio_Habilitadas}" />
 							<p:selectManyCheckbox
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
 								value="#{grupoBean.tiposServicosEnvioSelecionados}">
 								<f:selectItems value="#{grupoBean.tiposServicosEnvio}" />
 							</p:selectManyCheckbox>
@@ -78,12 +92,16 @@
 							<p:column headerText="#{message.Email}">
 								<h:outputText value="#{grupo.usuario.email}" />
 							</p:column>
+							<p:column headerText="#{message.Status}">
+								<h:outputText value="#{grupo.status}" />
+							</p:column>
 						</p:dataTable>
 					</p:fieldset>
+
 					<p:spacer width="30" />
 
 					<p:fieldset legend="#{message.Buscar_Membros}" toggleable="true"
-						collapsed="true">
+						rendered="#{grupoBean.usuarioAtualAdministradorGrupo}">
 						<h:panelGrid columns="2" styleClass="tabela-simples">
 							<h:outputLabel value="#{message.Nome}" for="nome" />
 							<p:inputText id="nome" label="nome"
@@ -103,40 +121,69 @@
 						<p:dataTable id="usuarios" var="usuario"
 							value="#{grupoBean.consultaUsuario.listaUsuario}"
 							paginator="true" rows="5" paginatorPosition="bottom"
-							styleClass="centro"
+							styleClass="centro" rowIndexVar="iterator"
 							emptyMessage="#{message.Nenhum_Item_Exibicao}">
-							<p:column headerText="Nome">
+							<p:column headerText="#{message.Nome}">
 								<h:outputText value="#{usuario.nome}" />
 							</p:column>
 
-							<p:column headerText="E-mail">
+							<p:column headerText="#{message.Email}">
 								<h:outputText value="#{usuario.email}" />
 							</p:column>
 
 
-							<p:column headerText="Convidar">
-								<p:commandLink update=":formGrupo:membros,usuarios"
-									action="#{grupoBean.convidaUsuario}">
+							<p:column headerText="#{message.Convidar}">
+								<p:commandLink immediate="true" id="btnConvidarUsuarioGrupo"
+									onclick="modalConfirmacaoConvidaUsuario.show();">
 									<h:graphicImage library="imagens" name="adicionar12.png"
 										style="border:0" />
-									<f:param id="idUsuario" name="idUsuario" value="#{usuario.id}" />
+									<f:setPropertyActionListener value="#{usuario.id}"
+										for=":formGrupo:usuarios:iterator:btnConvidarUsuarioGrupo"
+										target="#{grupoBean.idUsuarioSelecionado}" />
 								</p:commandLink>
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>
+
+					<p:commandButton value="#{message.Solicitar_Participacao}"
+						styleClass="width-full"
+						update=":formGrupo:membros,:formGrupo:usuarios"
+						rendered="#{not grupoBean.usuarioAtualMembroGrupo}"
+						action="#{grupoBean.solicitarParticipacaoGrupo}" />
+					<p:commandButton value="#{message.Sair_do_Grupo}"
+						styleClass="width-full"
+						update=":formGrupo:membros,:formGrupo:usuarios"
+						rendered="#{grupoBean.usuarioAtualMembroGrupo and (sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id)}"
+						action="#{grupoBean.sairGrupo}" />
+
 				</p:outputPanel>
 
 			</h:panelGrid>
 
+			<p:confirmDialog id="modalConfirmacaoConvidaUsuarioID"
+				widgetVar="modalConfirmacaoConvidaUsuario" showEffect="fade"
+				hideEffect="fade"
+				message="#{message.Grupo_Confirmar_Convidar_Usuario}">
+				<p:commandButton value="#{message.Sim}"
+					update=":formGrupo:membros,:formGrupo:usuarios"
+					action="#{grupoBean.convidaUsuario}"
+					oncomplete="modalConfirmacaoConvidaUsuario.hide()"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoConvidaUsuario.hide()" />
+			</p:confirmDialog>
 
 			<p:commandButton immediate="true" value="Excluir"
 				action="#{grupoBean.excluiMeuGrupo}"
+				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
 				onclick="if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;"
 				icon="ui-icon-disk" />
 			<p:commandButton value="Alterar" action="#{grupoBean.alteraMeuGrupo}"
+				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
 				icon="ui-icon-disk" />
-
-			<p:spacer width="0" height="50" />
+			<p:spacer width="0" height="50"
+				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />
 			<p:commandButton immediate="true" value="Retornar"
 				action="#{grupoBean.retornarParaPesquisa}"
 				icon="ui-icon-arrowreturnthick-1-w" />

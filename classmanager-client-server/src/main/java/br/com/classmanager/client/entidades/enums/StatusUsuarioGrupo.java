@@ -1,8 +1,9 @@
 package br.com.classmanager.client.entidades.enums;
 
 public enum StatusUsuarioGrupo {
-	AGUARDANDO_APROVACAO, //
+	CONVIDADO, //
 	SOLICITANDO_PARTICIPACAO, //
 	PARTICIPANTE, //
+	CRIADOR, //
 	;
 }

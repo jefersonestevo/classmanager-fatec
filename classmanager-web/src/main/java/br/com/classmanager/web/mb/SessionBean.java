@@ -89,8 +89,8 @@ public class SessionBean extends GenericManagedBean {
 
 		ConsultarUsuarioGrupoAction consultaUsuarioGrupo = new ConsultarUsuarioGrupoAction();
 		consultaUsuarioGrupo.setIdUsuario(usr.getId());
-		ListaDTO<UsuarioGrupo> dto = (ListaDTO<UsuarioGrupo>) service
-				.execute(consultaUsuarioGrupo);
+		ListaDTO<UsuarioGrupo> dto = (ListaDTO<UsuarioGrupo>) service.execute(
+				consultaUsuarioGrupo, true);
 		setListaGrupos(dto.getLista());
 
 		atualizarUsuario = false;

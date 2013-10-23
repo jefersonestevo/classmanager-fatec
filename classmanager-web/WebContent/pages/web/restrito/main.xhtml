@@ -13,77 +13,97 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<h:form id="formTelaInicial">
+			<p:panelGrid columns="2" styleClass="width-full centro"
+				columnClasses="width-50, width-50">
 
-		<p:panelGrid columns="2" styleClass="width-full centro"
-			columnClasses="width-50, width-50">
-
-			<p:fieldset
-				legend="#{notificacaoSessionBean.notificacaoGrupo.header}"
-				styleClass="centro notificacao">
-				<p:dataTable styleClass="width-full centro"
-					value="#{notificacaoSessionBean.notificacaoGrupo.listaNotificacao}"
-					var="notif" emptyMessage="Nenhum Item para Exibição">
-					<p:column styleClass="width-80">
-						<f:facet name="header">
-						#{notificacaoSessionBean.notificacaoGrupo.headerTabela}
-					</f:facet>
+				<p:fieldset id="panelGrupos"
+					legend="#{notificacaoSessionBean.notificacaoGrupo.header}"
+					styleClass="centro notificacao">
+					<p:dataTable styleClass="width-full centro"
+						value="#{notificacaoSessionBean.notificacaoGrupo.listaNotificacao}"
+						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
+						<p:column styleClass="width-80"
+							headerText="#{notificacaoSessionBean.notificacaoGrupo.headerTabela}">
 #{notif.titulo}
 						</p:column>
 
-					<p:column styleClass="width-20">
+						<p:column styleClass="width-20 centro">
+							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}">
+								<h:graphicImage library="imagens" name="visualizar2.png"
+									style="border:0" />
+								<f:param id="id" name="id" value="#{notif.id}"></f:param>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
 
-					</p:column>
-
-				</p:dataTable>
-			</p:fieldset>
-
-			<p:fieldset id="panelGruposPendentes" styleClass="centro notificacao"
-				legend="#{notificacaoSessionBean.notificacaoGrupoPendente.header}">
-				<p:dataTable styleClass="width-full centro"
-					value="#{notificacaoSessionBean.notificacaoGrupoPendente.listaNotificacao}"
-					var="notif" emptyMessage="Nenhum Item para Exibição">
-					<p:column styleClass="width-80">
-						<f:facet name="header">
+				<p:fieldset id="panelGruposPendentes"
+					styleClass="centro notificacao"
+					legend="#{notificacaoSessionBean.notificacaoGrupoPendente.header}">
+					<p:dataTable styleClass="width-full centro"
+						value="#{notificacaoSessionBean.notificacaoGrupoPendente.listaNotificacao}"
+						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
+						<p:column styleClass="width-80">
+							<f:facet name="header">
 						#{notificacaoSessionBean.notificacaoGrupoPendente.headerTabela}
 					</f:facet>
 #{notif.titulo}
 						</p:column>
 
-					<p:column styleClass="width-20">
-						<p:commandButton value="#{message.Aceitar}"
-							onclick="modalConfirmacaoEntradaGrupo.show()" />
-						<p:commandButton value="#{message.Negar}"
-							onclick="modalConfirmacaoRejeicaoGrupo.show()" />
-					</p:column>
+						<p:column styleClass="width-20">
+							<f:facet name="header">
+								<p:commandButton value="#{message.Atualizar}"
+									update=":formTelaInicial:panelGruposPendentes"
+									action="#{notificacaoSessionBean.notificacaoGrupoPendente.atualizar}">
+								</p:commandButton>
+							</f:facet>
 
-				</p:dataTable>
-			</p:fieldset>
+							<p:commandButton value="#{message.Aceitar}"
+								onclick="modalConfirmacaoEntradaGrupo.show()">
+								<f:setPropertyActionListener value="#{notif.id}"
+									target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
+							</p:commandButton>
+							<p:commandButton value="#{message.Negar}"
+								id="negarEntradaGrupoPendente"
+								onclick="modalConfirmacaoRejeicaoGrupo.show()">
+								<f:setPropertyActionListener value="#{notif.id}"
+									for="negarEntradaGrupoPendente"
+									target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
+							</p:commandButton>
+						</p:column>
 
-		</p:panelGrid>
+					</p:dataTable>
+				</p:fieldset>
 
-		<p:confirmDialog id="modalConfirmacaoEntradaGrupoID"
-			widgetVar="modalConfirmacaoEntradaGrupo" showEffect="fade"
-			message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Entrada_Grupo}">
-			<p:commandButton value="#{message.Sim}" type="button"
-				update="panelGruposPendentes"
-				action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarEntradaGrupo}"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="#{message.Nao}" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-				onclick="modalConfirmacaoEntradaGrupo.hide()" />
-		</p:confirmDialog>
+			</p:panelGrid>
 
-		<p:confirmDialog id="modalConfirmacaoRejeicaoGrupoID"
-			widgetVar="modalConfirmacaoRejeicaoGrupo" showEffect="fade"
-			message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Rejeicao_Grupo}">
-			<p:commandButton value="#{message.Sim}" type="button"
-				update="panelGruposPendentes"
-				action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarRejeicaoGrupo}"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="#{message.Nao}" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-				onclick="modalConfirmacaoRejeicaoGrupo.hide()" />
-		</p:confirmDialog>
+			<p:confirmDialog id="modalConfirmacaoEntradaGrupoID"
+				widgetVar="modalConfirmacaoEntradaGrupo" showEffect="fade"
+				hideEffect="fade"
+				message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Entrada_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					update=":formTelaInicial:panelGruposPendentes, :formTelaInicial:panelGrupos"
+					oncomplete="modalConfirmacaoEntradaGrupo.hide()"
+					action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarEntradaGrupo}"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoEntradaGrupo.hide()" />
+			</p:confirmDialog>
 
+			<p:confirmDialog id="modalConfirmacaoRejeicaoGrupoID"
+				widgetVar="modalConfirmacaoRejeicaoGrupo" showEffect="fade"
+				message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Rejeicao_Grupo}">
+				<p:commandButton value="#{message.Sim}" type="button"
+					update=":formTelaInicial:panelGruposPendentes"
+					onclick="modalConfirmacaoEntradaGrupo.hide()"
+					action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarRejeicaoGrupo}"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoRejeicaoGrupo.hide()" />
+			</p:confirmDialog>
+		</h:form>
 	</ui:define>
 </ui:composition>

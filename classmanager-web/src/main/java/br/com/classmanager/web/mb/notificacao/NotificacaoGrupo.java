@@ -38,11 +38,20 @@ public class NotificacaoGrupo extends GenericManagedBean implements
 	public List<NotificacaoPadrao> getListaNotificacao() {
 		List<NotificacaoPadrao> lista = new ArrayList<NotificacaoPadrao>();
 
+		sessionBean.setAtualizarUsuario(true);
 		for (UsuarioGrupo usuarioGrupo : sessionBean.getListaGrupos()) {
 			NotificacaoPadrao notif = new NotificacaoPadrao();
 			if (StatusUsuarioGrupo.PARTICIPANTE
 					.equals(usuarioGrupo.getStatus())) {
 				notif.setTitulo(usuarioGrupo.getGrupo().getTitulo());
+				notif.setId(usuarioGrupo.getGrupo().getId());
+				lista.add(notif);
+			} else if (StatusUsuarioGrupo.CRIADOR.equals(usuarioGrupo
+					.getStatus())) {
+				String titulo = usuarioGrupo.getGrupo().getTitulo();
+				titulo += " (" + getMessage("Criador") + ")";
+				notif.setTitulo(titulo);
+				notif.setId(usuarioGrupo.getGrupo().getId());
 				lista.add(notif);
 			}
 		}

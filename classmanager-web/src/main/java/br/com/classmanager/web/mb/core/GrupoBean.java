@@ -2,7 +2,6 @@ package br.com.classmanager.web.mb.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -13,14 +12,18 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 
 import br.com.classmanager.client.dto.action.core.AdicionaUsuarioGrupoAction;
+import br.com.classmanager.client.dto.action.core.ExcluirUsuarioGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.dto.action.core.PesquisarServicoEnvioAction;
+import br.com.classmanager.client.dto.action.core.SolicitaParticipacaoGrupoAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.core.UsuarioGrupo;
+import br.com.classmanager.client.entidades.enums.PerfilUsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.StatusGrupo;
+import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
@@ -42,6 +45,7 @@ public class GrupoBean extends GenericManagedBean {
 	private String tituloPesquisa;
 	private Grupo grupo = new Grupo();
 	private List<Grupo> list;
+	private Long idUsuarioSelecionado;
 
 	private ConsultaUsuario consultaUsuario = new ConsultaUsuario();
 
@@ -57,10 +61,6 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String inserir() {
 		try {
-			grupo.setDataCriacao(new Date());
-			grupo.setUsuarioCriador(sessionBean.getUsuario());
-			grupo.setStatus(StatusGrupo.ATIVO);
-
 			if (CollectionUtils.isNotEmpty(tiposPostagemSelecionados)) {
 				for (String tipo : tiposPostagemSelecionados) {
 					grupo.getTiposPostagensHabilitados().add(
@@ -78,6 +78,7 @@ public class GrupoBean extends GenericManagedBean {
 			ManterGrupoAction action = new ManterGrupoAction(AcaoManter.INSERIR);
 			action.setEntidade(grupo);
 			this.grupo = (Grupo) service.execute(action);
+			sessionBean.setAtualizarUsuario(true);
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -168,11 +169,9 @@ public class GrupoBean extends GenericManagedBean {
 
 	public void convidaUsuario() {
 		try {
-			Long id = getLongParameter("idUsuario");
-
 			ManterUsuarioAction action = new ManterUsuarioAction(
 					AcaoManter.PESQUISAR);
-			action.setId(id);
+			action.setId(idUsuarioSelecionado);
 			Usuario usuario = (Usuario) service.execute(action);
 
 			AdicionaUsuarioGrupoAction adiciona = new AdicionaUsuarioGrupoAction();
@@ -182,10 +181,6 @@ public class GrupoBean extends GenericManagedBean {
 			UsuarioGrupo usuarioAdicionado = (UsuarioGrupo) service
 					.execute(adiciona);
 			grupo.getUsuariosGrupo().add(usuarioAdicionado);
-
-			// Realiza a pesquisa novamente para atualizar a lista pesquisada de
-			// usuários
-			pesquisarUsuario();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
@@ -205,6 +200,7 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String visualizaMeuGrupo(Long id) {
 		try {
+			this.consultaUsuario.clean();
 			ManterGrupoAction action = new ManterGrupoAction(
 					AcaoManter.PESQUISAR);
 			action.setId(id);
@@ -319,6 +315,12 @@ public class GrupoBean extends GenericManagedBean {
 		private String email;
 		private List<Usuario> listaUsuario = new ArrayList<Usuario>();
 
+		private void clean() {
+			this.nome = null;
+			this.email = null;
+			this.listaUsuario = new ArrayList<Usuario>();
+		}
+
 		public String getNome() {
 			return nome;
 		}
@@ -352,4 +354,90 @@ public class GrupoBean extends GenericManagedBean {
 	public void setConsultaUsuario(ConsultaUsuario consultaUsuario) {
 		this.consultaUsuario = consultaUsuario;
 	}
+
+	public Long getIdUsuarioSelecionado() {
+		return idUsuarioSelecionado;
+	}
+
+	public void setIdUsuarioSelecionado(Long idUsuarioSelecionado) {
+		this.idUsuarioSelecionado = idUsuarioSelecionado;
+	}
+
+	public boolean isUsuarioAtualAdministradorGrupo() {
+		if (grupo != null
+				&& CollectionUtils.isNotEmpty(grupo.getUsuariosGrupo())) {
+			for (UsuarioGrupo usuarioGrupo : grupo.getUsuariosGrupo()) {
+				if (sessionBean.getUsuario().equals(usuarioGrupo.getUsuario())) {
+					if (StatusUsuarioGrupo.CRIADOR.equals(usuarioGrupo
+							.getStatus())
+							|| PerfilUsuarioGrupo.ADM.equals(usuarioGrupo
+									.getPerfil())) {
+						return true;
+					}
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isUsuarioAtualMembroGrupo() {
+		if (grupo != null
+				&& CollectionUtils.isNotEmpty(grupo.getUsuariosGrupo())) {
+			for (UsuarioGrupo usuarioGrupo : grupo.getUsuariosGrupo()) {
+				if (sessionBean.getUsuario().equals(usuarioGrupo.getUsuario())) {
+					if (StatusUsuarioGrupo.CRIADOR.equals(usuarioGrupo
+							.getStatus())
+							|| PerfilUsuarioGrupo.ADM.equals(usuarioGrupo
+									.getPerfil())
+							|| PerfilUsuarioGrupo.MEMBRO.equals(usuarioGrupo
+									.getPerfil())) {
+						return true;
+					}
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	public void solicitarParticipacaoGrupo() {
+		try {
+			SolicitaParticipacaoGrupoAction action = new SolicitaParticipacaoGrupoAction();
+			action.setUsuario(sessionBean.getUsuario());
+			action.setGrupo(grupo);
+			UsuarioGrupo usuarioAdicionado = (UsuarioGrupo) service
+					.execute(action);
+
+			grupo.getUsuariosGrupo().add(usuarioAdicionado);
+			sessionBean.setAtualizarUsuario(true);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
+	public void sairGrupo() {
+		try {
+			UsuarioGrupo usuarioGrupo = null;
+			if (grupo != null
+					&& CollectionUtils.isNotEmpty(grupo.getUsuariosGrupo())) {
+				for (UsuarioGrupo usrGrupo : grupo.getUsuariosGrupo()) {
+					if (sessionBean.getUsuario().equals(usrGrupo.getUsuario())) {
+						usuarioGrupo = usrGrupo;
+						break;
+					}
+				}
+			}
+
+			ExcluirUsuarioGrupoAction action = new ExcluirUsuarioGrupoAction();
+			action.setUsuarioGrupo(usuarioGrupo);
+			service.execute(action);
+			grupo.getUsuariosGrupo().remove(usuarioGrupo);
+
+			sessionBean.setAtualizarUsuario(true);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
 }

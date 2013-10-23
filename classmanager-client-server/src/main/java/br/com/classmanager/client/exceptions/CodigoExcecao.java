@@ -2,6 +2,9 @@ package br.com.classmanager.client.exceptions;
 
 public enum CodigoExcecao {
 
+	// Erros 400005000+ p/ Grupo
+	TENTATIVA_EXCLUSAO_USUARIO_CRIADOR_GRUPO(400005000), //
+
 	// Erros 450000000+ p/ Erros de Servicos
 	ERRO_DESCONHECIDO_ENVIO_EMAIL(450000001), //
 	ERRO_ENVIO_EMAIL(450000002), //

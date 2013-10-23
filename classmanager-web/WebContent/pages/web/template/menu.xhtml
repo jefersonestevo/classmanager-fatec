@@ -8,6 +8,13 @@
 	<h:form>
 		<p:toolbar>
 			<p:toolbarGroup style="width: 100%;">
+				<p:commandLink
+					action="/pages/web/restrito/main.jsf"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					<p:graphicImage library="imagens" name="home_icone.jpg"
+						styleClass="iconeMenu" />
+				</p:commandLink>
+				<p:spacer width="50px;"></p:spacer>
 
 				<p:commandLink
 					action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
