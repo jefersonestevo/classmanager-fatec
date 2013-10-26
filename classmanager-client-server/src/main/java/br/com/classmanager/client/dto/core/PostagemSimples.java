@@ -9,7 +9,6 @@ public class PostagemSimples implements DTO {
 
 	private static final long serialVersionUID = 1L;
 
-	private String titulo;
 	private String nomeUsuario;
 	private Date dataPostagem;
 
@@ -17,17 +16,8 @@ public class PostagemSimples implements DTO {
 	}
 
 	public PostagemSimples(Postagem postagem) {
-		this.titulo = postagem.getTitulo();
 		this.dataPostagem = postagem.getDataGeracao();
-		this.nomeUsuario = postagem.getUsuarioGrupo().getUsuario().getNome();
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+		this.nomeUsuario = postagem.getUsuario().getNome();
 	}
 
 	public String getNomeUsuario() {
