@@ -28,8 +28,13 @@
 							headerText="#{notificacaoSessionBean.notificacaoGrupo.headerTabela}">
 #{notif.titulo}
 						</p:column>
-
-						<p:column styleClass="width-20 centro">
+						<p:column styleClass="centro">
+							<p:commandButton icon="ui-icon-comment"
+								action="#{postagemBean.carregarPostagem(notif.id)}"
+								update=":formPostagemGrupo" oncomplete="modalPostagem.show()">
+							</p:commandButton>
+						</p:column>
+						<p:column styleClass="centro">
 							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}">
 								<h:graphicImage library="imagens" name="visualizar2.png"
 									style="border:0" />
@@ -142,5 +147,8 @@
 					onclick="modalCancelarSolicitacaoGrupoPendente.hide()" />
 			</p:confirmDialog>
 		</h:form>
+
+		<ui:include src="/pages/web/restrito/grupo/postagem.xhtml" />
+
 	</ui:define>
 </ui:composition>

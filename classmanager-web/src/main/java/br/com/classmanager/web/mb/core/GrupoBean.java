@@ -2,6 +2,7 @@ package br.com.classmanager.web.mb.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -133,7 +134,7 @@ public class GrupoBean extends GenericManagedBean {
 	public String alteraMeuGrupo() {
 		try {
 			if (grupo.getServicosHabilitados() == null)
-				grupo.setServicosHabilitados(new ArrayList<ServicoEnvio>());
+				grupo.setServicosHabilitados(new HashSet<ServicoEnvio>());
 			grupo.getServicosHabilitados().clear();
 			if (CollectionUtils.isNotEmpty(tiposPostagemSelecionados)) {
 				for (String tipo : tiposPostagemSelecionados) {
@@ -143,7 +144,7 @@ public class GrupoBean extends GenericManagedBean {
 			}
 
 			if (grupo.getServicosHabilitados() == null)
-				grupo.setServicosHabilitados(new ArrayList<ServicoEnvio>());
+				grupo.setServicosHabilitados(new HashSet<ServicoEnvio>());
 			grupo.getServicosHabilitados().clear();
 			if (CollectionUtils.isNotEmpty(tiposServicosEnvioSelecionados)) {
 				for (String tipo : tiposServicosEnvioSelecionados) {

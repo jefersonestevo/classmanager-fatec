@@ -29,6 +29,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.entidades.geral.Arquivo;
+import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Audited
@@ -69,20 +70,36 @@ public class Postagem extends BeanJPA<Long> {
 	@JoinTable(name = "rel_postagem_servico_envio", joinColumns = @JoinColumn(name = "id_postagem"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
 	private List<ServicoEnvio> servicosUtilizados = new ArrayList<ServicoEnvio>();
 
-	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
-	private String descricao;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_grupo")
+	private Grupo grupo;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_usuario_gerador")
+	private Usuario usuario;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_geracao")
+	private Date dataGeracao;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "rel_conteudo_arquivo", joinColumns = @JoinColumn(name = "id_conteudo"), inverseJoinColumns = @JoinColumn(name = "id_arquivo"))
 	private List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario_grupo_gerador")
-	private UsuarioGrupo usuarioGrupo;
+	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
+	private String descricao;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_geracao")
-	private Date dataGeracao;
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
+	private String endereco;
+
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
+	private String cargo;
+
+	@Column
+	private String contato;
+
+	@Column
+	private Date dataInicio;
 
 	public Long getId() {
 		return id;
@@ -108,14 +125,6 @@ public class Postagem extends BeanJPA<Long> {
 		this.listaArquivos = listaArquivos;
 	}
 
-	public UsuarioGrupo getUsuarioGrupo() {
-		return usuarioGrupo;
-	}
-
-	public void setUsuarioGrupo(UsuarioGrupo gerador) {
-		this.usuarioGrupo = gerador;
-	}
-
 	public Date getDataGeracao() {
 		return dataGeracao;
 	}
@@ -138,6 +147,54 @@ public class Postagem extends BeanJPA<Long> {
 
 	public void setServicosUtilizados(List<ServicoEnvio> servicosUtilizados) {
 		this.servicosUtilizados = servicosUtilizados;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getContato() {
+		return contato;
+	}
+
+	public void setContato(String contato) {
+		this.contato = contato;
 	}
 
 }

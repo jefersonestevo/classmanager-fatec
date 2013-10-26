@@ -32,9 +32,9 @@ public class DaoPostagemJPA extends DaoCRUDJPA<Postagem, Long> implements
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		StringBuilder query = new StringBuilder();
-		query.append(" SELECT post.usuarioGrupo.grupo.id, post FROM ");
-		query.append(Postagem.class.getName() + " AS post ");
-		query.append(" WHERE post.usuarioGrupo.grupo.id IN (:listaGrupos) ");
+		query.append(" SELECT post.grupo.id, post FROM ");
+		query.append(getEntidadePersistente().getName() + " AS post ");
+		query.append(" WHERE post.grupo.id IN (:listaGrupos) ");
 
 		params.put("listaGrupos", idGrupos);
 
@@ -51,5 +51,17 @@ public class DaoPostagemJPA extends DaoCRUDJPA<Postagem, Long> implements
 			mapRetorno.get(idGrupo).add(post);
 		}
 		return mapRetorno;
+	}
+
+	@Override
+	public List<Postagem> pesquisarPorGrupo(Long idGrupo)
+			throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT post FROM ");
+		query.append(getEntidadePersistente().getName() + " AS post ");
+		query.append(" WHERE post.grupo.id = ? ");
+
+		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+				query.toString(), new Object[] { idGrupo });
 	}
 }

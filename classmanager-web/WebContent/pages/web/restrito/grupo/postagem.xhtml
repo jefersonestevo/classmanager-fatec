@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form id="formPostagemGrupo">
+
+		<p:dialog widgetVar="modalPostagem" id="modalPostagemID"
+			showEffect="fade" hideEffect="fade" modal="true"
+			styleClass="width-80" width="700" height="500">
+			<h:panelGrid columns="1" styleClass="width-full">
+				<p:outputPanel layout="block">
+					<p:outputPanel layout="block" styleClass="width-full centro">
+						<h:outputText
+							value="#{postagemBean.grupoAtual.titulo} (#{postagemBean.grupoAtual.id})"
+							styleClass="negrito" />
+					</p:outputPanel>
+					<br />
+
+					<h:panelGrid id="panelSelecaoTipoPostagem" columns="3"
+						columnClasses="width-30, width-50, width-20">
+						<h:outputLabel value="#{message.Selecionar_Tipo_Postagem}" />
+						<p:selectOneRadio required="true" id="btnSelecaoTipoPostagem"
+							valueChangeListener="#{postagemBean.alterarTipoPostagem}"
+							value="#{postagemBean.tipoPostagemSelecionada}"
+							requiredMessage="#{message.Postagem_Tipo_Postagem_Obrigatoria}">
+							<p:ajax event="change"
+								update="panelInsercaoConteudoPostagem, panelBtnAdicionarPostagem, panelSelecaoTipoPostagem" />
+							<f:selectItems
+								value="#{postagemBean.listaTiposPostagensHabilitadas}" />
+						</p:selectOneRadio>
+						<h:message for="btnSelecaoTipoPostagem" />
+
+						<h:outputLabel value="#{message.Selecionar_Tipo_Servico_Envio}"
+							rendered="#{postagemBean.tipoPostagemSelecionada ne null}" />
+						<p:selectManyCheckbox id="btnSelecaoTipoServicoEnvio"
+							rendered="#{postagemBean.tipoPostagemSelecionada ne null}"
+							value="#{postagemBean.tiposServicosEnvioSelecionados}">
+							<f:selectItems
+								value="#{postagemBean.tiposServicosEnvioHabilitados}" />
+						</p:selectManyCheckbox>
+						<h:message for="btnSelecaoTipoServicoEnvio"
+							rendered="#{postagemBean.tipoPostagemSelecionada ne null}" />
+					</h:panelGrid>
+					<br />
+					<p:outputPanel id="panelInsercaoConteudoPostagem" layout="block">
+						<p:panelGrid columns="2" styleClass="width-full"
+							columnClasses="width-50, width-50"
+							rendered="#{postagemBean.tipoPostagemSelecionada ne null}">
+							<p:outputPanel>
+								<h:panelGrid id="gridPreenchimentoVagaCargo" columns="3"
+									columnClasses="width-30, width-40, width-30"
+									rendered="#{postagemBean.tipoPostagemSelecionada eq 2}">
+									<h:outputLabel value="#{message.Cargo}  " for="cargoID" />
+									<p:inputText id="cargoID" label="#{message.Cargo}"
+										required="true" value="#{postagemBean.postagem.cargo}"
+										requiredMessage="#{message.Postagem_Cargo_Obrigatorio}" />
+									<h:message for="cargoID" />
+								</h:panelGrid>
+
+								<h:panelGrid id="gridPreenchimentoPadrao" columns="3"
+									columnClasses="width-30, width-40, width-30">
+
+									<h:outputLabel value="#{message.Descricao}" for="descricaoID" />
+									<p:inputTextarea id="descricaoID" label="#{message.Descricao}"
+										required="true" value="#{postagemBean.postagem.descricao}"
+										requiredMessage="#{message.Postagem_Descricao_Obrigatoria}">
+										<p:focus />
+									</p:inputTextarea>
+									<h:message for="descricaoID" />
+								</h:panelGrid>
+							</p:outputPanel>
+
+							<h:panelGrid id="gridPreenchimentoVagaCargo2" columns="3"
+								columnClasses="width-30, width-40, width-30"
+								rendered="#{postagemBean.tipoPostagemSelecionada eq 2}">
+
+								<h:outputLabel value="#{message.Endereco}" for="enderecoID" />
+								<p:inputText id="enderecoID" label="#{message.Endereco}"
+									value="#{postagemBean.postagem.endereco}" />
+								<h:message for="enderecoID" />
+
+								<h:outputLabel value="#{message.Contato}" for="contatoID" />
+								<p:inputText id="contatoID" label="#{message.Contato}"
+									value="#{postagemBean.postagem.contato}" />
+								<h:message for="contatoID" />
+
+								<h:outputLabel value="#{message.Data_Inicio}" for="dataInicioID" />
+								<p:calendar id="dataInicioID" label="#{message.Data_Inicio}"
+									value="#{postagemBean.postagem.dataInicio}"
+									pattern="dd/MM/yyyy" />
+								<h:message for="dataInicioID" />
+							</h:panelGrid>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:outputPanel>
+				<p:outputPanel layout="block" styleClass="width-full centro"
+					id="panelBtnAdicionarPostagem">
+					<p:commandButton value="#{message.Adicionar_Postagem}"
+						update=":formPostagemGrupo:modalPostagemID" onstart="modalStatus.show()"
+						oncomplete="modalStatus.hide()"
+						rendered="#{postagemBean.tipoPostagemSelecionada ne null}"
+						actionListener="#{postagemBean.adicionarPostagem}"
+						icon="ui-icon-disk">
+					</p:commandButton>
+					<p:spacer width="20px" />
+					<p:commandButton value="#{message.Cancelar_Postagem}"
+						immediate="true" onclick="modalPostagem.hide()"
+						icon="ui-icon-close" />
+				</p:outputPanel>
+				<p:separator style="height: 2px; width: 100%" />
+				<p:outputPanel id="panelPostagemVisualizacao" layout="block"
+					style="overflow: auto">
+					<p:outputPanel layout="block" styleClass="width-full"
+						rendered="#{not empty postagemBean.listaPostagens}">
+						<ui:repeat var="post"
+							value="#{postagemBean.listaPostagensExibicao}"
+							varStatus="iterador">
+							<p:outputPanel layout="block"
+								styleClass="postagem-#{(iterator.even)?'esquerda':'direita'}">
+							#{post.descricao}
+						</p:outputPanel>
+						</ui:repeat>
+					</p:outputPanel>
+					<p:outputPanel layout="block" styleClass="width-full centro"
+						rendered="#{empty postagemBean.listaPostagens}">
+						<h:outputText value="#{message.Nenhuma_Postagem}" />
+					</p:outputPanel>
+				</p:outputPanel>
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+</ui:composition>

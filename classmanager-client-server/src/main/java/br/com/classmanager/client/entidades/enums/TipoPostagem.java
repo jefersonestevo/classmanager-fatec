@@ -31,8 +31,12 @@ public enum TipoPostagem {
 	public static List<Integer> getValores() {
 		List<Integer> listaIds = new ArrayList<Integer>();
 		for (TipoPostagem tipo : values()) {
-			listaIds.add(tipo.ordinal());
+			listaIds.add(tipo.getValor());
 		}
 		return listaIds;
+	}
+
+	public Integer getValor() {
+		return ordinal();
 	}
 }

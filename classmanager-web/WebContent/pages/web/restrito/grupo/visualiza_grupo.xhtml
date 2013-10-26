@@ -185,6 +185,7 @@
 
 			<p:outputPanel layout="block" styleClass="width-full centro">
 				<p:commandButton value="#{message.Alterar}"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()"
 					action="#{grupoBean.alteraMeuGrupo}"
 					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
 					icon="ui-icon-disk" />
@@ -192,6 +193,7 @@
 					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />
 				<p:commandButton immediate="true" value="#{message.Excluir}"
 					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
+					onstart="modalStatus.show()" oncomplete="modalStatus.hide()"
 					onclick="modalConfirmacaoExcluiGrupo.show()" icon="ui-icon-disk" />
 				<p:spacer width="10px"
 					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />

@@ -2,7 +2,9 @@ package br.com.classmanager.client.entidades.core;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -76,7 +78,7 @@ public class Grupo extends BeanJPA<Long> {
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "rel_grupo_servico_envio_habilitado", joinColumns = @JoinColumn(name = "id_grupo"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
-	private List<ServicoEnvio> servicosHabilitados = new ArrayList<ServicoEnvio>();
+	private Set<ServicoEnvio> servicosHabilitados = new HashSet<ServicoEnvio>();
 
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@ElementCollection(targetClass = TipoPostagem.class)
@@ -127,11 +129,11 @@ public class Grupo extends BeanJPA<Long> {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public List<ServicoEnvio> getServicosHabilitados() {
+	public Set<ServicoEnvio> getServicosHabilitados() {
 		return servicosHabilitados;
 	}
 
-	public void setServicosHabilitados(List<ServicoEnvio> servicosHabilitados) {
+	public void setServicosHabilitados(Set<ServicoEnvio> servicosHabilitados) {
 		this.servicosHabilitados = servicosHabilitados;
 	}
 
