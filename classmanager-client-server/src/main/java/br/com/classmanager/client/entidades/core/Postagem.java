@@ -24,8 +24,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.entidades.geral.Arquivo;
@@ -64,9 +64,10 @@ public class Postagem extends BeanJPA<Long> {
 	@Column(name = "tipo_postagem")
 	private TipoPostagem tipoPostagem;
 
-	@NotEmpty
-	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
-	private String titulo;
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "rel_postagem_servico_envio", joinColumns = @JoinColumn(name = "id_postagem"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
+	private List<ServicoEnvio> servicosUtilizados = new ArrayList<ServicoEnvio>();
 
 	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
 	private String descricao;
@@ -89,14 +90,6 @@ public class Postagem extends BeanJPA<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getDescricao() {
@@ -137,6 +130,14 @@ public class Postagem extends BeanJPA<Long> {
 
 	public void setTipoPostagem(TipoPostagem tipoPostagem) {
 		this.tipoPostagem = tipoPostagem;
+	}
+
+	public List<ServicoEnvio> getServicosUtilizados() {
+		return servicosUtilizados;
+	}
+
+	public void setServicosUtilizados(List<ServicoEnvio> servicosUtilizados) {
+		this.servicosUtilizados = servicosUtilizados;
 	}
 
 }

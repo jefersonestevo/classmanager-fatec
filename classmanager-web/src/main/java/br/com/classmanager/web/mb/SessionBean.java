@@ -122,7 +122,7 @@ public class SessionBean extends GenericManagedBean {
 				ServletContext ctx = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
 				String realPath = ctx.getRealPath("/");
-				realPath += "resources/imagens/usuario_" + sexo + ".jpg";
+				realPath += "resources/imagens/usuario_" + sexo + ".png";
 				foto = new DefaultStreamedContent(new ByteArrayInputStream(
 						FileUtils.readFileToByteArray(new File(realPath))));
 			} catch (IOException e) {
