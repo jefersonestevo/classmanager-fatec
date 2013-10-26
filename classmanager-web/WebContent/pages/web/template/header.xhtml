@@ -20,7 +20,10 @@
 						at="left bottom">
 						<p:menuitem value="#{message.Header_Alterar_Senha}"
 							action="/pages/web/restrito/usuario/alterar_senha.xhtml"
-							immediate="true" icon="ui-icon-disk" />
+							immediate="true" icon="ui-icon-locked" />
+						<p:menuitem value="#{message.Header_Altera_Dados}"
+							action="/pages/web/restrito/usuario/altera_usuario_logado.xhtml"
+							immediate="true" icon="ui-icon-note" />	
 						<p:menuitem value="Sair" action="#{sessionBean.deslogar}"
 							icon="ui-icon-arrowrefresh-1-w" />
 					</p:menu>

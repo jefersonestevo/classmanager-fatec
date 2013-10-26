@@ -37,9 +37,6 @@
 					<p:commandButton value="#{message.Buscar}" update="usuarios" 
 						actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search"
 						 />
-					<p:commandButton immediate="true" value="#{message.Novo}"
-						action="#{usuarioBean.irParaTelaInsercao}" icon="ui-icon-plus"
-						onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 				</p:outputPanel>
 			</p:panel>
 			<p:spacer styleClass="espaco-tabela" />

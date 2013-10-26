@@ -15,73 +15,49 @@
 			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
 			<p:menuitem value="#{message.Header_Pesquisa_Usuario}"
 				action="#{usuarioBean.retornarParaPesquisa}" immediate="true" />
-			<p:menuitem value="#{message.Header_Visualizacao_Usuario}" url="#" />
+			<p:menuitem value="#{message.Header_Altera_Usuario}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:panel header="Cadastro de Usuários">
+			<p:panel header="#{message.Header_Altera_Usuario}">
 				<h:panelGrid columns="2">
 					<h:outputLabel value="#{message.Nome}" for="nome" />
 					<p:inputText id="nome" label="nome" required="true"
-						value="#{usuarioBean.usuario.nome}" />
+						value="#{usuarioBean.usuario.nome}" disabled="true"/>
 
 					<h:outputLabel value="#{message.Email}" for="email" />
 					<p:inputText id="email" label="email" required="false"
-						value="#{usuarioBean.usuario.email}" />
-
-					<h:outputText value="#{message.Telefone}" />
-					<p:inputMask mask="(99) 9999-9999"
-						value="#{usuarioBean.usuario.telefone}" />
+						value="#{usuarioBean.usuario.email}" disabled="true"/>
 
 					<h:outputText value="#{message.Celular_1}" />
 					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioBean.usuario.celular1}" />
+						value="#{usuarioBean.usuario.celular1}" disabled="true"/>
 
-					<h:outputText value="#{message.Celular_2}" />
-					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioBean.usuario.celular2}" />
-
-					<h:outputLabel value="#{message.Data_Nascimento}"
-						for="dt_nacimento" />
-					<p:calendar navigator="true" effect="explode"
-						value="#{usuarioBean.usuario.dataNascimento}" id="dt_nacimento" />
-
-					<h:outputText value="#{message.Sexo}" />
-					<p:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
-						<f:selectItem itemLabel="#{message.Masculino}" itemValue="F" />
-						<f:selectItem itemLabel="#{message.Feminino}" itemValue="M" />
-					</p:selectOneRadio>
-
-					<h:outputLabel value="Login: " for="login" />
+					<h:outputLabel value="#{message.Login}" for="login" />
 					<p:inputText id="login" label="login" required="true"
-						maxlength="10" value="#{usuarioBean.usuario.login}" />
-
-					<h:outputLabel value="Senha: " for="senha" />
-					<p:password id="senha" label="senha" required="true" maxlength="8"
-						feedback="true" />
-
-					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
-					<p:password id="confirmPassword" label="confirmPassword"
-						maxlength="8" required="false"
-						value="#{usuarioBean.confirmaSenha}" />
-
-					<h:outputLabel value="Foto:" />
-					<p:fileUpload fileUploadListener="#{usuarioBean.doUpload}"
-						mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-						process="@this" update="painelFoto" />
-					<p:spacer />
-					<p:fieldset legend="Foto" id="painelFoto">
-						<p:outputPanel
-							rendered="#{usuarioBean.usuario.fotoUsuario ne null}">
-							<p:graphicImage id="foto" value="#{usuarioBean.foto}"
-								width="68px" height="68px" />
-						</p:outputPanel>
-					</p:fieldset>
+						maxlength="10" value="#{usuarioBean.usuario.login}" disabled="true"/>
+						
+					<h:outputLabel value="#{message.Reinicia_Senha}" for="reinicia_senha" />
+					<p:commandButton value="Reiniciar" id = "reinicia_senha"
+						action="#{usuarioBean.reiniciaSenha}" icon="ui-icon-refresh" 
+						onclick="if(!confirm('Deseja reiniciar a senha do usuário #{usuarioBean.usuario.nome}?')) return false;"						
+						oncomplete="alert('Senha reiniciada com sucesso, a nova senha é 1234');"
+						/>
+					<p:spacer/>	
+					<p:tooltip for="reinicia_senha" value="Altera a senha para 1234" showEffect="fade" hideEffect="fade" />	
+					
+					<h:outputLabel value="Pefil: " for="perfil" />
+					<p:selectOneRadio id="perfil" value="#{usuarioBean.usuario.perfilUsuario}">
+						<f:selectItem itemLabel="Administrador" itemValue="ADM" />
+						<f:selectItem itemLabel="Membro" itemValue="MEMBRO" />
+					</p:selectOneRadio>
+									
 					<p:commandButton immediate="true" value="Excluir"
 						action="#{usuarioBean.excluiMeuUsuario}"
 						onclick="if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;"
 						icon="ui-icon-disk" />
+						
 					<p:commandButton value="Alterar"
 						action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"
 						update=":formDisplayUsuario:fotoUsuario" />

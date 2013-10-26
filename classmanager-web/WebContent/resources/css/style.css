@@ -149,10 +149,6 @@ html {
 	width: 30%;
 }
 
-.width-40 {
-	width: 40%;
-}
-
 .width-50 {
 	width: 50%;
 }
@@ -174,7 +170,7 @@ html {
 }
 
 .notificacao {
-	min-height: 210px;
+	height: 210px;
 	overflow: auto;
 }
 
@@ -183,8 +179,4 @@ html {
 	height: 55px;
 	top: 3px;
 	bottom: 3px;
-}
-
-.negrito {
-	font-weight: bold;
 }

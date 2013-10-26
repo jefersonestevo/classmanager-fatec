@@ -12,56 +12,39 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:panel header="Cadastro de Usuários">
+			<p:panel header="#{message.Header_Altera_Dados}">
 				<h:panelGrid columns="2">
 					<h:outputLabel value="Nome: " for="nome" />
 					<p:inputText id="nome" label="nome" required="true"
-						value="#{usuarioBean.usuario.nome}" />
+						value="#{usuarioLogadoBean.usuario.nome}" />
 
 					<h:outputLabel value="E-mail: " for="email" />
 					<p:inputText id="email" label="email" required="false"
-						value="#{usuarioBean.usuario.email}" />
+						value="#{usuarioLogadoBean.usuario.email}" />
 
 					<h:outputText value="Telefone: " />
 					<p:inputMask mask="(99) 9999-9999"
-						value="#{usuarioBean.usuario.telefone}" />
+						value="#{usuarioLogadoBean.usuario.telefone}" />
 
 					<h:outputText value="Celular: " />
 					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioBean.usuario.celular1}" />
+						value="#{usuarioLogadoBean.usuario.celular1}" />
 
 					<h:outputText value="Celular 2: " />
 					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioBean.usuario.celular2}" />
+						value="#{usuarioLogadoBean.usuario.celular2}" />
 
 					<h:outputLabel value="Data de Nascimento " for="dt_nacimento" />
-					<p:calendar navigator="true" effect="explode"
-						value="#{usuarioBean.usuario.dataNascimento}" id="dt_nacimento" />
-
-					<h:outputText value="Sexo: " />
-					<p:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
-						<f:selectItem itemLabel="Masculino" itemValue="F" />
-						<f:selectItem itemLabel="Feminino" itemValue="M" />
-					</p:selectOneRadio>
-
-					<h:outputLabel value="Login: " for="login" />
-					<p:inputText id="login" label="login" required="true"
-						maxlength="10" value="#{usuarioBean.usuario.login}" />
-
-					<h:outputLabel value="Senha: " for="senha" />
-					<p:password id="senha" label="senha" required="true" maxlength="8"
-						feedback="true" />
-
-					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
-					<p:password id="confirmPassword" label="confirmPassword"
-						required="false" value="#{usuarioBean.usuario.senha}" />
+					<p:calendar navigator="true" effect="explode" locale="pt" pattern="dd/MM/yyyy"
+						value="#{usuarioLogadoBean.usuario.dataNascimento}" id="dt_nacimento" />								
+					
 					<p:commandButton value="Alterar"
-						action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk" />
+						action="#{usuarioLogadoBean.alteraMeuUsuario}" icon="ui-icon-disk" />
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer width="0" height="50" />
 			<p:commandButton immediate="true" value="Retornar"
-				action="#{usuarioBean.retornarParaMain}"
+				action="#{usuarioLogadoBean.irParaTelaHome}"
 				icon="ui-icon-arrowreturnthick-1-w" />
 		</h:form>
 
