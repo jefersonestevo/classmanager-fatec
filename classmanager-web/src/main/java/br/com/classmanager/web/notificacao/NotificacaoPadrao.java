@@ -8,6 +8,7 @@ public class NotificacaoPadrao implements Serializable {
 
 	private Long id;
 	private String titulo;
+	private Integer status;
 
 	public String getTitulo() {
 		return titulo;
@@ -23,6 +24,14 @@ public class NotificacaoPadrao implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }

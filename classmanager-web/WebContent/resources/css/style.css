@@ -170,7 +170,7 @@ html {
 }
 
 .notificacao {
-	height: 210px;
+	min-height: 210px;
 	overflow: auto;
 }
 

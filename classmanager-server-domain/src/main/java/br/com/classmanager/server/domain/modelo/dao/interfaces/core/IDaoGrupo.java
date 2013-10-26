@@ -11,4 +11,7 @@ public interface IDaoGrupo extends IDaoCRUD<Grupo, Long> {
 	public List<Grupo> pesquisarGrupoAtivoPorUsuario(Long idUsuario)
 			throws ClassManagerException;
 
+	public List<Grupo> pesquisarLista(Long id, String titulo)
+			throws ClassManagerException;
+
 }

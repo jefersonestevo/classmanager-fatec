@@ -8,21 +8,20 @@
 	<h:form>
 		<p:toolbar>
 			<p:toolbarGroup style="width: 100%;">
-				<p:commandLink
-					action="/pages/web/restrito/main.jsf"
+				<p:commandLink action="/pages/web/restrito/main.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="home_icone.jpg"
 						styleClass="iconeMenu" />
 				</p:commandLink>
 				<p:spacer width="50px;"></p:spacer>
 
-				<p:commandLink
+				<p:commandLink rendered="#{sessionBean.administrador}"
 					action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="usuario_masculino.jpg"
 						styleClass="iconeMenu" />
 				</p:commandLink>
-				<p:spacer width="50px;"></p:spacer>
+				<p:spacer width="50px;" rendered="#{sessionBean.administrador}" />
 
 				<p:commandLink action="/pages/web/restrito/grupo/pesquisa_grupo.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">

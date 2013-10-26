@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import br.com.classmanager.client.entidades.core.UsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
+import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
 import br.com.classmanager.web.notificacao.NotificacaoBase;
@@ -43,18 +44,22 @@ public class NotificacaoGrupo extends GenericManagedBean implements
 			NotificacaoPadrao notif = new NotificacaoPadrao();
 			if (StatusUsuarioGrupo.PARTICIPANTE
 					.equals(usuarioGrupo.getStatus())) {
-				notif.setTitulo(usuarioGrupo.getGrupo().getTitulo());
+				String titulo = usuarioGrupo.getGrupo().getTitulo();
+				titulo += " (" + usuarioGrupo.getGrupo().getId() + ")";
+				notif.setTitulo(titulo);
 				notif.setId(usuarioGrupo.getGrupo().getId());
 				lista.add(notif);
 			} else if (StatusUsuarioGrupo.CRIADOR.equals(usuarioGrupo
 					.getStatus())) {
-				String titulo = usuarioGrupo.getGrupo().getTitulo();
-				titulo += " (" + getMessage("Criador") + ")";
+				String titulo = "* " + usuarioGrupo.getGrupo().getTitulo();
+				titulo += " (" + usuarioGrupo.getGrupo().getId() + ")";
 				notif.setTitulo(titulo);
 				notif.setId(usuarioGrupo.getGrupo().getId());
 				lista.add(notif);
 			}
 		}
+
+		CMCollectionUtils.ordenarLista(lista, new String[] { "titulo" });
 
 		return lista;
 	}

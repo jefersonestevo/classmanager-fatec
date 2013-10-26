@@ -129,4 +129,11 @@ public class UsuarioGrupo extends BeanJPA<Long> {
 		this.perfil = perfil;
 	}
 
+	public Integer getStatusNumber() {
+		if (getStatus() == null) {
+			return null;
+		}
+		return getStatus().ordinal();
+	}
+
 }

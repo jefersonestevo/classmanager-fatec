@@ -1,11 +1,13 @@
 package br.com.classmanager.core.service.core;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
+import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.core.UsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.PerfilUsuarioGrupo;
@@ -54,7 +56,25 @@ public class ManterGrupoService extends
 		daoUsuarioGrupo.inserir(usuarioGrupo);
 
 		grupo = getDao().pesquisar(grupo.getId());
+
+		// Força o carregamento da nova listagem do usuario dentro da entidade
+		// Grupo
+		grupo.getUsuariosGrupo().add(usuarioGrupo);
+		for (UsuarioGrupo usrGrupo : grupo.getUsuariosGrupo()) {
+			if (usrGrupo != null) {
+				usrGrupo.getPerfil();
+			}
+		}
+
 		return grupo;
+	}
+
+	@Override
+	protected ListaDTO<Grupo> pesquisarLista(ManterGrupoAction request)
+			throws ClassManagerException {
+		List<Grupo> lista = getDao().pesquisarLista(request.getIdPesquisa(),
+				request.getTituloPesquisa());
+		return new ListaDTO<Grupo>(lista);
 	}
 
 }

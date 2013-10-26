@@ -8,6 +8,7 @@ public class ManterGrupoAction extends DTOManterActionBase<Grupo, Long>{
 
 	private static final long serialVersionUID = 1L;
 
+	private Long idPesquisa;
 	private String tituloPesquisa;
 
 	public ManterGrupoAction(AcaoManter acao) {
@@ -20,6 +21,14 @@ public class ManterGrupoAction extends DTOManterActionBase<Grupo, Long>{
 
 	public void setTituloPesquisa(String tituloPesquisa) {
 		this.tituloPesquisa = tituloPesquisa;
+	}
+
+	public Long getIdPesquisa() {
+		return idPesquisa;
+	}
+
+	public void setIdPesquisa(Long idPesquisa) {
+		this.idPesquisa = idPesquisa;
 	}
 
 }

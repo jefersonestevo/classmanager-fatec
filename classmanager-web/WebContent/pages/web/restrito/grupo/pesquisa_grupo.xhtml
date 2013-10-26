@@ -20,8 +20,12 @@
 		<h:form>
 			<p:panel header="#{message.Header_Pesquisa_Grupo}">
 				<h:panelGrid columns="2" styleClass="tabela-simples">
+					<h:outputLabel value="#{message.Identificador}" for="id" />
+					<p:inputText id="id" label="#{message.Identificador}"
+						value="#{grupoBean.idPesquisa}" />
+
 					<h:outputLabel value="#{message.Titulo}" for="titulo" />
-					<p:inputText id="titulo" label="titulo"
+					<p:inputText id="titulo" label="#{message.Titulo}"
 						value="#{grupoBean.tituloPesquisa}" />
 
 				</h:panelGrid>
@@ -36,9 +40,14 @@
 			</p:panel>
 			<p:spacer styleClass="espaco-tabela" />
 			<p:dataTable id="grupos" var="grupo" value="#{grupoBean.list}"
-				emptyMessage="#{message.Nenhum_Item_Exibicao}">
+				emptyMessage="#{message.Nenhum_Item_Exibicao}" paginator="true"
+				paginatorPosition="bottom" rows="10">
+				<p:column headerText="#{message.Identificador}" styleClass="centro">
+					<h:outputText value="#{grupo.id}" />
+				</p:column>
 				<p:column headerText="#{message.Titulo}" styleClass="centro">
-					<h:outputText value="#{grupo.titulo}" />
+					<h:outputText
+						value="#{grupo.usuarioCriador.id eq sessionBean.usuario.id ? '*' : ''} #{grupo.titulo}" />
 				</p:column>
 				<p:column headerText="#{message.Data_Criacao}" styleClass="centro">
 					<h:outputText value="#{grupo.dataCriacao}">
@@ -56,6 +65,8 @@
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
+			<p:outputLabel
+				value="#{message.Notificacao_Grupo_Exibicao_Grupos_Criador}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

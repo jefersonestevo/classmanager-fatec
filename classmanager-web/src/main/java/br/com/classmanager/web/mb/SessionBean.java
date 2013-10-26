@@ -23,6 +23,7 @@ import br.com.classmanager.client.dto.action.core.ConsultarUsuarioAction;
 import br.com.classmanager.client.dto.action.core.ConsultarUsuarioGrupoAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.UsuarioGrupo;
+import br.com.classmanager.client.entidades.enums.PerfilUsuario;
 import br.com.classmanager.client.entidades.enums.Sexo;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
@@ -142,4 +143,7 @@ public class SessionBean extends GenericManagedBean {
 		this.listaGrupos = listaGrupos;
 	}
 
+	public boolean isAdministrador() {
+		return PerfilUsuario.ADM.equals(getUsuario().getPerfilUsuario());
+	}
 }

@@ -1,6 +1,7 @@
 package br.com.classmanager.web.mb.notificacao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -11,6 +12,7 @@ import br.com.classmanager.client.dto.action.core.ExcluirUsuarioGrupoAction;
 import br.com.classmanager.client.entidades.core.UsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
 import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
@@ -28,6 +30,7 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 
 	private List<NotificacaoPadrao> listaNotificacao;
 	private Long idSelecionado;
+	private Date ultimaAtualizacao;
 
 	@Inject
 	private SessionBean sessionBean;
@@ -48,9 +51,7 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 
 	@Override
 	public List<NotificacaoPadrao> getListaNotificacao() {
-		if (listaNotificacao == null) {
-			atualizar();
-		}
+		atualizar();
 		return listaNotificacao;
 	}
 
@@ -59,10 +60,10 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 
 		for (UsuarioGrupo usuarioGrupo : sessionBean.getListaGrupos()) {
 			NotificacaoPadrao notif = new NotificacaoPadrao();
-			if (StatusUsuarioGrupo.CONVIDADO.equals(usuarioGrupo
-					.getStatus())) {
+			if (StatusUsuarioGrupo.CONVIDADO.equals(usuarioGrupo.getStatus())) {
 				notif.setId(usuarioGrupo.getId());
 				notif.setTitulo(usuarioGrupo.getGrupo().getTitulo());
+				notif.setStatus(usuarioGrupo.getStatus().ordinal());
 				this.listaNotificacao.add(notif);
 			} else if (StatusUsuarioGrupo.SOLICITANDO_PARTICIPACAO
 					.equals(usuarioGrupo.getStatus())) {
@@ -70,9 +71,13 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 				notif.setTitulo(usuarioGrupo.getGrupo().getTitulo() + " ("
 						+ getMessage("Notificacao_Grupo_Pendentes_Solicitacao")
 						+ ")");
+				notif.setStatus(usuarioGrupo.getStatus().ordinal());
 				this.listaNotificacao.add(notif);
 			}
 		}
+		CMCollectionUtils.ordenarLista(this.listaNotificacao,
+				new String[] { "titulo" });
+		this.ultimaAtualizacao = new Date();
 	}
 
 	public void confirmarEntradaGrupo() {
@@ -106,6 +111,21 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 		atualizar();
 	}
 
+	public void cancelarSolicitacaoGrupo() {
+		try {
+			ExcluirUsuarioGrupoAction action = new ExcluirUsuarioGrupoAction();
+			UsuarioGrupo usuarioGrupo = new UsuarioGrupo();
+			usuarioGrupo.setId(idSelecionado);
+			action.setUsuarioGrupo(usuarioGrupo);
+			service.execute(action);
+
+			sessionBean.setAtualizarUsuario(true);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+		atualizar();
+	}
+
 	public Long getIdSelecionado() {
 		return idSelecionado;
 	}
@@ -113,6 +133,14 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 	public void setIdSelecionado(Long idSelecionado) {
 		System.out.println("ID " + idSelecionado);
 		this.idSelecionado = idSelecionado;
+	}
+
+	public Date getUltimaAtualizacao() {
+		return ultimaAtualizacao;
+	}
+
+	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
+		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
 
 }

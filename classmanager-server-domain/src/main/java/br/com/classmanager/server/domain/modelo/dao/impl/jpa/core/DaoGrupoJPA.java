@@ -1,8 +1,11 @@
 package br.com.classmanager.server.domain.modelo.dao.impl.jpa.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
+
+import org.apache.commons.lang.StringUtils;
 
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
@@ -27,7 +30,7 @@ public class DaoGrupoJPA extends DaoCRUDJPA<Grupo, Long> implements IDaoGrupo {
 			throws ClassManagerException {
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT DISTINCT g FROM ");
-		query.append(Grupo.class.getName() + " AS g ");
+		query.append(getEntidadePersistente() + " AS g ");
 		query.append(" JOIN g.usuariosGrupo AS ug ");
 		query.append(" WHERE g.usuarioCriador.id = ? ");
 		query.append(" OR ( ug.usuario.id = ? AND ug.status = ? ) ");
@@ -37,6 +40,30 @@ public class DaoGrupoJPA extends DaoCRUDJPA<Grupo, Long> implements IDaoGrupo {
 				query.toString(),
 				new Object[] { idUsuario, idUsuario,
 						StatusUsuarioGrupo.PARTICIPANTE });
+	}
+
+	@Override
+	public List<Grupo> pesquisarLista(Long id, String titulo)
+			throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+
+		query.append(" SELECT DISTINCT g FROM ");
+		query.append(getEntidadePersistente().getName() + " AS g ");
+		query.append(" WHERE 1 = 1 ");
+
+		if (id != null) {
+			query.append(" AND g.id = ? ");
+			params.add(id);
+		}
+
+		if (StringUtils.isNotEmpty(titulo)) {
+			query.append(" AND upper(g.titulo) like '%"
+					+ StringUtils.upperCase(titulo) + "%' ");
+		}
+
+		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+				query.toString(), params.toArray());
 	}
 
 }

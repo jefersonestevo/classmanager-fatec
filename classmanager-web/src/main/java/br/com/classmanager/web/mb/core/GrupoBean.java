@@ -10,8 +10,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import br.com.classmanager.client.dto.action.core.AdicionaUsuarioGrupoAction;
+import br.com.classmanager.client.dto.action.core.AprovarParticipacaoGrupoAction;
 import br.com.classmanager.client.dto.action.core.ExcluirUsuarioGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
@@ -29,6 +31,7 @@ import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.enums.AcaoPesquisar;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
 import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
@@ -42,10 +45,12 @@ public class GrupoBean extends GenericManagedBean {
 
 	private List<String> tiposPostagemSelecionados = new ArrayList<String>();
 	private List<String> tiposServicosEnvioSelecionados = new ArrayList<String>();
+	private String idPesquisa;
 	private String tituloPesquisa;
 	private Grupo grupo = new Grupo();
 	private List<Grupo> list;
 	private Long idUsuarioSelecionado;
+	private Long idUsuarioGrupoSelecionado;
 
 	private ConsultaUsuario consultaUsuario = new ConsultaUsuario();
 
@@ -78,7 +83,9 @@ public class GrupoBean extends GenericManagedBean {
 			ManterGrupoAction action = new ManterGrupoAction(AcaoManter.INSERIR);
 			action.setEntidade(grupo);
 			this.grupo = (Grupo) service.execute(action);
+
 			sessionBean.setAtualizarUsuario(true);
+			sessionBean.getUsuario();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -91,7 +98,16 @@ public class GrupoBean extends GenericManagedBean {
 			ManterGrupoAction action = new ManterGrupoAction(
 					AcaoManter.PESQUISAR_LISTA);
 			action.setTituloPesquisa(tituloPesquisa);
+
+			Long id = null;
+			if (idPesquisa != null && NumberUtils.isNumber(idPesquisa)
+					&& !idPesquisa.contains(",") && !idPesquisa.contains(".")) {
+				id = Long.parseLong(idPesquisa);
+			}
+			action.setIdPesquisa(id);
 			this.list = ((ListaDTO<Grupo>) service.execute(action)).getLista();
+			CMCollectionUtils.ordenarLista(this.list, new String[] { "titulo",
+					"id" });
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -153,6 +169,7 @@ public class GrupoBean extends GenericManagedBean {
 					AcaoManter.PESQUISAR_LISTA);
 			action.setNome(consultaUsuario.getNome());
 			action.setEmail(consultaUsuario.getEmail());
+			action.setLogin(consultaUsuario.getLogin());
 			List<Usuario> listaUsuario = ((ListaDTO) service.execute(action))
 					.getLista();
 
@@ -223,6 +240,9 @@ public class GrupoBean extends GenericManagedBean {
 							.ordinal()));
 				}
 			}
+
+			CMCollectionUtils.ordenarLista(this.grupo.getUsuariosGrupo(),
+					new String[] { "grupo.titulo", "grupo.id" });
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -232,7 +252,7 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String retornarParaPesquisa() {
 		this.grupo = new Grupo();
-		return "/pages/web/restrito/grupo/pesquisa_grupo.jsf";
+		return pesquisar();
 	}
 
 	public List<SelectItem> getTiposPostagem() {
@@ -249,6 +269,8 @@ public class GrupoBean extends GenericManagedBean {
 					AcaoPesquisar.PESQUISAR_LISTA);
 			List<ServicoEnvio> listaServicoEnvio = ((ListaDTO) service
 					.execute(action)).getLista();
+			CMCollectionUtils.ordenarLista(listaServicoEnvio,
+					new String[] { "nome" });
 
 			List<SelectItem> lista = new ArrayList<SelectItem>();
 			for (ServicoEnvio serv : listaServicoEnvio) {
@@ -312,11 +334,13 @@ public class GrupoBean extends GenericManagedBean {
 		private static final long serialVersionUID = -9067037336021699907L;
 
 		private String nome;
+		private String login;
 		private String email;
 		private List<Usuario> listaUsuario = new ArrayList<Usuario>();
 
 		private void clean() {
 			this.nome = null;
+			this.login = null;
 			this.email = null;
 			this.listaUsuario = new ArrayList<Usuario>();
 		}
@@ -338,11 +362,21 @@ public class GrupoBean extends GenericManagedBean {
 		}
 
 		public List<Usuario> getListaUsuario() {
+			CMCollectionUtils.ordenarLista(this.listaUsuario, new String[] {
+					"nome", "login" });
 			return listaUsuario;
 		}
 
 		public void setListaUsuario(List<Usuario> listaUsuario) {
 			this.listaUsuario = listaUsuario;
+		}
+
+		public String getLogin() {
+			return login;
+		}
+
+		public void setLogin(String login) {
+			this.login = login;
 		}
 
 	}
@@ -438,6 +472,59 @@ public class GrupoBean extends GenericManagedBean {
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
+	}
+
+	public void removerUsuarioGrupo() {
+		try {
+			UsuarioGrupo usuarioGrupo = null;
+			if (grupo != null
+					&& CollectionUtils.isNotEmpty(grupo.getUsuariosGrupo())) {
+				for (UsuarioGrupo usrGrupo : grupo.getUsuariosGrupo()) {
+					if (idUsuarioGrupoSelecionado.equals(usrGrupo.getId())) {
+						usuarioGrupo = usrGrupo;
+						break;
+					}
+				}
+			}
+
+			ExcluirUsuarioGrupoAction action = new ExcluirUsuarioGrupoAction();
+			action.setUsuarioGrupo(usuarioGrupo);
+			service.execute(action);
+			grupo.getUsuariosGrupo().remove(usuarioGrupo);
+
+			sessionBean.setAtualizarUsuario(true);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
+	public void confirmarEntradaUsuarioGrupo() {
+		try {
+			AprovarParticipacaoGrupoAction action = new AprovarParticipacaoGrupoAction();
+			action.setIdUsuarioGrupo(idUsuarioGrupoSelecionado);
+			UsuarioGrupo usuarioAlterado = (UsuarioGrupo) service
+					.execute(action);
+			grupo.getUsuariosGrupo().remove(usuarioAlterado);
+			grupo.getUsuariosGrupo().add(usuarioAlterado);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
+	public String getIdPesquisa() {
+		return idPesquisa;
+	}
+
+	public void setIdPesquisa(String idPesquisa) {
+		this.idPesquisa = idPesquisa;
+	}
+
+	public Long getIdUsuarioGrupoSelecionado() {
+		return idUsuarioGrupoSelecionado;
+	}
+
+	public void setIdUsuarioGrupoSelecionado(Long idUsuarioGrupoSelecionado) {
+		this.idUsuarioGrupoSelecionado = idUsuarioGrupoSelecionado;
 	}
 
 }

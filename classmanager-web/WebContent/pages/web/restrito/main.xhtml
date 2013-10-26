@@ -20,7 +20,8 @@
 				<p:fieldset id="panelGrupos"
 					legend="#{notificacaoSessionBean.notificacaoGrupo.header}"
 					styleClass="centro notificacao">
-					<p:dataTable styleClass="width-full centro"
+					<p:dataTable styleClass="width-full centro" rows="5"
+						paginator="true" paginatorPosition="bottom"
 						value="#{notificacaoSessionBean.notificacaoGrupo.listaNotificacao}"
 						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
 						<p:column styleClass="width-80"
@@ -36,12 +37,15 @@
 							</p:commandLink>
 						</p:column>
 					</p:dataTable>
+					<h:outputText
+						value="#{message.Notificacao_Grupo_Exibicao_Grupos_Criador}" />
 				</p:fieldset>
 
 				<p:fieldset id="panelGruposPendentes"
 					styleClass="centro notificacao"
 					legend="#{notificacaoSessionBean.notificacaoGrupoPendente.header}">
-					<p:dataTable styleClass="width-full centro"
+					<p:dataTable styleClass="width-full centro" rows="5"
+						paginator="true" paginatorPosition="bottom"
 						value="#{notificacaoSessionBean.notificacaoGrupoPendente.listaNotificacao}"
 						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
 						<p:column styleClass="width-80">
@@ -53,24 +57,44 @@
 
 						<p:column styleClass="width-20">
 							<f:facet name="header">
-								<p:commandButton value="#{message.Atualizar}"
-									update=":formTelaInicial:panelGruposPendentes"
-									action="#{notificacaoSessionBean.notificacaoGrupoPendente.atualizar}">
-								</p:commandButton>
+								<p:outputPanel>
+									<h:outputText style="font-size: 9px;"
+										value="#{notificacaoSessionBean.notificacaoGrupoPendente.ultimaAtualizacao}">
+										<f:convertDateTime pattern="HH:mm" />
+									</h:outputText>
+									<p:spacer width="3px" />
+									<p:commandButton label="#{message.Atualizar}"
+										icon="ui-icon-refresh" onstart="modalStatus.show()"
+										oncomplete="modalStatus.hide()"
+										update=":formTelaInicial:panelGruposPendentes"
+										action="#{notificacaoSessionBean.notificacaoGrupoPendente.atualizar}">
+									</p:commandButton>
+								</p:outputPanel>
 							</f:facet>
 
-							<p:commandButton value="#{message.Aceitar}"
-								onclick="modalConfirmacaoEntradaGrupo.show()">
-								<f:setPropertyActionListener value="#{notif.id}"
-									target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
-							</p:commandButton>
-							<p:commandButton value="#{message.Negar}"
-								id="negarEntradaGrupoPendente"
-								onclick="modalConfirmacaoRejeicaoGrupo.show()">
-								<f:setPropertyActionListener value="#{notif.id}"
-									for="negarEntradaGrupoPendente"
-									target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
-							</p:commandButton>
+							<p:outputPanel rendered="#{notif.status eq 0}">
+								<p:commandButton label="#{message.Aceitar}" icon="ui-icon-check"
+									onclick="modalConfirmacaoEntradaGrupo.show()">
+									<f:setPropertyActionListener value="#{notif.id}"
+										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
+								</p:commandButton>
+								<p:commandButton label="#{message.Negar}" icon="ui-icon-close"
+									id="negarEntradaGrupoPendente"
+									onclick="modalConfirmacaoRejeicaoGrupo.show()">
+									<f:setPropertyActionListener value="#{notif.id}"
+										for="negarEntradaGrupoPendente"
+										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
+								</p:commandButton>
+							</p:outputPanel>
+							<p:outputPanel rendered="#{notif.status eq 1}">
+								<p:commandButton label="#{message.Cancelar_Solicitacao}"
+									icon="ui-icon-close" id="cancelarSolicitacaoGrupoPendente"
+									onclick="modalCancelarSolicitacaoGrupoPendente.show()">
+									<f:setPropertyActionListener value="#{notif.id}"
+										for="cancelarSolicitacaoGrupoPendente"
+										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
+								</p:commandButton>
+							</p:outputPanel>
 						</p:column>
 
 					</p:dataTable>
@@ -103,6 +127,19 @@
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="modalConfirmacaoRejeicaoGrupo.hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog id="modalCancelarSolicitacaoGrupoPendenteID"
+				widgetVar="modalCancelarSolicitacaoGrupoPendente" showEffect="fade"
+				message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Cancelamento_Solicitacao_Grupo}">
+				<p:commandButton value="#{message.Sim}" type="button"
+					update=":formTelaInicial:panelGruposPendentes"
+					onclick="modalCancelarSolicitacaoGrupoPendente.hide()"
+					action="#{notificacaoSessionBean.notificacaoGrupoPendente.cancelarSolicitacaoGrupo}"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalCancelarSolicitacaoGrupoPendente.hide()" />
 			</p:confirmDialog>
 		</h:form>
 	</ui:define>

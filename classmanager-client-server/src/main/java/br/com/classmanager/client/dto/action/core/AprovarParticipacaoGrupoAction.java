@@ -1,20 +1,19 @@
 package br.com.classmanager.client.dto.action.core;
 
 import br.com.classmanager.client.dto.def.DTOServicoAction;
-import br.com.classmanager.client.entidades.core.UsuarioGrupo;
 
 public class AprovarParticipacaoGrupoAction extends DTOServicoAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private UsuarioGrupo usuarioGrupo;
+	private Long idUsuarioGrupo;
 
-	public UsuarioGrupo getUsuarioGrupo() {
-		return usuarioGrupo;
+	public Long getIdUsuarioGrupo() {
+		return idUsuarioGrupo;
 	}
 
-	public void setUsuarioGrupo(UsuarioGrupo usuarioGrupo) {
-		this.usuarioGrupo = usuarioGrupo;
+	public void setIdUsuarioGrupo(Long idUsuarioGrupo) {
+		this.idUsuarioGrupo = idUsuarioGrupo;
 	}
 
 }

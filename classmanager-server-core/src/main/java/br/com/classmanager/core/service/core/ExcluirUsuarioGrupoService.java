@@ -31,7 +31,7 @@ public class ExcluirUsuarioGrupoService extends
 				.getUsuarioGrupo().getId());
 		if (StatusUsuarioGrupo.CRIADOR.equals(usuarioGrupo.getStatus())) {
 			throw new ClassManagerException(
-					CodigoExcecao.ALTERAR_SENHA_SENHA_INCORRETA);
+					CodigoExcecao.TENTATIVA_EXCLUSAO_USUARIO_CRIADOR_GRUPO);
 		}
 		daoUsuarioGrupo.remover(usuarioGrupo);
 		return new NullDTO();

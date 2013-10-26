@@ -80,20 +80,40 @@
 					</p:fieldset>
 				</p:outputPanel>
 
-				<p:outputPanel>
+				<p:outputPanel id="panelMembro">
 					<p:fieldset legend="#{message.Membros}" toggleable="true">
-						<p:dataTable id="membros" var="grupo" rows="5" paginator="true"
-							paginatorPosition="bottom" styleClass="centro"
+						<p:dataTable id="membros" var="usuarioGrupo" rows="5"
+							paginator="true" paginatorPosition="bottom" styleClass="centro"
 							value="#{grupoBean.grupo.usuariosGrupo}"
 							emptyMessage="#{message.Nenhum_Item_Exibicao}">
-							<p:column headerText="#{message.Nome}">
-								<h:outputText value="#{grupo.usuario.nome}" />
+							<p:column rendered="#{grupoBean.usuarioAtualAdministradorGrupo}">
+								<p:commandButton immediate="true" icon="ui-icon-close"
+									id="btnConfirmarRemocaoUsuarioGrupo"
+									rendered="#{usuarioGrupo.statusNumber ne 3}"
+									onclick="modalConfirmacaoRemocaoUsuarioGrupo.show();">
+									<f:setPropertyActionListener value="#{usuarioGrupo.id}"
+										for=":formGrupo:membros:iterator:btnConfirmarRemocaoUsuarioGrupo"
+										target="#{grupoBean.idUsuarioGrupoSelecionado}" />
+								</p:commandButton>
 							</p:column>
-							<p:column headerText="#{message.Email}">
-								<h:outputText value="#{grupo.usuario.email}" />
+							<p:column headerText="#{message.Login}">
+								<h:outputText value="#{usuarioGrupo.usuario.login}" />
+							</p:column>
+							<p:column headerText="#{message.Nome}">
+								<h:outputText value="#{usuarioGrupo.usuario.nome}" />
 							</p:column>
 							<p:column headerText="#{message.Status}">
-								<h:outputText value="#{grupo.status}" />
+								<h:outputText value="#{usuarioGrupo.status}" />
+							</p:column>
+							<p:column rendered="#{grupoBean.usuarioAtualAdministradorGrupo}">
+								<p:commandButton icon="ui-icon-check" immediate="true"
+									id="btnConfirmarUsuarioGrupo"
+									rendered="#{usuarioGrupo.statusNumber eq 1}"
+									onclick="modalConfirmacaoUsuarioGrupo.show();">
+									<f:setPropertyActionListener value="#{usuarioGrupo.id}"
+										for=":formGrupo:membros:iterator:btnConfirmarUsuarioGrupo"
+										target="#{grupoBean.idUsuarioGrupoSelecionado}" />
+								</p:commandButton>
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>
@@ -106,6 +126,10 @@
 							<h:outputLabel value="#{message.Nome}" for="nome" />
 							<p:inputText id="nome" label="nome"
 								value="#{grupoBean.consultaUsuario.nome}" />
+
+							<h:outputLabel value="#{message.Login}" for="login" />
+							<p:inputText id="login" label="#{message.Login}"
+								value="#{grupoBean.consultaUsuario.login}" />
 
 							<h:outputLabel value="#{message.Email}" for="email" />
 							<p:inputText id="email" label="email"
@@ -124,13 +148,12 @@
 							styleClass="centro" rowIndexVar="iterator"
 							emptyMessage="#{message.Nenhum_Item_Exibicao}">
 							<p:column headerText="#{message.Nome}">
-								<h:outputText value="#{usuario.nome}" />
+								<h:outputText value="#{usuario.nome} (#{usuario.login})" />
 							</p:column>
 
 							<p:column headerText="#{message.Email}">
 								<h:outputText value="#{usuario.email}" />
 							</p:column>
-
 
 							<p:column headerText="#{message.Convidar}">
 								<p:commandLink immediate="true" id="btnConvidarUsuarioGrupo"
@@ -147,18 +170,35 @@
 
 					<p:commandButton value="#{message.Solicitar_Participacao}"
 						styleClass="width-full"
-						update=":formGrupo:membros,:formGrupo:usuarios"
 						rendered="#{not grupoBean.usuarioAtualMembroGrupo}"
-						action="#{grupoBean.solicitarParticipacaoGrupo}" />
+						onclick="modalSolicitarParticipacaoGrupo.show()" />
 					<p:commandButton value="#{message.Sair_do_Grupo}"
 						styleClass="width-full"
-						update=":formGrupo:membros,:formGrupo:usuarios"
 						rendered="#{grupoBean.usuarioAtualMembroGrupo and (sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id)}"
-						action="#{grupoBean.sairGrupo}" />
+						onclick="modalSairGrupo.show()" />
 
 				</p:outputPanel>
 
 			</h:panelGrid>
+
+			<p:spacer height="10px" />
+
+			<p:outputPanel layout="block" styleClass="width-full centro">
+				<p:commandButton value="#{message.Alterar}"
+					action="#{grupoBean.alteraMeuGrupo}"
+					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
+					icon="ui-icon-disk" />
+				<p:spacer width="10px"
+					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />
+				<p:commandButton immediate="true" value="#{message.Excluir}"
+					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
+					onclick="modalConfirmacaoExcluiGrupo.show()" icon="ui-icon-disk" />
+				<p:spacer width="10px"
+					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />
+				<p:commandButton immediate="true" value="Retornar"
+					action="#{grupoBean.retornarParaPesquisa}"
+					icon="ui-icon-arrowreturnthick-1-w" />
+			</p:outputPanel>
 
 			<p:confirmDialog id="modalConfirmacaoConvidaUsuarioID"
 				widgetVar="modalConfirmacaoConvidaUsuario" showEffect="fade"
@@ -174,19 +214,72 @@
 					onclick="modalConfirmacaoConvidaUsuario.hide()" />
 			</p:confirmDialog>
 
-			<p:commandButton immediate="true" value="Excluir"
-				action="#{grupoBean.excluiMeuGrupo}"
-				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
-				onclick="if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;"
-				icon="ui-icon-disk" />
-			<p:commandButton value="Alterar" action="#{grupoBean.alteraMeuGrupo}"
-				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
-				icon="ui-icon-disk" />
-			<p:spacer width="0" height="50"
-				rendered="#{grupoBean.usuarioAtualAdministradorGrupo}" />
-			<p:commandButton immediate="true" value="Retornar"
-				action="#{grupoBean.retornarParaPesquisa}"
-				icon="ui-icon-arrowreturnthick-1-w" />
+			<p:confirmDialog id="modalConfirmacaoExcluiGrupoID"
+				widgetVar="modalConfirmacaoExcluiGrupo" showEffect="fade"
+				hideEffect="fade"
+				message="#{message.Grupo_Confirmar_Exclusao_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					action="#{grupoBean.excluiMeuGrupo}"
+					oncomplete="modalConfirmacaoExcluiGrupo.hide()"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoExcluiGrupo.hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog id="modalConfirmacaoUsuarioGrupoID"
+				widgetVar="modalConfirmacaoUsuarioGrupo" showEffect="fade"
+				hideEffect="fade" message="#{message.Grupo_Confirmar_Usuario_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					update=":formGrupo:membros,:formGrupo:usuarios"
+					action="#{grupoBean.confirmarEntradaUsuarioGrupo}"
+					oncomplete="modalConfirmacaoUsuarioGrupo.hide()"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoUsuarioGrupo.hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog id="modalSolicitarParticipacaoGrupoID"
+				widgetVar="modalSolicitarParticipacaoGrupo" showEffect="fade"
+				hideEffect="fade"
+				message="#{message.Grupo_Solicitacao_Participacao_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					action="#{grupoBean.solicitarParticipacaoGrupo}"
+					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
+					oncomplete="modalSolicitarParticipacaoGrupo.hide()"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalSolicitarParticipacaoGrupo.hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog id="modalSairGrupoID" widgetVar="modalSairGrupo"
+				showEffect="fade" hideEffect="fade"
+				message="#{message.Grupo_Sair_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					action="#{grupoBean.sairGrupo}"
+					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
+					oncomplete="modalSairGrupo.hide()" icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalSairGrupo.hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog id="modalConfirmacaoRemocaoUsuarioGrupoID"
+				widgetVar="modalConfirmacaoRemocaoUsuarioGrupo" showEffect="fade"
+				hideEffect="fade"
+				message="#{message.Grupo_Confirmar_Remocao_Usuario_Grupo}">
+				<p:commandButton value="#{message.Sim}"
+					action="#{grupoBean.removerUsuarioGrupo}"
+					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
+					oncomplete="modalConfirmacaoRemocaoUsuarioGrupo.hide()"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{message.Nao}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="modalConfirmacaoRemocaoUsuarioGrupo.hide()" />
+			</p:confirmDialog>
+
 		</h:form>
 
 	</ui:define>
