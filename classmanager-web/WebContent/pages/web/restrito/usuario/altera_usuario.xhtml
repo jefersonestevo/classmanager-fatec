@@ -40,9 +40,8 @@
 						
 					<h:outputLabel value="#{message.Reinicia_Senha}" for="reinicia_senha" />
 					<p:commandButton value="Reiniciar" id = "reinicia_senha"
-						action="#{usuarioBean.reiniciaSenha}" icon="ui-icon-refresh" 
-						onclick="if(!confirm('Deseja reiniciar a senha do usuário #{usuarioBean.usuario.nome}?')) return false;"						
-						oncomplete="alert('Senha reiniciada com sucesso, a nova senha é 1234');"
+						onclick="modalConfirmacaoReiniciarSenha.show()" icon="ui-icon-refresh" 
+						immediate = "true"														
 						/>
 					<p:spacer/>	
 					<p:tooltip for="reinicia_senha" value="Altera a senha para 1234" showEffect="fade" hideEffect="fade" />	
@@ -53,15 +52,41 @@
 						<f:selectItem itemLabel="Membro" itemValue="MEMBRO" />
 					</p:selectOneRadio>
 									
-					<p:commandButton immediate="true" value="Excluir"
-						action="#{usuarioBean.excluiMeuUsuario}"
-						onclick="if(!confirm('Confirma a exclusão do usuário #{usuarioBean.usuario.nome}?')) return false;"
+					<p:commandButton immediate="true" value="Excluir" onclick="modalConfirmacaoExcluiUsuario.show()"												
 						icon="ui-icon-disk" />
 						
 					<p:commandButton value="Alterar"
 						action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"
 						update=":formDisplayUsuario:fotoUsuario" />
 				</h:panelGrid>
+				
+				
+				<p:confirmDialog id="modalConfirmacaoExcluiUsuario"
+						widgetVar="modalConfirmacaoExcluiUsuario" showEffect="fade"
+						hideEffect="fade"
+						message="#{message.Usuario_Confirmar_Exclusao}">
+					<p:commandButton value="#{message.Sim}"
+						action="#{usuarioBean.excluiMeuUsuario}"
+						oncomplete="modalConfirmacaoExcluiUsuario.hide()"
+						icon="ui-icon-check" />
+					<p:commandButton value="#{message.Nao}" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="modalConfirmacaoExcluiUsuario.hide()" />
+				</p:confirmDialog>
+				
+					<p:confirmDialog id="modalConfirmacaoReiniciarSenha"
+						widgetVar="modalConfirmacaoReiniciarSenha" showEffect="fade"
+						hideEffect="fade"
+						message="#{message.Usuario_Confirmar_ReiniciarSenha}">
+					<p:commandButton value="#{message.Sim}"
+						action="#{usuarioBean.reiniciaSenha}"
+						onclick="modalConfirmacaoReiniciarSenha.hide();"						
+						icon="ui-icon-check" />
+					<p:commandButton value="#{message.Nao}" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="modalConfirmacaoReiniciarSenha.hide()" />
+				</p:confirmDialog>
+							
 			</p:panel>
 			<p:spacer width="0" height="50" />
 			<p:commandButton immediate="true" value="Retornar"

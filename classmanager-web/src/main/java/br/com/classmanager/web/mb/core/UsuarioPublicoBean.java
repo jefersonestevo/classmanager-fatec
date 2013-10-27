@@ -32,6 +32,7 @@ public class UsuarioPublicoBean extends GenericManagedBean {
 						AcaoManter.INSERIR);
 				action.setEntidade(usuario);
 				service.execute(action,true);
+				usuario = new Usuario();
 			} else {
 				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;

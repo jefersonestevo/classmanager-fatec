@@ -14,7 +14,6 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
-import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.usuario.FotoUsuario;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
@@ -67,7 +66,7 @@ public class UsuarioLogadoBean extends GenericManagedBean {
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
-
+		addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
 		return irParaTelaHome();
 	}	
 

@@ -59,7 +59,6 @@ public class UsuarioBean extends GenericManagedBean {
 					AcaoManter.REMOVER);
 			action.setEntidade(usuario);
 			service.execute(action);
-			usuario = new Usuario();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
@@ -77,13 +76,15 @@ public class UsuarioBean extends GenericManagedBean {
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
-
+		addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
 		return pesquisar();
 	}
 	
 	public String reiniciaSenha(){
 		usuario.setSenha("1234");
-		return alteraMeuUsuario();
+		alteraMeuUsuario();
+		addInfoMessage(getMessage("Senha_Reiniciada_Sucesso"));
+		return "/pages/web/restrito/usuario/pesquisa_usuario.jsf";
 	}
 
 	public String irParaTelaAlteracao() {
