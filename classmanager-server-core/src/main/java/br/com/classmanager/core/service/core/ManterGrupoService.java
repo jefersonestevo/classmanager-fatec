@@ -70,6 +70,14 @@ public class ManterGrupoService extends
 	}
 
 	@Override
+	protected Grupo alterar(ManterGrupoAction request)
+			throws ClassManagerException {
+		Grupo grupo = request.getEntidade();
+		grupo = getDao().alterar(grupo);
+		return grupo;
+	}
+
+	@Override
 	protected ListaDTO<Grupo> pesquisarLista(ManterGrupoAction request)
 			throws ClassManagerException {
 		List<Grupo> lista = getDao().pesquisarLista(request.getIdPesquisa(),

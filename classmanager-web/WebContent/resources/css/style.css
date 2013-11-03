@@ -170,7 +170,7 @@ html {
 }
 
 .notificacao {
-	height: 210px;
+	min-height: 210px;
 	overflow: auto;
 }
 
@@ -180,3 +180,47 @@ html {
 	top: 3px;
 	bottom: 3px;
 }
+
+.postagem-padrao {
+	text-decoration: none;
+}
+
+.postagem-esquerda {
+	background-color: aqua;
+	width: 100%;
+}
+
+.postagem-direita {
+	width: 100%;
+}
+
+.panelTipoPostagemGerada {
+	text-align: left;
+	width: 50%;
+	font-weight: bold;
+}
+
+.panelGeradorPostagem {
+	color: gray;
+	font-size: 8px;
+	text-align: right;
+	width: 50%;
+}
+
+.panelGeradorVisualizacaoPostagem {
+	color: gray;
+	font-size: 12px;
+	width: 100%;
+}
+
+.panelGeradorComentarioPostagem {
+	color: gray;
+	font-size: 12px;
+	text-align: right;
+	width: 100%;
+}
+
+.negrito {
+	font-weight: bold;
+}
+

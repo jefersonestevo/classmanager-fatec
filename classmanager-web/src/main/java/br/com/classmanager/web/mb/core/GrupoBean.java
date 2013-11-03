@@ -256,6 +256,10 @@ public class GrupoBean extends GenericManagedBean {
 		return pesquisar();
 	}
 
+	public String retornarParaVisualizacaoGrupo() {
+		return visualizaMeuGrupo(this.grupo.getId());
+	}
+
 	public List<SelectItem> getTiposPostagem() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
 		for (Integer tipo : TipoPostagem.getValores()) {

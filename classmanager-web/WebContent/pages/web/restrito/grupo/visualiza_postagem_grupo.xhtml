@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/web/template/template.xhtml">
+
+	<ui:define name="title">
+	   	#{message.Nome_Aplicacao} - #{viewUtils.nomeGrupoFormatado(grupoBean.grupo)}
+	</ui:define>
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Grupo}"
+				action="#{grupoBean.retornarParaPesquisa}" immediate="true" />
+			<p:menuitem value="#{viewUtils.nomeGrupoFormatado(grupoBean.grupo)}"
+				action="#{grupoBean.retornarParaVisualizacaoGrupo}" immediate="true" />
+			<p:menuitem value="#{message.Header_Visualizacao_Postagem_Grupo}"
+				url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formVisualizaPostagemGrupo">
+			<h:panelGrid columns="1" styleClass="width-full">
+				<p:outputPanel>
+					<h:panelGrid columns="1" styleClass="width-full">
+						<p:outputPanel layout="block" styleClass="negrito">
+							<h:outputText styleClass="negrito"
+								value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)} - " />
+
+							<p:outputPanel styleClass="panelGeradorVisualizacaoPostagem">
+								<h:outputText styleClass="negrito"
+									value="#{post.usuario.nome} #{message.Postagem_Em} " />
+								<h:outputText value="#{post.dataGeracao}" styleClass="negrito">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+								</h:outputText>
+							</p:outputPanel>
+						</p:outputPanel>
+
+						<h:outputText
+							value="#{message.Postagem_Descricao}: #{post.descricao}" />
+
+						<h:outputText
+							value="#{message.Postagem_Endereco}: #{post.endereco}"
+							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+						<h:outputText value="#{message.Postagem_Cargo}: #{post.cargo}"
+							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+						<h:outputText value="#{message.Postagem_Contato}: #{post.contato}"
+							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+						<p:outputPanel layout="block"
+							rendered="#{(post.tipoPostagemNumber eq 2)}">
+							<h:outputText value="#{message.Postagem_Data_Inicio}: " />
+							<h:outputText value="#{post.dataInicio}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:outputPanel>
+
+				<p:spacer style="width: 100%; height: 3px;" />
+
+				<h:panelGrid styleClass="width-full" columns="2"
+					id="panelFormComentarioPostagem" columnClasses="width-30, width-70">
+
+					<h:outputText value="#{message.Comentario_Postagem_Descricao}" />
+					<p:inputTextarea id="frmInsercaoComentarioPostagem" rows="6"
+						cols="65" value="#{postagemBean.comentarioPostagem}"
+						required="true"
+						requiredMessage="#{message.Comentario_Postagem_Descricao_Obrigatorio}" />
+				</h:panelGrid>
+
+				<p:outputPanel layout="block" styleClass="width-full centro"
+					id="panelBtnAdicionarComentarioPostagem">
+					<p:commandButton value="#{message.Adicionar_Comentario_Postagem}"
+						onstart="modalStatus.show()" oncomplete="modalStatus.hide()"
+						action="#{postagemBean.adicionarComentarioPostagem}"
+						update=":formVisualizaPostagemGrupo:panelVisualizacaoComentariosPostagem, :formVisualizaPostagemGrupo:panelFormComentarioPostagem"
+						icon="ui-icon-disk">
+					</p:commandButton>
+				</p:outputPanel>
+
+				<p:outputPanel layout="block" styleClass="width-full"
+					id="panelVisualizacaoComentariosPostagem">
+					<p:dataTable var="comment" rows="10" paginatorPosition="bottom"
+						paginator="true"
+						rendered="#{not empty postagemBean.postagemAtual.listaComentarios}"
+						value="#{postagemBean.postagemAtual.listaComentarios}">
+
+						<p:column>
+							<h:panelGrid columns="1" styleClass="width-full centro">
+								<h:panelGrid columns="1" styleClass="width-full">
+									<p:outputPanel layout="block"
+										styleClass="panelGeradorComentarioPostagem">
+										<h:outputText
+											value="#{comment.usuario.nome} #{message.Comentario_Postagem_Em} " />
+										<h:outputText value="#{comment.dataGeracao}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+										</h:outputText>
+									</p:outputPanel>
+								</h:panelGrid>
+								<h:outputText value="#{comment.descricao}" />
+							</h:panelGrid>
+							<p:spacer style="width: 100%; height: 4px;" />
+						</p:column>
+
+					</p:dataTable>
+
+					<p:outputPanel layout="block" styleClass="width-full centro"
+						rendered="#{empty postagemBean.postagemAtual.listaComentarios}">
+						<h:outputText value="#{message.Nenhum_Comentario_Postagem}" />
+					</p:outputPanel>
+				</p:outputPanel>
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

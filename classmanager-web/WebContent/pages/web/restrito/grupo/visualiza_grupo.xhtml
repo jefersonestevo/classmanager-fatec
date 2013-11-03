@@ -8,7 +8,7 @@
 	template="/pages/web/template/template.xhtml">
 
 	<ui:define name="title">
-	   	#{message.Nome_Aplicacao} - #{message.Header_Visualizacao_Grupo}
+	   	#{message.Nome_Aplicacao} - #{viewUtils.nomeGrupoFormatado(grupoBean.grupo)}
 	</ui:define>
 
 	<ui:define name="endereco">
@@ -16,7 +16,8 @@
 			<p:menuitem action="/pages/web/restrito/main.jsf" immediate="true" />
 			<p:menuitem value="#{message.Header_Pesquisa_Grupo}"
 				action="#{grupoBean.retornarParaPesquisa}" immediate="true" />
-			<p:menuitem value="#{message.Header_Visualizacao_Grupo}" url="#" />
+			<p:menuitem value="#{viewUtils.nomeGrupoFormatado(grupoBean.grupo)}"
+				url="#" />
 		</p:breadCrumb>
 	</ui:define>
 
@@ -168,6 +169,31 @@
 						</p:dataTable>
 					</p:fieldset>
 
+					<p:spacer style="height: 10px; width: 100%" />
+
+					<p:fieldset legend="#{message.Postagem_Grupo}"
+						rendered="#{grupoBean.usuarioAtualMembroGrupo}">
+						<h:panelGrid columns="2" columnClasses="width-50, width-50"
+							styleClass="width-full centro">
+
+							<p:commandButton icon="ui-icon-plus"
+								action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
+								update=":formInserirPostagemGrupo"
+								oncomplete="modalInserirPostagem.show()">
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-comment"
+								action="#{postagemBean.carregarListaPostagem(grupoBean.grupo.id)}"
+								update=":formListarPostagemGrupo"
+								oncomplete="modalListarPostagem.show()">
+							</p:commandButton>
+
+						</h:panelGrid>
+					</p:fieldset>
+
+					<p:spacer style="height: 10px; width: 100%"
+						rendered="#{grupoBean.usuarioAtualMembroGrupo}" />
+
 					<p:commandButton value="#{message.Solicitar_Participacao}"
 						styleClass="width-full"
 						rendered="#{not grupoBean.usuarioAtualMembroGrupo}"
@@ -283,6 +309,11 @@
 			</p:confirmDialog>
 
 		</h:form>
+
+		<ui:include
+			src="/pages/web/restrito/grupo/modal_listar_postagem.xhtml" />
+		<ui:include
+			src="/pages/web/restrito/grupo/modal_inserir_postagem.xhtml" />
 
 	</ui:define>
 </ui:composition>

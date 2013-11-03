@@ -1,6 +1,7 @@
 package br.com.classmanager.web.mb.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,16 +12,21 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
+
+import br.com.classmanager.client.dto.action.core.AdicionaComentarioPostagemAction;
 import br.com.classmanager.client.dto.action.core.AdicionaPostagemGrupoAction;
 import br.com.classmanager.client.dto.action.core.ConsultarPostagemGrupoAction;
 import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
+import br.com.classmanager.client.entidades.core.ComentarioPostagem;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.core.Postagem;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.web.componentes.comparators.ComparadorComentarioPostagemPorDataGeracao;
 import br.com.classmanager.web.componentes.comparators.ComparadorPostagemPorDataGeracao;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
 import br.com.classmanager.web.mb.SessionBean;
@@ -38,12 +44,19 @@ public class PostagemBean extends GenericManagedBean {
 	private ClassManagerServiceView service;
 
 	@Inject
+	private GrupoBean grupoBean;
+
+	@Inject
 	private SessionBean sessionBean;
 
-	private Postagem postagem;
+	private Postagem postagemAtual;
 	private Grupo grupoAtual;
+
+	private Postagem postagem;
 	private SortedSet<Postagem> listaPostagens = new TreeSet<Postagem>(
 			new ComparadorPostagemPorDataGeracao());
+
+	private String comentarioPostagem;
 
 	private Integer tipoPostagemSelecionada;
 	private List<SelectItem> listaTiposPostagensHabilitadas;
@@ -54,16 +67,12 @@ public class PostagemBean extends GenericManagedBean {
 	public PostagemBean() {
 	}
 
-	public void carregarPostagem(Long idGrupo) {
+	public void carregarListaPostagem(Long idGrupo) {
 		try {
-			limparCampos();
 			ManterGrupoAction action = new ManterGrupoAction(
 					AcaoManter.PESQUISAR);
 			action.setId(idGrupo);
 			this.grupoAtual = (Grupo) service.execute(action);
-
-			this.preencherTiposPostagensHabilitadas(grupoAtual);
-			this.preencherTiposServicosEnvioHabilitados(grupoAtual);
 
 			ConsultarPostagemGrupoAction consultaPostagem = new ConsultarPostagemGrupoAction();
 			consultaPostagem.setIdGrupo(idGrupo);
@@ -72,6 +81,22 @@ public class PostagemBean extends GenericManagedBean {
 
 			this.listaPostagens.clear();
 			this.listaPostagens.addAll(listaPost);
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
+	public void carregarTelaInserirPostagem(Long idGrupo) {
+		try {
+			limparCampos();
+
+			ManterGrupoAction action = new ManterGrupoAction(
+					AcaoManter.PESQUISAR);
+			action.setId(idGrupo);
+			this.grupoAtual = (Grupo) service.execute(action);
+
+			this.preencherTiposPostagensHabilitadas(grupoAtual);
+			this.preencherTiposServicosEnvioHabilitados(grupoAtual);
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
@@ -95,7 +120,7 @@ public class PostagemBean extends GenericManagedBean {
 		this.postagem.setTipoPostagem(sel);
 	}
 
-	public void adicionarPostagem() {
+	public String adicionarPostagem() {
 		try {
 			List<Long> servicosEnvio = new ArrayList<Long>();
 			for (String serv : tiposServicosEnvioSelecionados) {
@@ -107,12 +132,74 @@ public class PostagemBean extends GenericManagedBean {
 			action.setPostagem(postagem);
 			action.setServicosEnvio(servicosEnvio);
 			Postagem postagemInserida = (Postagem) service.execute(action);
-			this.listaPostagens.add(postagemInserida);
 			this.limparCampos();
+
+			return this.irParaTelaVisualizarPostagemGrupo(postagemInserida
+					.getId());
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
+		return null;
+	}
 
+	public void adicionarComentarioPostagem() {
+		try {
+			AdicionaComentarioPostagemAction action = new AdicionaComentarioPostagemAction();
+			action.setComentarioPostagem(this.comentarioPostagem);
+			action.setPostagem(this.postagemAtual);
+			service.execute(action);
+
+			Long idPostagem = this.postagemAtual.getId();
+			this.preenchePostagemAtual(idPostagem);
+			this.comentarioPostagem = null;
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+		}
+	}
+
+	public String irParaTelaVisualizarPostagemGrupo(Long idPostagem) {
+		try {
+			this.preenchePostagemAtual(idPostagem);
+			this.comentarioPostagem = null;
+			this.grupoBean.visualizaMeuGrupo(this.grupoAtual.getId());
+
+			for (ComentarioPostagem coment : this.postagemAtual
+					.getListaComentarios()) {
+				if (coment != null) {
+					// Forçar a inicializacao dos comentários
+					coment.getDescricao();
+				}
+			}
+
+		} catch (ClassManagerException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+
+		return "/pages/web/restrito/grupo/visualiza_postagem_grupo.jsf";
+	}
+
+	private void preenchePostagemAtual(Long idPostagem)
+			throws ClassManagerException {
+		ConsultarPostagemGrupoAction consultaPostagem = new ConsultarPostagemGrupoAction();
+		consultaPostagem.setIdGrupo(this.grupoAtual.getId());
+		List<Postagem> listaPost = ((ListaDTO<Postagem>) service
+				.execute(consultaPostagem)).getLista();
+
+		this.postagemAtual = null;
+		for (Postagem post : listaPost) {
+			if (post.getId().equals(idPostagem)) {
+				this.postagemAtual = post;
+				break;
+			}
+		}
+
+		if (this.postagemAtual != null
+				&& CollectionUtils.isNotEmpty(this.postagemAtual
+						.getListaComentarios())) {
+			Collections.sort(this.postagemAtual.getListaComentarios(),
+					new ComparadorComentarioPostagemPorDataGeracao());
+		}
 	}
 
 	private void preencherTiposPostagensHabilitadas(Grupo grupo) {
@@ -200,6 +287,22 @@ public class PostagemBean extends GenericManagedBean {
 	public void setTiposServicosEnvioHabilitados(
 			List<SelectItem> tiposServicosEnvioHabilitados) {
 		this.tiposServicosEnvioHabilitados = tiposServicosEnvioHabilitados;
+	}
+
+	public Postagem getPostagemAtual() {
+		return postagemAtual;
+	}
+
+	public void setPostagemAtual(Postagem postagemAtual) {
+		this.postagemAtual = postagemAtual;
+	}
+
+	public String getComentarioPostagem() {
+		return comentarioPostagem;
+	}
+
+	public void setComentarioPostagem(String comentarioPostagem) {
+		this.comentarioPostagem = comentarioPostagem;
 	}
 
 }

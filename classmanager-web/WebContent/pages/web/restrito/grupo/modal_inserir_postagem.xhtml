@@ -6,16 +6,16 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:form id="formPostagemGrupo">
+	<h:form id="formInserirPostagemGrupo">
 
-		<p:dialog widgetVar="modalPostagem" id="modalPostagemID"
+		<p:dialog widgetVar="modalInserirPostagem" id="modalInserirPostagemID"
 			showEffect="fade" hideEffect="fade" modal="true"
 			styleClass="width-80" width="700" height="500">
 			<h:panelGrid columns="1" styleClass="width-full">
 				<p:outputPanel layout="block">
 					<p:outputPanel layout="block" styleClass="width-full centro">
 						<h:outputText
-							value="#{postagemBean.grupoAtual.titulo} (#{postagemBean.grupoAtual.id})"
+							value="#{viewUtils.nomeGrupoFormatado(postagemBean.grupoAtual)}"
 							styleClass="negrito" />
 					</p:outputPanel>
 					<br />
@@ -28,7 +28,7 @@
 							value="#{postagemBean.tipoPostagemSelecionada}"
 							requiredMessage="#{message.Postagem_Tipo_Postagem_Obrigatoria}">
 							<p:ajax event="change"
-								update="panelInsercaoConteudoPostagem, panelBtnAdicionarPostagem, panelSelecaoTipoPostagem" />
+								update="panelInsercaoConteudoPostagem, :formInserirPostagemGrupo:panelBtnAdicionarPostagem, panelSelecaoTipoPostagem" />
 							<f:selectItems
 								value="#{postagemBean.listaTiposPostagensHabilitadas}" />
 						</p:selectOneRadio>
@@ -100,35 +100,14 @@
 				<p:outputPanel layout="block" styleClass="width-full centro"
 					id="panelBtnAdicionarPostagem">
 					<p:commandButton value="#{message.Adicionar_Postagem}"
-						update=":formPostagemGrupo:modalPostagemID" onstart="modalStatus.show()"
-						oncomplete="modalStatus.hide()"
+						onstart="modalStatus.show()" oncomplete="modalStatus.hide()"
 						rendered="#{postagemBean.tipoPostagemSelecionada ne null}"
-						actionListener="#{postagemBean.adicionarPostagem}"
-						icon="ui-icon-disk">
+						action="#{postagemBean.adicionarPostagem}" icon="ui-icon-disk">
 					</p:commandButton>
 					<p:spacer width="20px" />
 					<p:commandButton value="#{message.Cancelar_Postagem}"
-						immediate="true" onclick="modalPostagem.hide()"
+						immediate="true" onclick="modalInserirPostagem.hide()"
 						icon="ui-icon-close" />
-				</p:outputPanel>
-				<p:separator style="height: 2px; width: 100%" />
-				<p:outputPanel id="panelPostagemVisualizacao" layout="block"
-					style="overflow: auto">
-					<p:outputPanel layout="block" styleClass="width-full"
-						rendered="#{not empty postagemBean.listaPostagens}">
-						<ui:repeat var="post"
-							value="#{postagemBean.listaPostagensExibicao}"
-							varStatus="iterador">
-							<p:outputPanel layout="block"
-								styleClass="postagem-#{(iterator.even)?'esquerda':'direita'}">
-							#{post.descricao}
-						</p:outputPanel>
-						</ui:repeat>
-					</p:outputPanel>
-					<p:outputPanel layout="block" styleClass="width-full centro"
-						rendered="#{empty postagemBean.listaPostagens}">
-						<h:outputText value="#{message.Nenhuma_Postagem}" />
-					</p:outputPanel>
 				</p:outputPanel>
 			</h:panelGrid>
 		</p:dialog>

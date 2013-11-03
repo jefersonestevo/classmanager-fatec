@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form id="formListarPostagemGrupo">
+
+		<p:dialog widgetVar="modalListarPostagem" id="modalListarPostagemID"
+			showEffect="fade" hideEffect="fade" modal="true"
+			styleClass="width-80" width="700" height="500">
+			<h:panelGrid columns="1" styleClass="width-full">
+				<p:outputPanel layout="block">
+					<p:outputPanel layout="block" styleClass="width-full centro">
+						<h:outputText
+							value="#{viewUtils.nomeGrupoFormatado(postagemBean.grupoAtual)}"
+							styleClass="negrito" />
+					</p:outputPanel>
+				</p:outputPanel>
+				<p:spacer style="height: 10px; width: 100%" />
+				<p:separator style="width: 100%; height: 2px;" />
+				<p:outputPanel id="panelPostagemVisualizacao" layout="block"
+					style="overflow: auto">
+					<p:outputPanel layout="block" styleClass="width-full"
+						rendered="#{not empty postagemBean.listaPostagens}">
+						<ui:repeat var="post"
+							value="#{postagemBean.listaPostagensExibicao}"
+							varStatus="iterador">
+							<p:outputPanel layout="block"
+								styleClass="postagem-#{(iterador.even)?'esquerda':'direita'}">
+								<h:panelGrid columns="1" styleClass="width-full">
+									<p:commandLink
+										action="#{postagemBean.irParaTelaVisualizarPostagemGrupo(post.id)}">
+										<h:panelGrid columns="2" styleClass="width-full"
+											columnClasses="panelTipoPostagemGerada, panelGeradorPostagem">
+											<p:outputPanel layout="block">
+												<h:outputText
+													value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)}" />
+											</p:outputPanel>
+											<p:outputPanel layout="block">
+												<h:outputText
+													value="#{post.usuario.nome} #{message.Postagem_Em} " />
+												<h:outputText value="#{post.dataGeracao}">
+													<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+												</h:outputText>
+											</p:outputPanel>
+										</h:panelGrid>
+									</p:commandLink>
+									<h:outputText
+										value="#{message.Postagem_Descricao}: #{post.descricao}" />
+
+									<h:outputText
+										value="#{message.Postagem_Endereco}: #{post.endereco}"
+										rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+									<h:outputText value="#{message.Postagem_Cargo}: #{post.cargo}"
+										rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+									<h:outputText
+										value="#{message.Postagem_Contato}: #{post.contato}"
+										rendered="#{(post.tipoPostagemNumber eq 2)}" />
+
+									<p:outputPanel layout="block"
+										rendered="#{(post.tipoPostagemNumber eq 2)}">
+										<h:outputText value="#{message.Postagem_Data_Inicio}: " />
+										<h:outputText value="#{post.dataInicio}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</p:outputPanel>
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:spacer style="width: 100%; height: 4px;" />
+						</ui:repeat>
+					</p:outputPanel>
+					<p:outputPanel layout="block" styleClass="width-full centro"
+						rendered="#{empty postagemBean.listaPostagens}">
+						<h:outputText value="#{message.Nenhuma_Postagem}" />
+					</p:outputPanel>
+					<p:separator style="width: 100%; height: 2px;" />
+				</p:outputPanel>
+				<p:outputPanel layout="block" styleClass="width-full centro"
+					id="panelBtnFecharListaPostagem">
+					<p:commandButton value="#{message.Fechar}" immediate="true"
+						onclick="modalListarPostagem.hide()" icon="ui-icon-close" />
+				</p:outputPanel>
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+</ui:composition>
+

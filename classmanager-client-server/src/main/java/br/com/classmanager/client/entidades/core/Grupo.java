@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -76,7 +77,8 @@ public class Grupo extends BeanJPA<Long> {
 	private StatusGrupo status;
 
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH })
 	@JoinTable(name = "rel_grupo_servico_envio_habilitado", joinColumns = @JoinColumn(name = "id_grupo"), inverseJoinColumns = @JoinColumn(name = "id_servico_envio"))
 	private Set<ServicoEnvio> servicosHabilitados = new HashSet<ServicoEnvio>();
 

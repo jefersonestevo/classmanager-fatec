@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -100,6 +101,9 @@ public class Postagem extends BeanJPA<Long> {
 
 	@Column
 	private Date dataInicio;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "postagem")
+	private List<ComentarioPostagem> listaComentarios = new ArrayList<ComentarioPostagem>();
 
 	public Long getId() {
 		return id;
@@ -195,6 +199,20 @@ public class Postagem extends BeanJPA<Long> {
 
 	public void setContato(String contato) {
 		this.contato = contato;
+	}
+
+	public List<ComentarioPostagem> getListaComentarios() {
+		return listaComentarios;
+	}
+
+	public void setListaComentarios(List<ComentarioPostagem> listaComentarios) {
+		this.listaComentarios = listaComentarios;
+	}
+
+	public Integer getTipoPostagemNumber() {
+		if (getTipoPostagem() == null)
+			return null;
+		return getTipoPostagem().getValor();
 	}
 
 }
