@@ -6,6 +6,7 @@ import javax.inject.Named;
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.enums.PerfilUsuario;
+import br.com.classmanager.client.entidades.enums.StatusUsuario;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.client.exceptions.CodigoExcecao;
@@ -29,6 +30,10 @@ public class ManterUsuarioService extends
 	@Override
 	protected Usuario inserir(ManterUsuarioAction request)
 			throws ClassManagerException {
+		if (!validaLogin(request.getEntidade().getLogin())) {
+			throw new ClassManagerException(CodigoExcecao.ERRO_LOGIN_DUPLICADO);
+		}
+
 		if (request.getEntidade() != null
 				&& request.getEntidade().getFotoUsuario() != null
 				&& request.getEntidade().getFotoUsuario().getFoto() == null) {
@@ -38,8 +43,8 @@ public class ManterUsuarioService extends
 			request.getEntidade().setPerfilUsuario(PerfilUsuario.MEMBRO);
 		}
 
-		if (!validaLogin(request.getEntidade().getLogin())) {
-			throw new ClassManagerException(CodigoExcecao.ERRO_LOGIN_DUPLICADO);
+		if (request.getEntidade().getStatusUsuario() == null) {
+			request.getEntidade().setStatusUsuario(StatusUsuario.ATIVO);
 		}
 
 		getDao().inserir(request.getEntidade());

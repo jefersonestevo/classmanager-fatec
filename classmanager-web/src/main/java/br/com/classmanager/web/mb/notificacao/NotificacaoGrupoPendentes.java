@@ -131,7 +131,6 @@ public class NotificacaoGrupoPendentes extends GenericManagedBean implements
 	}
 
 	public void setIdSelecionado(Long idSelecionado) {
-		System.out.println("ID " + idSelecionado);
 		this.idSelecionado = idSelecionado;
 	}
 

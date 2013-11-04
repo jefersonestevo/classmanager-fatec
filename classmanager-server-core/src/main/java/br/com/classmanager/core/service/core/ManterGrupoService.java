@@ -66,6 +66,11 @@ public class ManterGrupoService extends
 			}
 		}
 
+		if (grupo != null && grupo.getUsuarioCriador() != null) {
+			// Inicializa usuario criador
+			grupo.getUsuarioCriador().getNome();
+		}
+
 		return grupo;
 	}
 
@@ -74,6 +79,11 @@ public class ManterGrupoService extends
 			throws ClassManagerException {
 		Grupo grupo = request.getEntidade();
 		grupo = getDao().alterar(grupo);
+
+		if (grupo != null && grupo.getUsuarioCriador() != null) {
+			// Inicializa usuario criador
+			grupo.getUsuarioCriador().getNome();
+		}
 		return grupo;
 	}
 

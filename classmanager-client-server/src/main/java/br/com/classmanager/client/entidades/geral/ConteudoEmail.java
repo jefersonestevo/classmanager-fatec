@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
@@ -36,11 +35,9 @@ public class ConteudoEmail extends BeanJPA<Long> {
 	@GeneratedValue(generator = "seq_conteudo_email", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
 	private String assunto;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MUITO_GRANDE)
 	private String conteudo;
 

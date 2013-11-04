@@ -87,6 +87,7 @@ public class GrupoBean extends GenericManagedBean {
 
 			sessionBean.setAtualizarUsuario(true);
 			sessionBean.getUsuario();
+			showSuccessMessage();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -156,6 +157,7 @@ public class GrupoBean extends GenericManagedBean {
 			ManterGrupoAction action = new ManterGrupoAction(AcaoManter.ALTERAR);
 			action.setEntidade(grupo);
 			service.execute(action);
+			showSuccessMessage();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -199,6 +201,9 @@ public class GrupoBean extends GenericManagedBean {
 			UsuarioGrupo usuarioAdicionado = (UsuarioGrupo) service
 					.execute(adiciona);
 			grupo.getUsuariosGrupo().add(usuarioAdicionado);
+
+			pesquisarUsuario();
+
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
@@ -243,7 +248,7 @@ public class GrupoBean extends GenericManagedBean {
 			}
 
 			CMCollectionUtils.ordenarLista(this.grupo.getUsuariosGrupo(),
-					new String[] { "grupo.titulo", "grupo.id" });
+					new String[] { "usuario.login", "usuario.nome" });
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;
@@ -511,6 +516,9 @@ public class GrupoBean extends GenericManagedBean {
 					.execute(action);
 			grupo.getUsuariosGrupo().remove(usuarioAlterado);
 			grupo.getUsuariosGrupo().add(usuarioAlterado);
+
+			CMCollectionUtils.ordenarLista(this.grupo.getUsuariosGrupo(),
+					new String[] { "usuario.login", "usuario.nome" });
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}

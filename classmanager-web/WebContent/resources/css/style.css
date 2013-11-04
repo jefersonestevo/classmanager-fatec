@@ -2,7 +2,7 @@
 	font-size: 12px !important;
 }
 
-.ui-panelgrid tr,.ui-panelgrid td,.panel-grid tr,.panel-grid td {
+.ui-panelgrid tr,.ui-panelgrid td,.panel-grid tr,.panel-grid td,.ui-datatable tbody td {
 	border: none !important;
 }
 
@@ -167,6 +167,11 @@ html {
 
 .centro {
 	text-align: center;
+}
+
+.esquerda-com-espaco{
+	text-align: left;
+	left: 20px;
 }
 
 .notificacao {

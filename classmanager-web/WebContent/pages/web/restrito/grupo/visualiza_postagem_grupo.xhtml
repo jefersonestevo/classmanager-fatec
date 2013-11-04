@@ -23,9 +23,11 @@
 
 	<ui:define name="content">
 		<h:form id="formVisualizaPostagemGrupo">
-			<h:panelGrid columns="1" styleClass="width-full">
+			<h:panelGrid id="panelVisualizaPostagemGrupoGeral" columns="1"
+				styleClass="width-full">
 				<p:outputPanel>
-					<h:panelGrid columns="1" styleClass="width-full">
+					<h:panelGrid id="panelVisualizaPostagemGrupoInterno" columns="1"
+						styleClass="width-full">
 						<p:outputPanel layout="block" styleClass="negrito">
 							<h:outputText styleClass="negrito"
 								value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)} - " />
@@ -84,7 +86,7 @@
 					</p:commandButton>
 				</p:outputPanel>
 
-				<p:outputPanel layout="block" styleClass="width-full"
+				<p:outputPanel styleClass="width-full"
 					id="panelVisualizacaoComentariosPostagem">
 					<p:dataTable var="comment" rows="10" paginatorPosition="bottom"
 						paginator="true"
@@ -92,7 +94,7 @@
 						value="#{postagemBean.postagemAtual.listaComentarios}">
 
 						<p:column>
-							<h:panelGrid columns="1" styleClass="width-full centro">
+							<h:panelGrid columns="1" styleClass="width-full esquerda-com-espaco">
 								<h:panelGrid columns="1" styleClass="width-full">
 									<p:outputPanel layout="block"
 										styleClass="panelGeradorComentarioPostagem">

@@ -91,7 +91,6 @@
 									id="negarEntradaGrupoPendente"
 									onclick="modalConfirmacaoRejeicaoGrupo.show()">
 									<f:setPropertyActionListener value="#{notif.id}"
-										for="negarEntradaGrupoPendente"
 										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
 								</p:commandButton>
 							</p:outputPanel>
@@ -128,10 +127,10 @@
 			<p:confirmDialog id="modalConfirmacaoRejeicaoGrupoID"
 				widgetVar="modalConfirmacaoRejeicaoGrupo" showEffect="fade"
 				message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Rejeicao_Grupo}">
-				<p:commandButton value="#{message.Sim}" type="button"
+				<p:commandButton value="#{message.Sim}" 
 					update=":formTelaInicial:panelGruposPendentes"
-					onclick="modalConfirmacaoEntradaGrupo.hide()"
 					action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarRejeicaoGrupo}"
+					oncomplete="modalConfirmacaoRejeicaoGrupo.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

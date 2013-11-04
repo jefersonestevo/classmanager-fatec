@@ -8,7 +8,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.enums.EnumParametro;
 import br.com.classmanager.client.utils.TamanhoCampo;
@@ -34,11 +33,9 @@ public class Parametro extends BeanJPA<EnumParametro> {
 	@Enumerated(EnumType.ORDINAL)
 	private EnumParametro id;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
 	private String nome;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
 	private String valor;
 

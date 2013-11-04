@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
 
-import br.com.classmanager.client.componentes.validators.NotEmpty;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
@@ -40,7 +39,6 @@ public class Arquivo extends BeanJPA<Long> {
 	@GeneratedValue(generator = "seq_arquivo", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotEmpty
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
 	private String nome;
 

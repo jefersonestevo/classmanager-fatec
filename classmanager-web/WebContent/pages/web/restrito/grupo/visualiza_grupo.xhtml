@@ -82,6 +82,29 @@
 				</p:outputPanel>
 
 				<p:outputPanel id="panelMembro">
+
+					<p:fieldset legend="#{message.Postagem_Grupo}"
+						rendered="#{grupoBean.usuarioAtualMembroGrupo}">
+						<h:panelGrid columns="2" columnClasses="width-50, width-50"
+							styleClass="width-full centro">
+
+							<p:commandButton icon="ui-icon-plus"
+								action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
+								update=":formInserirPostagemGrupo"
+								oncomplete="modalInserirPostagem.show()">
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-comment"
+								action="#{postagemBean.carregarListaPostagem(grupoBean.grupo.id)}"
+								update=":formListarPostagemGrupo"
+								oncomplete="modalListarPostagem.show()">
+							</p:commandButton>
+
+						</h:panelGrid>
+					</p:fieldset>
+
+					<p:spacer style="height: 10px; width: 100%" />
+
 					<p:fieldset legend="#{message.Membros}" toggleable="true">
 						<p:dataTable id="membros" var="usuarioGrupo" rows="5"
 							paginator="true" paginatorPosition="bottom" styleClass="centro"
@@ -122,7 +145,8 @@
 					<p:spacer width="30" />
 
 					<p:fieldset legend="#{message.Buscar_Membros}" toggleable="true"
-						rendered="#{grupoBean.usuarioAtualAdministradorGrupo}">
+						rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
+						collapsed="true">
 						<h:panelGrid columns="2" styleClass="tabela-simples">
 							<h:outputLabel value="#{message.Nome}" for="nome" />
 							<p:inputText id="nome" label="nome"
@@ -167,28 +191,6 @@
 								</p:commandLink>
 							</p:column>
 						</p:dataTable>
-					</p:fieldset>
-
-					<p:spacer style="height: 10px; width: 100%" />
-
-					<p:fieldset legend="#{message.Postagem_Grupo}"
-						rendered="#{grupoBean.usuarioAtualMembroGrupo}">
-						<h:panelGrid columns="2" columnClasses="width-50, width-50"
-							styleClass="width-full centro">
-
-							<p:commandButton icon="ui-icon-plus"
-								action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
-								update=":formInserirPostagemGrupo"
-								oncomplete="modalInserirPostagem.show()">
-							</p:commandButton>
-
-							<p:commandButton icon="ui-icon-comment"
-								action="#{postagemBean.carregarListaPostagem(grupoBean.grupo.id)}"
-								update=":formListarPostagemGrupo"
-								oncomplete="modalListarPostagem.show()">
-							</p:commandButton>
-
-						</h:panelGrid>
 					</p:fieldset>
 
 					<p:spacer style="height: 10px; width: 100%"
