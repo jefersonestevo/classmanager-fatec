@@ -46,14 +46,19 @@
 					<p:spacer/>	
 					<p:tooltip for="reinicia_senha" value="Altera a senha para 1234" showEffect="fade" hideEffect="fade" />	
 					
+					<h:outputLabel value="Status: " for="status" />
+					<p:selectOneRadio id="status" value="#{usuarioBean.usuario.statusUsuario}">
+						<f:selectItem itemLabel="Ativo" itemValue="ATIVO" />
+						<f:selectItem itemLabel="Inativo" itemValue="INATIVO" />
+					</p:selectOneRadio>
+					
 					<h:outputLabel value="Pefil: " for="perfil" />
 					<p:selectOneRadio id="perfil" value="#{usuarioBean.usuario.perfilUsuario}">
 						<f:selectItem itemLabel="Administrador" itemValue="ADM" />
 						<f:selectItem itemLabel="Membro" itemValue="MEMBRO" />
 					</p:selectOneRadio>
 									
-					<p:commandButton immediate="true" value="Excluir" onclick="modalConfirmacaoExcluiUsuario.show()"												
-						icon="ui-icon-disk" />
+					<p:spacer/>
 						
 					<p:commandButton value="Alterar"
 						action="#{usuarioBean.alteraMeuUsuario}" icon="ui-icon-disk"

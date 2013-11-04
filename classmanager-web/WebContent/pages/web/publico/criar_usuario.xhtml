@@ -52,18 +52,17 @@
 						maxlength="10" value="#{usuarioPublicoBean.usuario.login}" />
 
 					<h:outputLabel value="#{message.Senha}" for="senha" />
-					<p:password id="senha" label="senha" required="true" maxlength="8"
+					<p:password id="senha" label="senha" required="true" maxlength="10"
 						feedback="true" value="#{usuarioPublicoBean.usuario.senha}" />
 					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
 					<p:password id="confirmPassword" label="confirmPassword"
-						required="true" value="#{usuarioPublicoBean.confirmaSenha}" />
+						required="true" value="#{usuarioPublicoBean.confirmaSenha}" maxlength="10"/>
 
 					<p:commandButton immediate="true" value="#{message.Retornar}"
 						action="#{usuarioPublicoBean.IrParaTelaDeLogin}"
 						icon="ui-icon-arrowreturnthick-1-w" />
 					<p:commandButton value="#{message.Salvar}"
-						action="#{usuarioPublicoBean.inserir}" icon="ui-icon-disk" 
-						oncomplete="alert('Usuário criado com sucesso!');"/>
+						action="#{usuarioPublicoBean.inserir}" icon="ui-icon-disk" />
 				</h:panelGrid>
 			</p:fieldset>
 		</h:form>

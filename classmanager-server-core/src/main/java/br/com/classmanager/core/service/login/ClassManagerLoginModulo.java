@@ -14,6 +14,7 @@ import org.jboss.security.SimplePrincipal;
 import org.jboss.security.auth.spi.UsernamePasswordLoginModule;
 
 import br.com.classmanager.client.dto.action.core.ConsultarUsuarioAction;
+import br.com.classmanager.client.entidades.enums.StatusUsuario;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.core.utils.CDIUtils;
@@ -39,7 +40,8 @@ public class ClassManagerLoginModulo extends UsernamePasswordLoginModule {
 		Usuario usuario = getResposta(getUsernameAndPassword()[0],
 				getUsernameAndPassword()[1]);
 
-		if (usuario == null || usuario.getId() == null)
+		if (usuario == null || usuario.getId() == null
+				|| StatusUsuario.INATIVO.equals(usuario.getStatusUsuario()))
 			return null;
 		return usuario.getSenha();
 	}

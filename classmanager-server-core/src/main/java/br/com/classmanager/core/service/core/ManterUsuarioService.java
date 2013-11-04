@@ -8,6 +8,7 @@ import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.enums.PerfilUsuario;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.client.exceptions.CodigoExcecao;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.usuario.IDaoUsuario;
 import br.com.classmanager.server.domain.service.impl.ServicoManterBase;
@@ -36,6 +37,11 @@ public class ManterUsuarioService extends
 		if (request.getEntidade().getPerfilUsuario() == null) {
 			request.getEntidade().setPerfilUsuario(PerfilUsuario.MEMBRO);
 		}
+
+		if (!validaLogin(request.getEntidade().getLogin())) {
+			throw new ClassManagerException(CodigoExcecao.ERRO_LOGIN_DUPLICADO);
+		}
+
 		getDao().inserir(request.getEntidade());
 		return request.getEntidade();
 	}
@@ -56,6 +62,18 @@ public class ManterUsuarioService extends
 			throws ClassManagerException {
 		return new ListaDTO<Usuario>(getDao().pesquisarLista(request.getNome(),
 				request.getLogin(), request.getEmail()));
+	}
+
+	public boolean validaLogin(String login) {
+		try {
+			if (getDao().pesquisarPorLogin(login) == null) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

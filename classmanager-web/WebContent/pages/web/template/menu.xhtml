@@ -7,33 +7,33 @@
 
 	<h:form>
 		<p:toolbar>
-			<p:toolbarGroup style="width: 100%;">
+			<p:toolbarGroup style="width: 100%;">								
 				<p:commandLink action="/pages/web/restrito/main.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="home_icone.png"
-						styleClass="iconeMenu" />
-				</p:commandLink>
-				<p:spacer width="50px;"></p:spacer>
+						styleClass="iconeMenu" title="#{message.Title_Home}"/>					
+				</p:commandLink>				
+				<p:spacer width="50px;"/>
 
 				<p:commandLink rendered="#{sessionBean.administrador}"
 					action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="usuario_masculino.png"
-						styleClass="iconeMenu" />
+						styleClass="iconeMenu" title="#{message.Title_Usuarios}" />
 				</p:commandLink>
 				<p:spacer width="50px;" rendered="#{sessionBean.administrador}" />
 
 				<p:commandLink action="/pages/web/restrito/grupo/pesquisa_grupo.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="grupo_icone.png"
-						styleClass="iconeMenu" />
+						styleClass="iconeMenu" title="#{message.Title_grupos}"/>
 				</p:commandLink>
 				<p:spacer width="50px;"></p:spacer>
 
 				<p:commandLink action="/pages/web/restrito/sobre.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="info_icone.png"
-						styleClass="iconeMenu" />
+						styleClass="iconeMenu" title="#{message.Header_Sobre}"/>
 				</p:commandLink>
 			</p:toolbarGroup>
 		</p:toolbar>

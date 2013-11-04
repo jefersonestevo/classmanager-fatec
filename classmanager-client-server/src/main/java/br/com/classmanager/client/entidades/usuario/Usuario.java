@@ -30,6 +30,7 @@ import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.def.BeanJPA;
 import br.com.classmanager.client.entidades.enums.PerfilUsuario;
 import br.com.classmanager.client.entidades.enums.Sexo;
+import br.com.classmanager.client.entidades.enums.StatusUsuario;
 import br.com.classmanager.client.utils.TamanhoCampo;
 
 @Audited
@@ -65,6 +66,10 @@ public class Usuario extends BeanJPA<Long> {
 	@Enumerated(EnumType.ORDINAL)
 	@Column
 	private PerfilUsuario perfilUsuario;
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column
+	private StatusUsuario statusUsuario;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column
@@ -195,6 +200,14 @@ public class Usuario extends BeanJPA<Long> {
 
 	public void setFotoUsuario(FotoUsuario fotoUsuario) {
 		this.fotoUsuario = fotoUsuario;
+	}
+
+	public StatusUsuario getStatusUsuario() {
+		return statusUsuario;
+	}
+
+	public void setStatusUsuario(StatusUsuario statusUsuario) {
+		this.statusUsuario = statusUsuario;
 	}
 
 }
