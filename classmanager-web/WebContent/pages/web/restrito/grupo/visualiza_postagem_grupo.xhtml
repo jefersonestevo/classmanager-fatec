@@ -16,8 +16,7 @@
 				action="#{grupoBean.retornarParaPesquisa}" immediate="true" />
 			<p:menuitem value="#{viewUtils.nomeGrupoFormatado(grupoBean.grupo)}"
 				action="#{grupoBean.retornarParaVisualizacaoGrupo}" immediate="true" />
-			<p:menuitem value="#{message.Header_Visualizacao_Postagem_Grupo}"
-				url="#" />
+			<p:menuitem value="#{postagemBean.postagemAtual.titulo}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
 
@@ -25,7 +24,7 @@
 		<h:form id="formVisualizaPostagemGrupo">
 			<h:panelGrid id="panelVisualizaPostagemGrupoGeral" columns="1"
 				styleClass="width-full">
-				<p:outputPanel>
+				<p:fieldset legend="#{postagemBean.postagemAtual.titulo}">
 					<h:panelGrid id="panelVisualizaPostagemGrupoInterno" columns="1"
 						styleClass="width-full">
 						<p:outputPanel layout="block" styleClass="negrito">
@@ -35,7 +34,8 @@
 							<p:outputPanel styleClass="panelGeradorVisualizacaoPostagem">
 								<h:outputText styleClass="negrito"
 									value="#{postagemBean.postagemAtual.usuario.nome} #{message.Postagem_Em} " />
-								<h:outputText value="#{postagemBean.postagemAtual.dataGeracao}" styleClass="negrito">
+								<h:outputText value="#{postagemBean.postagemAtual.dataGeracao}"
+									styleClass="negrito">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 								</h:outputText>
 							</p:outputPanel>
@@ -48,10 +48,12 @@
 							value="#{message.Postagem_Endereco}: #{postagemBean.postagemAtual.endereco}"
 							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
-						<h:outputText value="#{message.Postagem_Cargo}: #{postagemBean.postagemAtual.cargo}"
+						<h:outputText
+							value="#{message.Postagem_Cargo}: #{postagemBean.postagemAtual.cargo}"
 							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
-						<h:outputText value="#{message.Postagem_Contato}: #{postagemBean.postagemAtual.contato}"
+						<h:outputText
+							value="#{message.Postagem_Contato}: #{postagemBean.postagemAtual.contato}"
 							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
 						<p:outputPanel layout="block"
@@ -62,7 +64,7 @@
 							</h:outputText>
 						</p:outputPanel>
 					</h:panelGrid>
-				</p:outputPanel>
+				</p:fieldset>
 
 				<p:spacer style="width: 100%; height: 3px;" />
 
@@ -94,7 +96,8 @@
 						value="#{postagemBean.postagemAtual.listaComentarios}">
 
 						<p:column>
-							<h:panelGrid columns="1" styleClass="width-full esquerda-com-espaco">
+							<h:panelGrid columns="1"
+								styleClass="width-full esquerda-com-espaco">
 								<h:panelGrid columns="1" styleClass="width-full">
 									<p:outputPanel layout="block"
 										styleClass="panelGeradorComentarioPostagem">

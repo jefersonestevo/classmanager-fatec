@@ -66,4 +66,23 @@ public class DaoGrupoJPA extends DaoCRUDJPA<Grupo, Long> implements IDaoGrupo {
 				query.toString(), params.toArray());
 	}
 
+	@Override
+	public List<Grupo> pesquisarLista(List<Long> idUsuarios)
+			throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+
+		query.append(" SELECT DISTINCT g FROM ");
+		query.append(getEntidadePersistente().getName() + " AS g ");
+		query.append(" WHERE 1 = 2 ");
+
+		for (Long id : idUsuarios) {
+			query.append(" OR g.id = ? ");
+			params.add(id);
+		}
+
+		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+				query.toString(), params.toArray());
+	}
+
 }

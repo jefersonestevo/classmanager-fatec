@@ -32,6 +32,7 @@ import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.enums.AcaoPesquisar;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.client.exceptions.CodigoExcecao;
 import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
 import br.com.classmanager.web.mb.SessionBean;
@@ -67,11 +68,15 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String inserir() {
 		try {
-			if (CollectionUtils.isNotEmpty(tiposPostagemSelecionados)) {
-				for (String tipo : tiposPostagemSelecionados) {
-					grupo.getTiposPostagensHabilitados().add(
-							TipoPostagem.getTipoPostagem(tipo));
-				}
+			if (CollectionUtils.isEmpty(tiposPostagemSelecionados)) {
+				addExceptionMessage(new ClassManagerException(
+						CodigoExcecao.SELECIONAR_PELO_MENOS_UM_TIPO_POSTAGEM));
+				return null;
+			}
+
+			for (String tipo : tiposPostagemSelecionados) {
+				grupo.getTiposPostagensHabilitados().add(
+						TipoPostagem.getTipoPostagem(tipo));
 			}
 
 			if (CollectionUtils.isNotEmpty(tiposServicosEnvioSelecionados)) {
@@ -134,14 +139,18 @@ public class GrupoBean extends GenericManagedBean {
 
 	public String alteraMeuGrupo() {
 		try {
+			if (CollectionUtils.isEmpty(tiposPostagemSelecionados)) {
+				addExceptionMessage(new ClassManagerException(
+						CodigoExcecao.SELECIONAR_PELO_MENOS_UM_TIPO_POSTAGEM));
+				return null;
+			}
+
 			if (grupo.getServicosHabilitados() == null)
 				grupo.setServicosHabilitados(new HashSet<ServicoEnvio>());
 			grupo.getServicosHabilitados().clear();
-			if (CollectionUtils.isNotEmpty(tiposPostagemSelecionados)) {
-				for (String tipo : tiposPostagemSelecionados) {
-					grupo.getTiposPostagensHabilitados().add(
-							TipoPostagem.getTipoPostagem(tipo));
-				}
+			for (String tipo : tiposPostagemSelecionados) {
+				grupo.getTiposPostagensHabilitados().add(
+						TipoPostagem.getTipoPostagem(tipo));
 			}
 
 			if (grupo.getServicosHabilitados() == null)

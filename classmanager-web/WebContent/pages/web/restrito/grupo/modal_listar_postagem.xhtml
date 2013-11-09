@@ -17,6 +17,12 @@
 						<h:outputText
 							value="#{viewUtils.nomeGrupoFormatado(postagemBean.grupoAtual)}"
 							styleClass="negrito" />
+						<p:spacer style="width: 10px; height: 1px;" />
+						<p:commandButton icon="ui-icon-plus"
+							action="#{postagemBean.carregarTelaInserirPostagem(postagemBean.grupoAtual.id)}"
+							update=":formInserirPostagemGrupo" immediate="true"
+							oncomplete="modalListarPostagem.hide(); modalInserirPostagem.show()">
+						</p:commandButton>
 					</p:outputPanel>
 				</p:outputPanel>
 				<p:spacer style="height: 10px; width: 100%" />
@@ -35,6 +41,8 @@
 										action="#{postagemBean.irParaTelaVisualizarPostagemGrupo(post.id)}">
 										<h:panelGrid columns="2" styleClass="width-full"
 											columnClasses="panelTipoPostagemGerada, panelGeradorPostagem">
+											<h:outputText styleClass="negrito" value="#{post.titulo}" />
+											<p:outputPanel layout="block" />
 											<p:outputPanel layout="block">
 												<h:outputText
 													value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)}" />

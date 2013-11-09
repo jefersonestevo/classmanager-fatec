@@ -87,6 +87,9 @@ public class Postagem extends BeanJPA<Long> {
 	@JoinTable(name = "rel_conteudo_arquivo", joinColumns = @JoinColumn(name = "id_conteudo"), inverseJoinColumns = @JoinColumn(name = "id_arquivo"))
 	private List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
+	private String titulo;
+
 	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
 	private String descricao;
 
@@ -213,6 +216,14 @@ public class Postagem extends BeanJPA<Long> {
 		if (getTipoPostagem() == null)
 			return null;
 		return getTipoPostagem().getValor();
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 }

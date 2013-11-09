@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import br.com.classmanager.client.entidades.core.Grupo;
 import br.com.classmanager.client.entidades.core.Postagem;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
+import br.com.classmanager.client.entidades.enums.StatusUsuarioGrupo;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
 
@@ -50,6 +51,22 @@ public class ViewUtilsBean extends GenericManagedBean {
 			serv += ")";
 		}
 		return serv;
+	}
+
+	public String statusUsuarioGrupo(StatusUsuarioGrupo status) {
+		if (status == null)
+			return null;
+		switch (status) {
+		case CONVIDADO:
+			return getMessage("Usuario_Grupo_Convidado");
+		case CRIADOR:
+			return getMessage("Usuario_Grupo_Criador");
+		case PARTICIPANTE:
+			return getMessage("Usuario_Grupo_Participante");
+		case SOLICITANDO_PARTICIPACAO:
+			return getMessage("Usuario_Grupo_Solicitando_Participacao");
+		}
+		return null;
 	}
 
 }

@@ -26,7 +26,7 @@
 						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
 						<p:column styleClass="width-80"
 							headerText="#{notificacaoSessionBean.notificacaoGrupo.headerTabela}">
-#{notif.titulo}
+							<h:outputText value="#{notif.titulo}" />
 						</p:column>
 						<p:column styleClass="centro">
 							<p:commandButton icon="ui-icon-plus"
@@ -59,9 +59,10 @@
 						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
 						<p:column styleClass="width-80">
 							<f:facet name="header">
-						#{notificacaoSessionBean.notificacaoGrupoPendente.headerTabela}
-					</f:facet>
-#{notif.titulo}
+								<h:outputText
+									value="#{notificacaoSessionBean.notificacaoGrupoPendente.headerTabela}" />
+							</f:facet>
+							<h:outputText value="#{notif.titulo}" />
 						</p:column>
 
 						<p:column styleClass="width-20">
@@ -108,6 +109,39 @@
 					</p:dataTable>
 				</p:fieldset>
 
+				<p:fieldset id="panelGruposComPendencia"
+					styleClass="centro notificacao"
+					legend="#{notificacaoSessionBean.notificacaoGrupoComPendencia.header}">
+					<p:dataTable styleClass="width-full centro" rows="5"
+						paginator="true" paginatorPosition="bottom"
+						value="#{notificacaoSessionBean.notificacaoGrupoComPendencia.listaNotificacao}"
+						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
+
+						<p:column styleClass="width-80">
+							<f:facet name="header">
+								<p:outputPanel>
+									<h:outputText style="font-size: 9px;"
+										value="#{notificacaoSessionBean.notificacaoGrupoComPendencia.ultimaAtualizacao}">
+										<f:convertDateTime pattern="HH:mm" />
+									</h:outputText>
+									<p:spacer width="3px" />
+									<p:commandButton label="#{message.Atualizar}"
+										icon="ui-icon-refresh" onstart="modalStatus.show()"
+										oncomplete="modalStatus.hide()"
+										update=":formTelaInicial:panelGruposComPendencia"
+										action="#{notificacaoSessionBean.notificacaoGrupoComPendencia.atualizar}">
+									</p:commandButton>
+								</p:outputPanel>
+							</f:facet>
+							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}"
+								value="#{notif.titulo}">
+								<f:param name="id" value="#{notif.id}" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+				</p:fieldset>
+
 			</p:panelGrid>
 
 			<p:confirmDialog id="modalConfirmacaoEntradaGrupoID"
@@ -127,7 +161,7 @@
 			<p:confirmDialog id="modalConfirmacaoRejeicaoGrupoID"
 				widgetVar="modalConfirmacaoRejeicaoGrupo" showEffect="fade"
 				message="#{message.Notificacao_Grupo_Pendentes_Confirmar_Rejeicao_Grupo}">
-				<p:commandButton value="#{message.Sim}" 
+				<p:commandButton value="#{message.Sim}"
 					update=":formTelaInicial:panelGruposPendentes"
 					action="#{notificacaoSessionBean.notificacaoGrupoPendente.confirmarRejeicaoGrupo}"
 					oncomplete="modalConfirmacaoRejeicaoGrupo.hide()"

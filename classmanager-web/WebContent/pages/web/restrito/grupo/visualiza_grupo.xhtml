@@ -129,7 +129,8 @@
 								<h:outputText value="#{usuarioGrupo.usuario.nome}" />
 							</p:column>
 							<p:column headerText="#{message.Status}">
-								<h:outputText value="#{usuarioGrupo.status}" />
+								<h:outputText
+									value="#{viewUtils.statusUsuarioGrupo(usuarioGrupo.status)}" />
 							</p:column>
 							<p:column rendered="#{grupoBean.usuarioAtualAdministradorGrupo}">
 								<p:commandButton icon="ui-icon-check" immediate="true"

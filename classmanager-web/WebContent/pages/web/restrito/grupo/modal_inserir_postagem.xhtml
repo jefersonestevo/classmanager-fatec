@@ -17,6 +17,12 @@
 						<h:outputText
 							value="#{viewUtils.nomeGrupoFormatado(postagemBean.grupoAtual)}"
 							styleClass="negrito" />
+						<p:spacer style="width: 10px; height: 1px;" />
+						<p:commandButton icon="ui-icon-comment"
+							action="#{postagemBean.carregarListaPostagem(postagemBean.grupoAtual.id)}"
+							update=":formListarPostagemGrupo" immediate="true"
+							oncomplete="modalInserirPostagem.hide(); modalListarPostagem.show()">
+						</p:commandButton>
 					</p:outputPanel>
 					<br />
 
@@ -64,11 +70,18 @@
 								<h:panelGrid id="gridPreenchimentoPadrao" columns="3"
 									columnClasses="width-30, width-40, width-30">
 
+									<h:outputLabel value="#{message.Titulo}" for="tituloPostagemID" />
+									<p:inputText id="tituloPostagemID" label="#{message.Titulo}"
+										required="true" value="#{postagemBean.postagem.titulo}"
+										requiredMessage="#{message.Postagem_Titulo_Obrigatorio}">
+										<p:focus />
+									</p:inputText>
+									<h:message for=":formInserirPostagemGrupo:tituloPostagemID" />
+
 									<h:outputLabel value="#{message.Descricao}" for="descricaoID" />
 									<p:inputTextarea id="descricaoID" label="#{message.Descricao}"
 										required="true" value="#{postagemBean.postagem.descricao}"
 										requiredMessage="#{message.Postagem_Descricao_Obrigatoria}">
-										<p:focus />
 									</p:inputTextarea>
 									<h:message for="descricaoID" />
 								</h:panelGrid>
