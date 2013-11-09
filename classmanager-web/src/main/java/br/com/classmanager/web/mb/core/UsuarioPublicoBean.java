@@ -39,9 +39,9 @@ public class UsuarioPublicoBean extends GenericManagedBean {
 				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
 			}
-
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
 
 		return "login";

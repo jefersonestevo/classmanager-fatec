@@ -156,7 +156,8 @@ public class GrupoBean extends GenericManagedBean {
 
 			ManterGrupoAction action = new ManterGrupoAction(AcaoManter.ALTERAR);
 			action.setEntidade(grupo);
-			service.execute(action);
+			Grupo grupoAlterado = (Grupo) service.execute(action);
+			this.grupo = grupoAlterado;
 			showSuccessMessage();
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);

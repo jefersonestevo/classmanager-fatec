@@ -108,7 +108,8 @@ public class SessionBean extends GenericManagedBean {
 	public StreamedContent getFotoUsuario() {
 		StreamedContent foto = null;
 		if (getUsuario().getFotoUsuario() != null) {
-			foto = new DefaultStreamedContent(new ByteArrayInputStream(usuario
+			foto = new DefaultStreamedContent(new ByteArrayInputStream(
+					getUsuario()
 					.getFotoUsuario().getFoto()));
 		} else {
 			try {

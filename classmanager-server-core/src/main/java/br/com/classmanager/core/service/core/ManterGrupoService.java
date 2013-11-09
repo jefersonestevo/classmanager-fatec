@@ -78,6 +78,9 @@ public class ManterGrupoService extends
 	protected Grupo alterar(ManterGrupoAction request)
 			throws ClassManagerException {
 		Grupo grupo = request.getEntidade();
+
+		// Grupo grupoBase = getDao().pesquisar(grupo.getId());
+		// corrigirServicos(grupoBase, grupo);
 		grupo = getDao().alterar(grupo);
 
 		if (grupo != null && grupo.getUsuarioCriador() != null) {
@@ -94,5 +97,28 @@ public class ManterGrupoService extends
 				request.getTituloPesquisa());
 		return new ListaDTO<Grupo>(lista);
 	}
+
+	// private void corrigirServicos(Grupo grupoBase, Grupo grupo) {
+	// Set<ServicoEnvio> set = new HashSet<ServicoEnvio>();
+	// for (ServicoEnvio serv : grupo.getServicosHabilitados()) {
+	// boolean servicoExistente = false;
+	// for (ServicoEnvio servBase : grupoBase.getServicosHabilitados()) {
+	// if (servBase.getId().equals(serv.getId())) {
+	// // Se o servico que está tentando inserir já existia no
+	// // grupo original, adiciona o original ao set
+	// set.add(servBase);
+	// servicoExistente = true;
+	// break;
+	// }
+	// }
+	// if (!servicoExistente) {
+	// // Se o servico que está tentando inserir não existia no grupo
+	// // original, adiciona o novo grupo ao set
+	// set.add(serv);
+	// }
+	// }
+	// grupo.getServicosHabilitados().clear();
+	// grupo.getServicosHabilitados().addAll(set);
+	// }
 
 }

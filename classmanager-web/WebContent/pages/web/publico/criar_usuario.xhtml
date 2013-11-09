@@ -11,60 +11,72 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="formCriarUsuario">
-			<p:fieldset legend="#{message.Header_Insercao_Usuario}">
-				<h:panelGrid columns="2">
-					<h:outputLabel value="#{message.Nome}" for="nome" />
-					<p:inputText id="nome" label="nome" required="true"
-						value="#{usuarioPublicoBean.usuario.nome}" />
+			<h:panelGrid columns="3" id="panelInsercaoUsuario"
+				columnClasses="width-20, width-50, width-25">
+				<p:outputPanel layout="block" />
+				<p:fieldset legend="#{message.Header_Insercao_Usuario}"
+					styleClass="width-full centro">
 
-					<h:outputLabel value="#{message.Email}" for="email" />
-					<p:inputText id="email" label="email" required="true"
-						value="#{usuarioPublicoBean.usuario.email}" />
+					<h:panelGrid columns="2" id="panelInsercaoUsuarioInterno"
+						styleClass="centro width-full" columnClasses="width-50, width-50">
 
-					<h:outputText value="#{message.Telefone}" />
-					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioPublicoBean.usuario.telefone}" />
+						<h:outputLabel value="#{message.Nome}" for="nome" />
+						<p:inputText id="nome" label="nome" required="true"
+							value="#{usuarioPublicoBean.usuario.nome}" />
 
-					<h:outputText value="#{message.Celular_1}" />
-					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioPublicoBean.usuario.celular1}" />
+						<h:outputLabel value="#{message.Email}" for="email" />
+						<p:inputText id="email" label="email" required="true"
+							value="#{usuarioPublicoBean.usuario.email}" />
 
-					<h:outputText value="#{message.Celular_2}" />
-					<p:inputMask mask="(99) 99999-9999"
-						value="#{usuarioPublicoBean.usuario.celular2}" />
+						<h:outputText value="#{message.Telefone}" />
+						<p:inputMask mask="(99) 9999-9999"
+							value="#{usuarioPublicoBean.usuario.telefone}" />
 
-					<h:outputLabel value="#{message.Data_Nascimento}"
-						for="dt_nacimento" />
-						
-					<p:calendar locale="pt" navigator="true" effect="explode"
-						value="#{usuarioPublicoBean.usuario.dataNascimento}"
-						id="dt_nacimento" pattern="dd/MM/yyyy"/>
+						<h:outputText value="#{message.Celular_1}" />
+						<p:inputMask mask="(99) 99999-9999"
+							value="#{usuarioPublicoBean.usuario.celular1}" />
 
-					<h:outputText value="#{message.Sexo}" />
-					<p:selectOneRadio id="sexo"
-						value="#{usuarioPublicoBean.usuario.sexo}">
-						<f:selectItem itemLabel="Masculino" itemValue="F" />
-						<f:selectItem itemLabel="Feminino" itemValue="M" />
-					</p:selectOneRadio>
+						<h:outputText value="#{message.Celular_2}" />
+						<p:inputMask mask="(99) 99999-9999"
+							value="#{usuarioPublicoBean.usuario.celular2}" />
 
-					<h:outputLabel value="#{message.Login}" for="login" />
-					<p:inputText id="login" label="login" required="true"
-						maxlength="10" value="#{usuarioPublicoBean.usuario.login}" />
+						<h:outputLabel value="#{message.Data_Nascimento}"
+							for="dt_nacimento" />
 
-					<h:outputLabel value="#{message.Senha}" for="senha" />
-					<p:password id="senha" label="senha" required="true" maxlength="10"
-						feedback="true" value="#{usuarioPublicoBean.usuario.senha}" />
-					<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
-					<p:password id="confirmPassword" label="confirmPassword"
-						required="true" value="#{usuarioPublicoBean.confirmaSenha}" maxlength="10"/>
+						<p:calendar locale="pt" yearRange="c-90;c" navigator="true"
+							effect="explode"
+							value="#{usuarioPublicoBean.usuario.dataNascimento}"
+							id="dt_nacimento" pattern="dd/MM/yyyy" />
 
-					<p:commandButton immediate="true" value="#{message.Retornar}"
-						action="#{usuarioPublicoBean.IrParaTelaDeLogin}"
-						icon="ui-icon-arrowreturnthick-1-w" />
-					<p:commandButton value="#{message.Salvar}"
-						action="#{usuarioPublicoBean.inserir}" icon="ui-icon-disk" />
-				</h:panelGrid>
-			</p:fieldset>
+						<h:outputText value="#{message.Sexo}" />
+						<p:selectOneRadio id="sexo"
+							value="#{usuarioPublicoBean.usuario.sexo}">
+							<f:selectItem itemLabel="Masculino" itemValue="M" />
+							<f:selectItem itemLabel="Feminino" itemValue="F" />
+						</p:selectOneRadio>
+
+						<h:outputLabel value="#{message.Login}" for="login" />
+						<p:inputText id="login" label="login" required="true"
+							maxlength="10" value="#{usuarioPublicoBean.usuario.login}" />
+
+						<h:outputLabel value="#{message.Senha}" for="senha" />
+						<p:password id="senha" label="senha" required="true"
+							maxlength="10" feedback="true"
+							value="#{usuarioPublicoBean.usuario.senha}" />
+						<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
+						<p:password id="confirmPassword" label="confirmPassword"
+							required="true" value="#{usuarioPublicoBean.confirmaSenha}"
+							maxlength="10" />
+
+						<p:commandButton value="#{message.Salvar}"
+							onstart="modalStatus.show()" oncomplete="modalStatus.hide();"
+							action="#{usuarioPublicoBean.inserir}" icon="ui-icon-disk" />
+						<p:commandButton immediate="true" value="#{message.Retornar}"
+							action="#{usuarioPublicoBean.IrParaTelaDeLogin}"
+							icon="ui-icon-arrowreturnthick-1-w" />
+					</h:panelGrid>
+				</p:fieldset>
+			</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>

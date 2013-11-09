@@ -85,7 +85,7 @@ public class Grupo extends BeanJPA<Long> {
 	@ElementCollection(targetClass = TipoPostagem.class)
 	@Enumerated(EnumType.ORDINAL)
 	@CollectionTable(name = "rel_grupo_tipo_postagem_habilitado", joinColumns = @JoinColumn(name = "id_grupo"))
-	private List<TipoPostagem> tiposPostagensHabilitados = new ArrayList<TipoPostagem>();
+	private Set<TipoPostagem> tiposPostagensHabilitados = new HashSet<TipoPostagem>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<UsuarioGrupo> usuariosGrupo = new ArrayList<UsuarioGrupo>();
@@ -154,12 +154,12 @@ public class Grupo extends BeanJPA<Long> {
 		this.status = status;
 	}
 
-	public List<TipoPostagem> getTiposPostagensHabilitados() {
+	public Set<TipoPostagem> getTiposPostagensHabilitados() {
 		return tiposPostagensHabilitados;
 	}
 
 	public void setTiposPostagensHabilitados(
-			List<TipoPostagem> tiposPostagensHabilitados) {
+			Set<TipoPostagem> tiposPostagensHabilitados) {
 		this.tiposPostagensHabilitados = tiposPostagensHabilitados;
 	}
 

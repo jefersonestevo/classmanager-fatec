@@ -29,7 +29,7 @@
 				<p:outputPanel>
 					<p:fieldset legend="#{message.Header_Grupo_Cadastro_Dados}"
 						toggleable="true">
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="2" id="panelPreenchimentoDadosGrupo">
 							<h:outputLabel value="#{message.Identificador}" />
 							<h:outputText id="txtId" label="#{message.Identificador}"
 								value="#{grupoBean.grupo.id}" />
@@ -62,7 +62,8 @@
 					<p:fieldset legend="#{message.Header_Grupo_Tipo_Grupo}"
 						toggleable="true">
 
-						<h:panelGrid columns="2" columnClasses="width-30, width-70">
+						<h:panelGrid columns="2" columnClasses="width-30, width-70"
+							id="panelVisualizacaoDadosGrupo2">
 							<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
 							<p:selectManyCheckbox
 								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
@@ -86,7 +87,8 @@
 					<p:fieldset legend="#{message.Postagem_Grupo}"
 						rendered="#{grupoBean.usuarioAtualMembroGrupo}">
 						<h:panelGrid columns="2" columnClasses="width-50, width-50"
-							styleClass="width-full centro">
+							styleClass="width-full centro"
+							id="panelVisualizacaoCarregarPostagensGrupo">
 
 							<p:commandButton icon="ui-icon-plus"
 								action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
@@ -214,7 +216,7 @@
 			<p:outputPanel layout="block" styleClass="width-full centro">
 				<p:commandButton value="#{message.Alterar}"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()"
-					action="#{grupoBean.alteraMeuGrupo}"
+					action="#{grupoBean.alteraMeuGrupo}" update="formGrupo"
 					rendered="#{grupoBean.usuarioAtualAdministradorGrupo}"
 					icon="ui-icon-disk" />
 				<p:spacer width="10px"
@@ -236,8 +238,8 @@
 				message="#{message.Grupo_Confirmar_Convidar_Usuario}">
 				<p:commandButton value="#{message.Sim}"
 					update=":formGrupo:membros,:formGrupo:usuarios"
-					action="#{grupoBean.convidaUsuario}"
-					oncomplete="modalConfirmacaoConvidaUsuario.hide()"
+					action="#{grupoBean.convidaUsuario}" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide();modalConfirmacaoConvidaUsuario.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -249,8 +251,8 @@
 				hideEffect="fade"
 				message="#{message.Grupo_Confirmar_Exclusao_Grupo}">
 				<p:commandButton value="#{message.Sim}"
-					action="#{grupoBean.excluiMeuGrupo}"
-					oncomplete="modalConfirmacaoExcluiGrupo.hide()"
+					action="#{grupoBean.excluiMeuGrupo}" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide(); modalConfirmacaoExcluiGrupo.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -263,7 +265,8 @@
 				<p:commandButton value="#{message.Sim}"
 					update=":formGrupo:membros,:formGrupo:usuarios"
 					action="#{grupoBean.confirmarEntradaUsuarioGrupo}"
-					oncomplete="modalConfirmacaoUsuarioGrupo.hide()"
+					onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide(); modalConfirmacaoUsuarioGrupo.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -277,7 +280,8 @@
 				<p:commandButton value="#{message.Sim}"
 					action="#{grupoBean.solicitarParticipacaoGrupo}"
 					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
-					oncomplete="modalSolicitarParticipacaoGrupo.hide()"
+					onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide(); modalSolicitarParticipacaoGrupo.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -290,7 +294,9 @@
 				<p:commandButton value="#{message.Sim}"
 					action="#{grupoBean.sairGrupo}"
 					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
-					oncomplete="modalSairGrupo.hide()" icon="ui-icon-check" />
+					onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide(); modalSairGrupo.hide()"
+					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="modalSairGrupo.hide()" />
@@ -303,7 +309,8 @@
 				<p:commandButton value="#{message.Sim}"
 					action="#{grupoBean.removerUsuarioGrupo}"
 					update=":formGrupo:membros,:formGrupo:usuarios,:formGrupo:panelMembro"
-					oncomplete="modalConfirmacaoRemocaoUsuarioGrupo.hide()"
+					onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide(); modalConfirmacaoRemocaoUsuarioGrupo.hide()"
 					icon="ui-icon-check" />
 				<p:commandButton value="#{message.Nao}" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

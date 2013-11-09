@@ -30,34 +30,34 @@
 						styleClass="width-full">
 						<p:outputPanel layout="block" styleClass="negrito">
 							<h:outputText styleClass="negrito"
-								value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)} - " />
+								value="#{viewUtils.nomeTipoPostagem(postagemBean.postagemAtual.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(postagemBean.postagemAtual)} - " />
 
 							<p:outputPanel styleClass="panelGeradorVisualizacaoPostagem">
 								<h:outputText styleClass="negrito"
-									value="#{post.usuario.nome} #{message.Postagem_Em} " />
-								<h:outputText value="#{post.dataGeracao}" styleClass="negrito">
+									value="#{postagemBean.postagemAtual.usuario.nome} #{message.Postagem_Em} " />
+								<h:outputText value="#{postagemBean.postagemAtual.dataGeracao}" styleClass="negrito">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 								</h:outputText>
 							</p:outputPanel>
 						</p:outputPanel>
 
 						<h:outputText
-							value="#{message.Postagem_Descricao}: #{post.descricao}" />
+							value="#{message.Postagem_Descricao}: #{postagemBean.postagemAtual.descricao}" />
 
 						<h:outputText
-							value="#{message.Postagem_Endereco}: #{post.endereco}"
-							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+							value="#{message.Postagem_Endereco}: #{postagemBean.postagemAtual.endereco}"
+							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
-						<h:outputText value="#{message.Postagem_Cargo}: #{post.cargo}"
-							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+						<h:outputText value="#{message.Postagem_Cargo}: #{postagemBean.postagemAtual.cargo}"
+							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
-						<h:outputText value="#{message.Postagem_Contato}: #{post.contato}"
-							rendered="#{(post.tipoPostagemNumber eq 2)}" />
+						<h:outputText value="#{message.Postagem_Contato}: #{postagemBean.postagemAtual.contato}"
+							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}" />
 
 						<p:outputPanel layout="block"
-							rendered="#{(post.tipoPostagemNumber eq 2)}">
+							rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}">
 							<h:outputText value="#{message.Postagem_Data_Inicio}: " />
-							<h:outputText value="#{post.dataInicio}">
+							<h:outputText value="#{postagemBean.postagemAtual.dataInicio}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
 						</p:outputPanel>
