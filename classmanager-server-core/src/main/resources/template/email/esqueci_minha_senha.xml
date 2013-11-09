@@ -1,0 +1,8 @@
+<template>
+	<titulo>HINTER - @@login@@</titulo>
+	<conteudo>
+		Sua senha do Hinter, para o usuário @@login@@ é: @@senha@@.
+		<br />
+		Favor descartar este e-mail imediatamente.
+	</conteudo>
+</template>

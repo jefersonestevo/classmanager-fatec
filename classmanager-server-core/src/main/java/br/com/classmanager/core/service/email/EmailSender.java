@@ -1,11 +1,16 @@
-package br.com.classmanager.core.utils;
+package br.com.classmanager.core.service.email;
 
+import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -18,27 +23,62 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 
 import br.com.classmanager.client.exceptions.CodigoExcecao;
 import br.com.classmanager.core.exceptions.ClassManagerEmailException;
 
+@ApplicationScoped
 public class EmailSender {
 
-	public static void enviarEmail(String email, String assunto, String conteudo)
-			throws ClassManagerEmailException {
-		enviarEmail(email, assunto, conteudo, null);
+	private Logger log = Logger.getLogger(EmailSender.class);
+
+	private Map<TemplateEmailMapper, TemplateEmail> mapTemplates = new HashMap<TemplateEmailMapper, TemplateEmail>();
+
+	@PostConstruct
+	public void mapearTemplates() {
+		try {
+			// Mapeando Templates
+			for (TemplateEmailMapper mapper : TemplateEmailMapper.values()) {
+				InputStream input = getClass().getResourceAsStream(
+						"/template/email/" + mapper.getNome() + ".xml");
+
+				JAXBContext jc = JAXBContext.newInstance(TemplateEmail.class);
+
+				Unmarshaller unmarshaller = jc.createUnmarshaller();
+				TemplateEmail temp = (TemplateEmail) unmarshaller
+						.unmarshal(input);
+				mapTemplates.put(mapper, temp);
+			}
+		} catch (JAXBException e) {
+			log.error(
+					"Ocorreu um erro ao mapear os templates de email da aplicação.",
+					e);
+		}
 	}
 
-	public static void enviarEmail(String email, String assunto,
-			String conteudo, List<ArquivoAnexo> anexos)
+	public void enviarEmail(TemplateEmailMapper template,
+			Map<String, String> atributos, String email)
 			throws ClassManagerEmailException {
+		enviarEmail(template, atributos, email, null);
+	}
+
+	public void enviarEmail(TemplateEmailMapper template,
+			Map<String, String> atributos, String email,
+			List<ArquivoAnexo> anexos) throws ClassManagerEmailException {
 
 		try {
+			TemplateEmail templateEmail = mapTemplates.get(template);
+
 			Session session = getSession();
-			dispararEmail(session, "hintersystem@gmail.com", email, assunto,
-					conteudo, anexos);
+			dispararEmail(session, "hintersystem@gmail.com", email,
+					templateEmail.mergeTitulo(atributos),
+					templateEmail.mergeConteudo(atributos), anexos);
 		} catch (ClassManagerEmailException e) {
 			throw e;
 		} catch (Exception e) {
@@ -48,9 +88,9 @@ public class EmailSender {
 		}
 	}
 
-	private static void dispararEmail(Session session, String emailDe,
-			String email, String assunto, String conteudo,
-			List<ArquivoAnexo> anexos) throws ClassManagerEmailException {
+	private void dispararEmail(Session session, String emailDe, String email,
+			String assunto, String conteudo, List<ArquivoAnexo> anexos)
+			throws ClassManagerEmailException {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailDe));
@@ -86,7 +126,7 @@ public class EmailSender {
 		}
 	}
 
-	private static Session getSession() {
+	private Session getSession() {
 		Properties props = new Properties();
 
 		// TODO - Alterar propriedades

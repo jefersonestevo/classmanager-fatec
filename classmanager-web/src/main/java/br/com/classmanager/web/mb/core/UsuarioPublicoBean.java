@@ -3,6 +3,7 @@ package br.com.classmanager.web.mb.core;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.entidades.usuario.Usuario;
 import br.com.classmanager.client.enums.AcaoManter;
@@ -33,6 +34,7 @@ public class UsuarioPublicoBean extends GenericManagedBean {
 				action.setEntidade(usuario);
 				service.execute(action,true);
 				usuario = new Usuario();
+				showSuccessMessage();
 			} else {
 				addErrorMessage(getMessage("Senha_Nao_Confere"));
 				return null;
