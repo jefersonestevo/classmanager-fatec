@@ -26,6 +26,7 @@ import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
 import br.com.classmanager.client.enums.AcaoManter;
 import br.com.classmanager.client.exceptions.ClassManagerException;
+import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.componentes.comparators.ComparadorComentarioPostagemPorDataGeracao;
 import br.com.classmanager.web.componentes.comparators.ComparadorPostagemPorDataGeracao;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
@@ -208,7 +209,9 @@ public class PostagemBean extends GenericManagedBean {
 			lista.add(new SelectItem(tipoPostagem.getValor(),
 					getMessage("Tipo_Postagem_" + tipoPostagem.getValor())));
 		}
+		CMCollectionUtils.ordenarLista(lista, new String[] { "value" });
 		this.listaTiposPostagensHabilitadas = lista;
+
 	}
 
 	private void preencherTiposServicosEnvioHabilitados(Grupo grupo) {
@@ -217,6 +220,7 @@ public class PostagemBean extends GenericManagedBean {
 			lista.add(new SelectItem(servicoEnvio.getId(), servicoEnvio
 					.getNome()));
 		}
+		CMCollectionUtils.ordenarLista(lista, new String[] { "value" });
 		this.tiposServicosEnvioHabilitados = lista;
 	}
 

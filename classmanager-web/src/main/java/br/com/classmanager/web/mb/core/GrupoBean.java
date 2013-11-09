@@ -35,6 +35,7 @@ import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.client.exceptions.CodigoExcecao;
 import br.com.classmanager.client.utils.CMCollectionUtils;
 import br.com.classmanager.web.componentes.qualifiers.ServiceView;
+import br.com.classmanager.web.mb.BroadcasterBean;
 import br.com.classmanager.web.mb.SessionBean;
 import br.com.classmanager.web.mb.def.GenericManagedBean;
 import br.com.classmanager.web.service.ClassManagerServiceView;
@@ -62,6 +63,9 @@ public class GrupoBean extends GenericManagedBean {
 
 	@Inject
 	private SessionBean sessionBean;
+
+	@Inject
+	private BroadcasterBean broadcaster;
 
 	public GrupoBean() {
 	}
@@ -168,6 +172,8 @@ public class GrupoBean extends GenericManagedBean {
 			Grupo grupoAlterado = (Grupo) service.execute(action);
 			this.grupo = grupoAlterado;
 			showSuccessMessage();
+			broadcaster.broadcastGrupo(this.grupo.getId(),
+					"Grupo " + grupo.getTitulo() + " foi alterado.");
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 			return null;

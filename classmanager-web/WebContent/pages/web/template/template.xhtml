@@ -15,6 +15,18 @@
 		<h:outputScript library="js" name="funcoes.js" />
 		<h:outputScript name="locale-primefaces.js" library="js" />
 		<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+
+		<script type="text/javascript">
+			function handleMessage(data) {
+				alert(data);
+				growlNotificacaoGrupo.show([ {
+					summary : data,
+					detail : data,
+					severity : 'info'
+				} ]);
+			}
+		</script>
+
 	</h:head>
 	<h:body>
 		<div id="page">
@@ -34,7 +46,7 @@
 					</ui:insert>
 				</h:form>
 			</div>
-			<p:messages closable="true" autoUpdate="true" />
+			<p:messages closable="true" autoUpdate="true" globalOnly="true" />
 			<div id="content">
 				<ui:insert name="content">
 					<ui:include src="/pages/web/template/content.xhtml" />
@@ -57,6 +69,18 @@
 				</p:dialog>
 			</p:outputPanel>
 		</h:form>
+
+		<!-- 		<h:form id="formExibicaoNotificacao"> -->
+		<!-- 			<ui:repeat var="gp" -->
+		<!-- 				value="#{notificacaoSessionBean.notificacaoGrupo.listaNotificacao}"> -->
+		<!-- 				<p:socket onMessage="handleMessage" id="IDMessageGrupo#{gp.id}" -->
+		<!-- 					channel="/messageGrupo#{gp.id}" widgetVar="wdMessageGrupo#{gp.id}" -->
+		<!-- 					autoConnect="true" /> -->
+		<!-- 			</ui:repeat> -->
+		<!-- 			<p:growl id="growlNotificacaoGrupoID" showDetail="true" sticky="true" -->
+		<!-- 				widgetVar="growlNotificacaoGrupo" /> -->
+		<!-- 		</h:form> -->
+
 	</h:body>
 </f:view>
 </html>

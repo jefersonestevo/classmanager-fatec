@@ -41,8 +41,12 @@
 							</p:outputPanel>
 						</p:outputPanel>
 
-						<h:outputText
-							value="#{message.Postagem_Descricao}: #{postagemBean.postagemAtual.descricao}" />
+						<p:separator style="width: 100%; height: 1px;" />
+
+						<h:outputText value="#{postagemBean.postagemAtual.descricao}"
+							escape="false" />
+
+						<p:separator style="width: 100%; height: 1px;" />
 
 						<h:outputText
 							value="#{message.Postagem_Endereco}: #{postagemBean.postagemAtual.endereco}"

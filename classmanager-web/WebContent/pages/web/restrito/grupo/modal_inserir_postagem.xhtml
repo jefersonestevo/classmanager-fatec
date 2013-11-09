@@ -53,60 +53,76 @@
 					</h:panelGrid>
 					<br />
 					<p:outputPanel id="panelInsercaoConteudoPostagem" layout="block">
-						<p:panelGrid columns="2" styleClass="width-full"
+						<p:panelGrid columns="1" styleClass="width-full"
 							columnClasses="width-50, width-50"
 							rendered="#{postagemBean.tipoPostagemSelecionada ne null}">
-							<p:outputPanel>
-								<h:panelGrid id="gridPreenchimentoVagaCargo" columns="3"
-									columnClasses="width-30, width-40, width-30"
-									rendered="#{postagemBean.tipoPostagemSelecionada eq 2}">
-									<h:outputLabel value="#{message.Cargo}  " for="cargoID" />
-									<p:inputText id="cargoID" label="#{message.Cargo}"
-										required="true" value="#{postagemBean.postagem.cargo}"
-										requiredMessage="#{message.Postagem_Cargo_Obrigatorio}" />
-									<h:message for="cargoID" />
-								</h:panelGrid>
 
-								<h:panelGrid id="gridPreenchimentoPadrao" columns="3"
-									columnClasses="width-30, width-40, width-30">
+							<h:panelGrid id="gridPreenchimentoTituloPadrao" columns="3"
+								columnClasses="width-20, width-80">
 
-									<h:outputLabel value="#{message.Titulo}" for="tituloPostagemID" />
-									<p:inputText id="tituloPostagemID" label="#{message.Titulo}"
-										required="true" value="#{postagemBean.postagem.titulo}"
-										requiredMessage="#{message.Postagem_Titulo_Obrigatorio}">
-										<p:focus />
-									</p:inputText>
-									<h:message for=":formInserirPostagemGrupo:tituloPostagemID" />
+								<h:outputLabel value="#{message.Titulo}" for="tituloPostagemID" />
+								<p:inputText id="tituloPostagemID" label="#{message.Titulo}"
+									required="true" value="#{postagemBean.postagem.titulo}"
+									styleClass="width-80" maxlength="190"
+									requiredMessage="#{message.Postagem_Titulo_Obrigatorio}">
+									<p:focus />
+								</p:inputText>
+								<h:message for="tituloPostagemID" showSummary="true" />
 
-									<h:outputLabel value="#{message.Descricao}" for="descricaoID" />
-									<p:inputTextarea id="descricaoID" label="#{message.Descricao}"
-										required="true" value="#{postagemBean.postagem.descricao}"
-										requiredMessage="#{message.Postagem_Descricao_Obrigatoria}">
-									</p:inputTextarea>
-									<h:message for="descricaoID" />
-								</h:panelGrid>
-							</p:outputPanel>
+							</h:panelGrid>
 
-							<h:panelGrid id="gridPreenchimentoVagaCargo2" columns="3"
-								columnClasses="width-30, width-40, width-30"
+							<h:panelGrid id="gridPreenchimentoVagaBase" columns="2"
+								columnClasses="width-50, width-50"
 								rendered="#{postagemBean.tipoPostagemSelecionada eq 2}">
 
-								<h:outputLabel value="#{message.Endereco}" for="enderecoID" />
-								<p:inputText id="enderecoID" label="#{message.Endereco}"
-									value="#{postagemBean.postagem.endereco}" />
-								<h:message for="enderecoID" />
+								<h:panelGrid id="gridPreenchimentoVagaCargo1" columns="3"
+									columnClasses="width-30, width-40, width-30">
 
-								<h:outputLabel value="#{message.Contato}" for="contatoID" />
-								<p:inputText id="contatoID" label="#{message.Contato}"
-									value="#{postagemBean.postagem.contato}" />
-								<h:message for="contatoID" />
+									<h:outputLabel value="#{message.Cargo}  " for="cargoID" />
+									<p:inputText id="cargoID" label="#{message.Cargo}"
+										maxlength="190" required="true"
+										value="#{postagemBean.postagem.cargo}"
+										requiredMessage="#{message.Postagem_Cargo_Obrigatorio}" />
+									<h:message for="cargoID" />
 
-								<h:outputLabel value="#{message.Data_Inicio}" for="dataInicioID" />
-								<p:calendar id="dataInicioID" label="#{message.Data_Inicio}"
-									value="#{postagemBean.postagem.dataInicio}"
-									pattern="dd/MM/yyyy" />
-								<h:message for="dataInicioID" />
+									<h:outputLabel value="#{message.Endereco}" for="enderecoID" />
+									<p:inputText id="enderecoID" label="#{message.Endereco}"
+										value="#{postagemBean.postagem.endereco}" />
+									<h:message for="enderecoID" />
+
+								</h:panelGrid>
+
+								<h:panelGrid id="gridPreenchimentoVagaCargo2" columns="3"
+									columnClasses="width-30, width-40, width-30">
+
+									<h:outputLabel value="#{message.Contato}" for="contatoID" />
+									<p:inputText id="contatoID" label="#{message.Contato}"
+										value="#{postagemBean.postagem.contato}" />
+									<h:message for="contatoID" />
+
+									<h:outputLabel value="#{message.Data_Inicio}"
+										for="dataInicioID" />
+									<p:calendar id="dataInicioID" label="#{message.Data_Inicio}"
+										value="#{postagemBean.postagem.dataInicio}"
+										pattern="dd/MM/yyyy" />
+									<h:message for="dataInicioID" />
+
+								</h:panelGrid>
+
 							</h:panelGrid>
+
+							<h:panelGrid id="gridPreenchimentoDescricaoPadrao" columns="3"
+								columnClasses="width-30, width-40, width-30">
+
+								<h:outputLabel value="#{message.Descricao}" for="descricaoID" />
+								<p:editor id="descricaoID" label="#{message.Descricao}"
+									required="true" value="#{postagemBean.postagem.descricao}"
+									height="150" maxlength="1900"
+									requiredMessage="#{message.Postagem_Descricao_Obrigatoria}">
+								</p:editor>
+								<h:message for="descricaoID" />
+							</h:panelGrid>
+
 						</p:panelGrid>
 					</p:outputPanel>
 				</p:outputPanel>

@@ -69,4 +69,14 @@ public class ViewUtilsBean extends GenericManagedBean {
 		return null;
 	}
 
+	public String limitarTexto(String texto, Integer tamanho) {
+		if (StringUtils.isBlank(texto) || tamanho == null)
+			return null;
+		String valor = texto;
+		if (tamanho <= texto.length()) {
+			valor = texto.substring(0, tamanho) + "...";
+		}
+		return valor;
+	}
+
 }
