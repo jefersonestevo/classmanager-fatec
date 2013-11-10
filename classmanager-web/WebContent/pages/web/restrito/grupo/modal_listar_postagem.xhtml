@@ -19,10 +19,13 @@
 							styleClass="negrito" />
 						<p:spacer style="width: 10px; height: 1px;" />
 						<p:commandButton icon="ui-icon-plus"
+							id="botaoCarregarModalInserirPostagemModal"
 							action="#{postagemBean.carregarTelaInserirPostagem(postagemBean.grupoAtual.id)}"
 							update=":formInserirPostagemGrupo" immediate="true"
 							oncomplete="modalListarPostagem.hide(); modalInserirPostagem.show()">
 						</p:commandButton>
+						<p:tooltip for="botaoCarregarModalInserirPostagemModal"
+							value="#{message.Hint_Botao_Carregar_Modal_Inserir_Postagem}" />
 					</p:outputPanel>
 				</p:outputPanel>
 				<p:spacer style="height: 10px; width: 100%" />

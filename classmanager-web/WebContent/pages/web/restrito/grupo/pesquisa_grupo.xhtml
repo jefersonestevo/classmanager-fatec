@@ -59,10 +59,13 @@
 				</p:column>
 				<p:column styleClass="centro">
 					<p:commandButton icon="ui-icon-search"
+						id="btnCarregarDadosVisualizacaoGrupo"
 						action="#{grupoBean.visualizaMeuGrupo}"
 						onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 						<f:param id="id" name="id" value="#{grupo.id}"></f:param>
 					</p:commandButton>
+					<p:tooltip for="btnCarregarDadosVisualizacaoGrupo"
+						value="#{message.Hint_Botao_Carregar_Visualizacao_Grupo}" />
 				</p:column>
 			</p:dataTable>
 			<p:outputLabel

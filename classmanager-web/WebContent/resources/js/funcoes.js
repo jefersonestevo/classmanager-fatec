@@ -7,12 +7,22 @@ function handleComplete(xht, status, args) {
 		alert('error');
 	} else {
 		if (args.lista) {
-			try{
+			try {
 				var items = eval('(' + args.lista + ')');
 				for ( var i = 0; i < items.length; i++) {
 					handleMessage(items[i]);
 				}
-			}catch(e){}
+			} catch (e) {
+			}
 		}
 	}
+}
+
+function handleMessage(data) {
+	alert(data);
+	$('#growlNotificacaoGrupo').show([ {
+		summary : data,
+		detail : data,
+		severity : 'info'
+	} ]);
 }

@@ -38,10 +38,11 @@
 							<h:outputText id="txtDono" label="#{message.Dono}"
 								value="#{grupoBean.grupo.usuarioCriador.nome}" />
 
-							<h:outputLabel value="#{message.Titulo}" for="titulo" />
+							<h:outputLabel value="* #{message.Titulo}" for="titulo" />
 							<p:inputText id="titulo" label="titulo" required="true"
 								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
-								value="#{grupoBean.grupo.titulo}" />
+								value="#{grupoBean.grupo.titulo}"
+								requiredMessage="#{message.Titulo_Obrigatorio}" />
 
 							<h:outputLabel value="#{message.Descricao}" for="descricao" />
 							<p:inputTextarea rows="8" cols="50" counter="counter"
@@ -53,7 +54,8 @@
 							<h:outputText id="counter" />
 							<h:outputLabel value="#{message.Status}" for="titulo" />
 							<p:selectOneMenu id="status" value="#{grupoBean.grupo.status}"
-								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}">
+								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
+								required="true" requiredMessage="#{message.Status_Obrigatorio}">
 								<f:selectItems value="#{grupoBean.statusGrupo}" />
 							</p:selectOneMenu>
 						</h:panelGrid>
@@ -64,8 +66,9 @@
 
 						<h:panelGrid columns="2" columnClasses="width-30, width-70"
 							id="panelVisualizacaoDadosGrupo2">
-							<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
-							<p:selectManyCheckbox
+							<h:outputLabel value="* #{message.Tipo_Postagem_Habilitadas}" />
+							<p:selectManyCheckbox required="true"
+								requiredMessage="#{messageException[400005001]}"
 								disabled="#{sessionBean.usuario.id ne grupoBean.grupo.usuarioCriador.id}"
 								value="#{grupoBean.tiposPostagemSelecionados}">
 								<f:selectItems value="#{grupoBean.tiposPostagem}" />
@@ -90,18 +93,27 @@
 							styleClass="width-full centro"
 							id="panelVisualizacaoCarregarPostagensGrupo">
 
-							<p:commandButton icon="ui-icon-plus"
-								action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
-								update=":formInserirPostagemGrupo"
-								oncomplete="modalInserirPostagem.show()">
-							</p:commandButton>
+							<p:outputPanel>
+								<p:commandButton icon="ui-icon-plus"
+									id="botaoCarregarModalInserirPostagem2"
+									action="#{postagemBean.carregarTelaInserirPostagem(grupoBean.grupo.id)}"
+									update=":formInserirPostagemGrupo"
+									oncomplete="modalInserirPostagem.show()">
+								</p:commandButton>
+								<p:tooltip for="botaoCarregarModalInserirPostagem2"
+									value="#{message.Hint_Botao_Carregar_Modal_Inserir_Postagem}" />
+							</p:outputPanel>
 
-							<p:commandButton icon="ui-icon-comment"
-								action="#{postagemBean.carregarListaPostagem(grupoBean.grupo.id)}"
-								update=":formListarPostagemGrupo"
-								oncomplete="modalListarPostagem.show()">
-							</p:commandButton>
-
+							<p:outputPanel>
+								<p:commandButton icon="ui-icon-comment"
+									id="botaoCarregarModalListarPostagem2"
+									action="#{postagemBean.carregarListaPostagem(grupoBean.grupo.id)}"
+									update=":formListarPostagemGrupo"
+									oncomplete="modalListarPostagem.show()">
+								</p:commandButton>
+								<p:tooltip for="botaoCarregarModalListarPostagem2"
+									value="#{message.Hint_Botao_Carregar_Modal_Listar_Postagem}" />
+							</p:outputPanel>
 						</h:panelGrid>
 					</p:fieldset>
 
@@ -121,6 +133,8 @@
 										for=":formGrupo:membros:iterator:btnConfirmarRemocaoUsuarioGrupo"
 										target="#{grupoBean.idUsuarioGrupoSelecionado}" />
 								</p:commandButton>
+								<p:tooltip for="btnConfirmarRemocaoUsuarioGrupo"
+									value="#{message.Hint_Confirmar_Remocao_Usuario_Grupo}" />
 							</p:column>
 							<p:column headerText="#{message.Login}">
 								<h:outputText value="#{usuarioGrupo.usuario.login}" />
@@ -141,6 +155,8 @@
 										for=":formGrupo:membros:iterator:btnConfirmarUsuarioGrupo"
 										target="#{grupoBean.idUsuarioGrupoSelecionado}" />
 								</p:commandButton>
+								<p:tooltip for="btnConfirmarUsuarioGrupo"
+									value="#{message.Hint_Confirmar_Entrada_Usuario_Grupo}" />
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>
@@ -192,6 +208,8 @@
 										for=":formGrupo:usuarios:iterator:btnConvidarUsuarioGrupo"
 										target="#{grupoBean.idUsuarioSelecionado}" />
 								</p:commandLink>
+								<p:tooltip for="btnConvidarUsuarioGrupo"
+									value="#{message.Hint_Convidar_Usuario_Grupo}" />
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>

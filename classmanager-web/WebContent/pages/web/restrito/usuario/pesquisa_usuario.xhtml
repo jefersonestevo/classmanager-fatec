@@ -21,27 +21,25 @@
 			<p:panel header="Consulta Usuários">
 				<h:panelGrid columns="2" styleClass="tabela-simples">
 					<h:outputLabel value="#{message.Nome}" for="nome" />
-					<p:inputText id="nome" label="nome"
-						value="#{usuarioBean.nome}" />
+					<p:inputText id="nome" label="nome" value="#{usuarioBean.nome}" />
 					<h:outputLabel value="#{message.Login}" for="login" />
-					<p:inputText id="login" label="login"
-						value="#{usuarioBean.login}" maxlength="10" />
+					<p:inputText id="login" label="login" value="#{usuarioBean.login}"
+						maxlength="10" />
 
 					<h:outputLabel value="#{message.Email}" for="email" />
-					<p:inputText id="email" label="email"
-						value="#{usuarioBean.email}" />
+					<p:inputText id="email" label="email" value="#{usuarioBean.email}" />
 
 				</h:panelGrid>
 
 				<p:outputPanel layout="block" styleClass="tabela-botao-centralizado">
-					<p:commandButton value="#{message.Buscar}" update="usuarios" 
-						actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search"
-						 />
+					<p:commandButton value="#{message.Buscar}" update="usuarios"
+						actionListener="#{usuarioBean.pesquisar}" icon="ui-icon-search" />
 				</p:outputPanel>
 			</p:panel>
 			<p:spacer styleClass="espaco-tabela" />
 			<p:dataTable id="usuarios" var="list" value="#{usuarioBean.list}"
-				emptyMessage="#{message.Nenhum_Item_Exibicao}">
+				emptyMessage="#{message.Nenhum_Item_Exibicao}" paginator="true"
+				paginatorPosition="bottom" rows="10">
 				<p:column headerText="Nome">
 					<h:outputText value="#{list.nome}" />
 				</p:column>

@@ -20,13 +20,15 @@
 					<h:panelGrid columns="2" id="panelInsercaoUsuarioInterno"
 						styleClass="centro width-full" columnClasses="width-50, width-50">
 
-						<h:outputLabel value="#{message.Nome}" for="nome" />
+						<h:outputLabel value="* #{message.Nome}" for="nome" />
 						<p:inputText id="nome" label="nome" required="true"
-							value="#{usuarioPublicoBean.usuario.nome}" />
+							value="#{usuarioPublicoBean.usuario.nome}"
+							requiredMessage="#{message.Nome_Obrigatorio}" />
 
-						<h:outputLabel value="#{message.Email}" for="email" />
+						<h:outputLabel value="* #{message.Email}" for="email" />
 						<p:inputText id="email" label="email" required="true"
-							value="#{usuarioPublicoBean.usuario.email}" />
+							value="#{usuarioPublicoBean.usuario.email}"
+							requiredMessage="#{message.Email_Obrigatorio}" />
 
 						<h:outputText value="#{message.Telefone}" />
 						<p:inputMask mask="(99) 9999-9999"
@@ -48,23 +50,28 @@
 							value="#{usuarioPublicoBean.usuario.dataNascimento}"
 							id="dt_nacimento" pattern="dd/MM/yyyy" />
 
-						<h:outputText value="#{message.Sexo}" />
-						<p:selectOneRadio id="sexo"
+						<h:outputText value="* #{message.Sexo}" />
+						<p:selectOneRadio id="sexo" required="true"
+							requiredMessage="#{message.Sexo_Obrigatorio}"
 							value="#{usuarioPublicoBean.usuario.sexo}">
 							<f:selectItem itemLabel="Masculino" itemValue="M" />
 							<f:selectItem itemLabel="Feminino" itemValue="F" />
 						</p:selectOneRadio>
 
-						<h:outputLabel value="#{message.Login}" for="login" />
+						<h:outputLabel value="* #{message.Login}" for="login" />
 						<p:inputText id="login" label="login" required="true"
-							maxlength="10" value="#{usuarioPublicoBean.usuario.login}" />
+							requiredMessage="#{message.Login_Obrigatorio}" maxlength="10"
+							value="#{usuarioPublicoBean.usuario.login}" />
 
-						<h:outputLabel value="#{message.Senha}" for="senha" />
+						<h:outputLabel value="* #{message.Senha}" for="senha" />
 						<p:password id="senha" label="senha" required="true"
 							maxlength="10" feedback="true"
+							requiredMessage="#{message.Senha_Obrigatoria}"
 							value="#{usuarioPublicoBean.usuario.senha}" />
-						<h:outputLabel value="Confirmar senha: " for="confirmPassword" />
+
+						<h:outputLabel value="* Confirmar senha " for="confirmPassword" />
 						<p:password id="confirmPassword" label="confirmPassword"
+							requiredMessage="#{message.Confirmacao_Senha_Obrigatoria}"
 							required="true" value="#{usuarioPublicoBean.confirmaSenha}"
 							maxlength="10" />
 

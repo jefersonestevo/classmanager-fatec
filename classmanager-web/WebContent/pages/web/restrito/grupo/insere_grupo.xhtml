@@ -27,15 +27,17 @@
 				<p:fieldset legend="#{message.Header_Grupo_Cadastro_Dados}"
 					toggleable="true">
 					<h:panelGrid columns="2" columnClasses="width-30, width-70">
-						<h:outputLabel value="#{message.Titulo}" for="titulo" />
+						<h:outputLabel value="* #{message.Titulo}" for="titulo" />
 						<p:inputText id="titulo" label="titulo" required="true"
-							value="#{grupoBean.grupo.titulo}" />
+							value="#{grupoBean.grupo.titulo}"
+							requiredMessage="#{message.Titulo_Obrigatorio}" />
 
 						<h:outputLabel value="#{message.Descricao}" for="descricao" />
 						<p:outputPanel>
 							<p:inputTextarea rows="8" cols="50" counter="counter"
-								maxlength="200" counterTemplate="{0} caracteres restantes."
-								autoResize="false" value="#{grupoBean.grupo.descricao}" />
+								id="descricao" maxlength="200"
+								counterTemplate="{0} caracteres restantes." autoResize="false"
+								value="#{grupoBean.grupo.descricao}" />
 							<h:outputLabel id="counter"></h:outputLabel>
 						</p:outputPanel>
 
@@ -46,8 +48,9 @@
 					toggleable="true">
 
 					<h:panelGrid columns="2" columnClasses="width-30, width-70">
-						<h:outputLabel value="#{message.Tipo_Postagem_Habilitadas}" />
-						<p:selectManyCheckbox
+						<h:outputLabel value="* #{message.Tipo_Postagem_Habilitadas}" />
+						<p:selectManyCheckbox required="true"
+							requiredMessage="#{messageException[400005001]}"
 							value="#{grupoBean.tiposPostagemSelecionados}">
 							<f:selectItems value="#{grupoBean.tiposPostagem}" />
 						</p:selectManyCheckbox>

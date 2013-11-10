@@ -7,34 +7,44 @@
 
 	<h:form>
 		<p:toolbar>
-			<p:toolbarGroup style="width: 100%;">								
+			<p:toolbarGroup style="width: 100%;">
 				<p:commandLink action="/pages/web/restrito/main.jsf"
-					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					id="botaoHomeMenu" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="home_icone.png"
-						styleClass="iconeMenu" title="#{message.Title_Home}"/>					
-				</p:commandLink>				
-				<p:spacer width="50px;"/>
+						styleClass="iconeMenu" />
+				</p:commandLink>
+				<p:tooltip for="botaoHomeMenu" value="#{message.Title_Home}" />
+				<p:spacer width="50px;" />
 
 				<p:commandLink rendered="#{sessionBean.administrador}"
+					id="botaoMantemUsuarioMenu"
 					action="/pages/web/restrito/usuario/pesquisa_usuario.jsf"
 					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="usuario_masculino.png"
-						styleClass="iconeMenu" title="#{message.Title_Usuarios}" />
+						styleClass="iconeMenu" />
 				</p:commandLink>
+				<p:tooltip for="botaoMantemUsuarioMenu"
+					value="#{message.Title_Usuarios}" />
 				<p:spacer width="50px;" rendered="#{sessionBean.administrador}" />
 
 				<p:commandLink action="/pages/web/restrito/grupo/pesquisa_grupo.jsf"
-					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					id="botaoMantemGrupoMenu" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="grupo_icone.png"
-						styleClass="iconeMenu" title="#{message.Title_grupos}"/>
+						styleClass="iconeMenu" />
 				</p:commandLink>
+				<p:tooltip for="botaoMantemGrupoMenu"
+					value="#{message.Title_grupos}" />
 				<p:spacer width="50px;"></p:spacer>
 
 				<p:commandLink action="/pages/web/restrito/sobre.jsf"
-					onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
+					id="botaoSobreMenu" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()">
 					<p:graphicImage library="imagens" name="info_icone.png"
-						styleClass="iconeMenu" title="#{message.Header_Sobre}"/>
+						styleClass="iconeMenu" />
 				</p:commandLink>
+				<p:tooltip for="botaoSobreMenu" value="#{message.Header_Sobre}" />
 			</p:toolbarGroup>
 		</p:toolbar>
 	</h:form>

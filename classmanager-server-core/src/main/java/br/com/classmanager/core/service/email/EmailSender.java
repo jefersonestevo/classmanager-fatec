@@ -41,7 +41,7 @@ public class EmailSender {
 	private Map<TemplateEmailMapper, TemplateEmail> mapTemplates = new HashMap<TemplateEmailMapper, TemplateEmail>();
 
 	@PostConstruct
-	public void mapearTemplates() {
+	public void inicializar() {
 		try {
 			// Mapeando Templates
 			for (TemplateEmailMapper mapper : TemplateEmailMapper.values()) {
@@ -55,6 +55,7 @@ public class EmailSender {
 						.unmarshal(input);
 				mapTemplates.put(mapper, temp);
 			}
+
 		} catch (JAXBException e) {
 			log.error(
 					"Ocorreu um erro ao mapear os templates de email da aplicação.",

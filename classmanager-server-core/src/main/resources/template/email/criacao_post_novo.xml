@@ -1,0 +1,8 @@
+<template>
+	<titulo>HINTER - @@login@@</titulo>
+	<conteudo>
+		Foi realizada uma nova postagem no grupo @@grupo@@ .
+		<br />
+		Venha conferir!!!
+	</conteudo>
+</template>

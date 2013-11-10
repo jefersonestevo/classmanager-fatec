@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import br.com.classmanager.client.dto.action.core.ManterUsuarioAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.usuario.Usuario;
@@ -73,10 +74,11 @@ public class UsuarioBean extends GenericManagedBean {
 				service.execute(action);
 				sessionBean.setAtualizarUsuario(true);
 				sessionBean.getUsuario();
+			addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
-		addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
 		return pesquisar();
 	}
 	

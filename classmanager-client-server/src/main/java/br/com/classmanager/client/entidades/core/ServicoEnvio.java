@@ -16,6 +16,9 @@ public class ServicoEnvio extends BeanJPA<Long> {
 
 	public static final String NOME_ENTIDADE = "servico_envio";
 
+	public static final Long SERVICO_EMAIL = 1l;
+	public static final Long SERVICO_SMS = 2l;
+
 	public ServicoEnvio() {
 		super();
 	}

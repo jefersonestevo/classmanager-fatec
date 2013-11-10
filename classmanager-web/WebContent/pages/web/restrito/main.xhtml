@@ -30,20 +30,29 @@
 						</p:column>
 						<p:column styleClass="centro">
 							<p:commandButton icon="ui-icon-plus"
+								id="botaoCarregarModalInserirPostagem"
 								action="#{postagemBean.carregarTelaInserirPostagem(notif.id)}"
 								update=":formInserirPostagemGrupo"
 								oncomplete="modalInserirPostagem.show()">
 							</p:commandButton>
+							<p:tooltip for="botaoCarregarModalInserirPostagem"
+								value="#{message.Hint_Botao_Carregar_Modal_Inserir_Postagem}" />
 							<p:commandButton icon="ui-icon-comment"
+								id="botaoCarregarModalListarPostagem"
 								action="#{postagemBean.carregarListaPostagem(notif.id)}"
 								update=":formListarPostagemGrupo"
 								oncomplete="modalListarPostagem.show()">
 							</p:commandButton>
+							<p:tooltip for="botaoCarregarModalListarPostagem"
+								value="#{message.Hint_Botao_Carregar_Modal_Listar_Postagem}" />
 							<p:commandButton icon="ui-icon-search"
+								id="botaoCarregarVisualizacaoGrupo"
 								action="#{grupoBean.visualizaMeuGrupo}"
 								onstart="modalStatus.show()" oncomplete="modalStatus.hide()">
 								<f:param id="id" name="id" value="#{notif.id}"></f:param>
 							</p:commandButton>
+							<p:tooltip for="botaoCarregarVisualizacaoGrupo"
+								value="#{message.Hint_Botao_Carregar_Visualizacao_Grupo}" />
 						</p:column>
 					</p:dataTable>
 					<h:outputText
@@ -73,12 +82,14 @@
 										<f:convertDateTime pattern="HH:mm" />
 									</h:outputText>
 									<p:spacer width="3px" />
-									<p:commandButton label="#{message.Atualizar}"
+									<p:commandButton id="botaoAtualizarNotificacaoGruposPendentes"
 										icon="ui-icon-refresh" onstart="modalStatus.show()"
 										oncomplete="modalStatus.hide()"
 										update=":formTelaInicial:panelGruposPendentes"
 										action="#{notificacaoSessionBean.notificacaoGrupoPendente.atualizar}">
 									</p:commandButton>
+									<p:tooltip for="botaoAtualizarNotificacaoGruposPendentes"
+										value="#{message.Atualizar}" />
 								</p:outputPanel>
 							</f:facet>
 
@@ -125,12 +136,15 @@
 										<f:convertDateTime pattern="HH:mm" />
 									</h:outputText>
 									<p:spacer width="3px" />
-									<p:commandButton label="#{message.Atualizar}"
+									<p:commandButton
+										id="botaoAtualizarNotificacaoGruposComPendencia"
 										icon="ui-icon-refresh" onstart="modalStatus.show()"
 										oncomplete="modalStatus.hide()"
 										update=":formTelaInicial:panelGruposComPendencia"
 										action="#{notificacaoSessionBean.notificacaoGrupoComPendencia.atualizar}">
 									</p:commandButton>
+									<p:tooltip for="botaoAtualizarNotificacaoGruposComPendencia"
+										value="#{message.Atualizar}" />
 								</p:outputPanel>
 							</f:facet>
 							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}"

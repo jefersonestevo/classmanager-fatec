@@ -19,10 +19,13 @@
 							styleClass="negrito" />
 						<p:spacer style="width: 10px; height: 1px;" />
 						<p:commandButton icon="ui-icon-comment"
+							id="botaoCarregarModalListarPostagemModal"
 							action="#{postagemBean.carregarListaPostagem(postagemBean.grupoAtual.id)}"
 							update=":formListarPostagemGrupo" immediate="true"
 							oncomplete="modalInserirPostagem.hide(); modalListarPostagem.show()">
 						</p:commandButton>
+						<p:tooltip for="botaoCarregarModalListarPostagemModal"
+							value="#{message.Hint_Botao_Carregar_Modal_Listar_Postagem}" />
 					</p:outputPanel>
 					<br />
 
@@ -60,7 +63,8 @@
 							<h:panelGrid id="gridPreenchimentoTituloPadrao" columns="3"
 								columnClasses="width-20, width-80">
 
-								<h:outputLabel value="#{message.Titulo}" for="tituloPostagemID" />
+								<h:outputLabel value="* #{message.Titulo}"
+									for="tituloPostagemID" />
 								<p:inputText id="tituloPostagemID" label="#{message.Titulo}"
 									required="true" value="#{postagemBean.postagem.titulo}"
 									styleClass="width-80" maxlength="190"
@@ -78,7 +82,7 @@
 								<h:panelGrid id="gridPreenchimentoVagaCargo1" columns="3"
 									columnClasses="width-30, width-40, width-30">
 
-									<h:outputLabel value="#{message.Cargo}  " for="cargoID" />
+									<h:outputLabel value="* #{message.Cargo}  " for="cargoID" />
 									<p:inputText id="cargoID" label="#{message.Cargo}"
 										maxlength="190" required="true"
 										value="#{postagemBean.postagem.cargo}"
@@ -97,6 +101,8 @@
 
 									<h:outputLabel value="#{message.Contato}" for="contatoID" />
 									<p:inputText id="contatoID" label="#{message.Contato}"
+										required="true"
+										requiredMessage="#{message.Contato_Obrigatorio}"
 										value="#{postagemBean.postagem.contato}" />
 									<h:message for="contatoID" />
 
@@ -116,9 +122,8 @@
 
 								<h:outputLabel value="#{message.Descricao}" for="descricaoID" />
 								<p:editor id="descricaoID" label="#{message.Descricao}"
-									required="true" value="#{postagemBean.postagem.descricao}"
-									height="150" maxlength="1900"
-									requiredMessage="#{message.Postagem_Descricao_Obrigatoria}">
+									value="#{postagemBean.postagem.descricao}" height="150"
+									maxlength="1900">
 								</p:editor>
 								<h:message for="descricaoID" />
 							</h:panelGrid>

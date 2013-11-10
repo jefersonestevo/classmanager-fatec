@@ -14,13 +14,15 @@
 		<h:form>
 			<p:panel header="#{message.Header_Altera_Dados}">
 				<h:panelGrid columns="2">
-					<h:outputLabel value="Nome: " for="nome" />
-					<p:inputText id="nome" label="nome" required="true"
-						value="#{usuarioLogadoBean.usuario.nome}" />
+					<h:outputText value="* Nome: " />
+					<p:inputText id="nome" required="true"
+						value="#{usuarioLogadoBean.usuario.nome}"
+						requiredMessage="#{message.Login_Obrigatorio}" />
 
-					<h:outputLabel value="E-mail: " for="email" />
-					<p:inputText id="email" label="email" required="false"
-						value="#{usuarioLogadoBean.usuario.email}" />
+					<h:outputText value="* E-mail: " />
+					<p:inputText id="email" required="true"
+						value="#{usuarioLogadoBean.usuario.email}"
+						requiredMessage="#{message.Email_Obrigatorio}" />
 
 					<h:outputText value="Telefone: " />
 					<p:inputMask mask="(99) 9999-9999"
@@ -35,9 +37,11 @@
 						value="#{usuarioLogadoBean.usuario.celular2}" />
 
 					<h:outputLabel value="Data de Nascimento " for="dt_nacimento" />
-					<p:calendar navigator="true" effect="explode" locale="pt" pattern="dd/MM/yyyy"
-						value="#{usuarioLogadoBean.usuario.dataNascimento}" id="dt_nacimento" />								
-					
+					<p:calendar navigator="true" effect="explode" locale="pt"
+						pattern="dd/MM/yyyy"
+						value="#{usuarioLogadoBean.usuario.dataNascimento}"
+						id="dt_nacimento" />
+
 					<p:commandButton value="Alterar"
 						action="#{usuarioLogadoBean.alteraMeuUsuario}" icon="ui-icon-disk" />
 				</h:panelGrid>

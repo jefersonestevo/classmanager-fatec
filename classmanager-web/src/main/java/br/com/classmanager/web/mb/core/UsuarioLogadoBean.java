@@ -38,40 +38,42 @@ public class UsuarioLogadoBean extends GenericManagedBean {
 	@ServiceView
 	private ClassManagerServiceView service;
 
-	@Inject	private SessionBean sessionBean;	
-	
+	@Inject
+	private SessionBean sessionBean;
+
 	@PostConstruct
-	public void usuarioLogado () {
+	public void usuarioLogado() {
 		pesquisarUsuario(sessionBean.getUsuario().getId());
 	}
-	
+
 	public void pesquisarUsuario(long id) {
 		try {
 			ManterUsuarioAction action = new ManterUsuarioAction(
 					AcaoManter.PESQUISAR);
 			action.setId(id);
-			usuario = (Usuario) service.execute(action);			
+			usuario = (Usuario) service.execute(action);
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
 		}
 	}
-	
+
 	public String alteraMeuUsuario() {
-		try {				
-				ManterUsuarioAction action = new ManterUsuarioAction(AcaoManter.ALTERAR);
-				action.setEntidade(usuario);
-				service.execute(action);
-				sessionBean.setAtualizarUsuario(true);
-				sessionBean.getUsuario();
+		try {
+			ManterUsuarioAction action = new ManterUsuarioAction(
+					AcaoManter.ALTERAR);
+			action.setEntidade(usuario);
+			service.execute(action);
+			sessionBean.setAtualizarUsuario(true);
+			sessionBean.getUsuario();
+			addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
 		} catch (ClassManagerException e) {
 			addExceptionMessage(e);
+			return null;
 		}
-		addInfoMessage(getMessage("Usuario_Alterado_Sucesso"));
-		return irParaTelaHome();
-	}	
+		return "/pages/web/restrito/usuario/altera_usuario_logado.xhtml";
+	}
 
-	
-	public String irParaTelaHome(){
+	public String irParaTelaHome() {
 		return "/pages/web/restrito/main.jsf";
 	}
 
@@ -121,7 +123,7 @@ public class UsuarioLogadoBean extends GenericManagedBean {
 		}
 		return foto;
 	}
-	
+
 	public void setFoto(StreamedContent foto) {
 		this.foto = foto;
 	}

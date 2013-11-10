@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
 
@@ -26,12 +25,14 @@ public class BroadcasterBean extends GenericManagedBean {
 	}
 
 	public void broadcastGrupo(Long idGrupo, String mensagem) {
-		String CHANNEL = "/" + MESSAGE_GRUPO + idGrupo;
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		requestContext.execute("wdMessageGrupo" + idGrupo + ".connect('"
-				+ CHANNEL + "')");
 
-		pushContext.push(CHANNEL, mensagem);
+		// TODO - Arrumar o push
+		// String CHANNEL = "/" + MESSAGE_GRUPO + idGrupo;
+		// RequestContext requestContext = RequestContext.getCurrentInstance();
+		// requestContext.execute("wdMessageGrupo" + idGrupo + ".connect('"
+		// + CHANNEL + "')");
+		//
+		// pushContext.push(CHANNEL, mensagem);
 	}
 
 }
