@@ -25,6 +25,10 @@ public class NotificacaoSessionBean extends GenericManagedBean {
 	@NotificacaoView
 	private NotificacaoGrupoComPendencia notificacaoGrupoComPendencia;
 
+	@Inject
+	@NotificacaoView
+	private NotificacaoUltimosGruposAtualizados notificacaoUltimosGruposAtualizados;
+
 	public NotificacaoGrupo getNotificacaoGrupo() {
 		return notificacaoGrupo;
 	}
@@ -49,6 +53,15 @@ public class NotificacaoSessionBean extends GenericManagedBean {
 	public void setNotificacaoGrupoComPendencia(
 			NotificacaoGrupoComPendencia notificacaoGrupoComPendencia) {
 		this.notificacaoGrupoComPendencia = notificacaoGrupoComPendencia;
+	}
+
+	public NotificacaoUltimosGruposAtualizados getNotificacaoUltimosGruposAtualizados() {
+		return notificacaoUltimosGruposAtualizados;
+	}
+
+	public void setNotificacaoUltimosGruposAtualizados(
+			NotificacaoUltimosGruposAtualizados notificacaoUltimosGruposAtualizados) {
+		this.notificacaoUltimosGruposAtualizados = notificacaoUltimosGruposAtualizados;
 	}
 
 }

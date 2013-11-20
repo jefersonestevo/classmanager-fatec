@@ -78,6 +78,7 @@ public class AdicionaPostagemGrupoService extends
 			postagem.setContato(null);
 		}
 
+		postagem.setUltimaAtualizacao(new Date());
 		daoPostagem.inserir(postagem);
 
 		Grupo grupo = daoGrupo.pesquisar(postagem.getGrupo().getId());

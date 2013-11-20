@@ -46,6 +46,17 @@
 											columnClasses="panelTipoPostagemGerada, panelGeradorPostagem">
 											<h:outputText styleClass="negrito" value="#{post.titulo}" />
 											<p:outputPanel layout="block" />
+
+											<p:outputPanel styleClass="panelGeradorPostagem"
+												rendered="#{post.ultimaAtualizacao ne null}">
+												<h:outputText value="#{message.Atualizado_Em} " />
+												<h:outputText value="#{post.ultimaAtualizacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+												</h:outputText>
+											</p:outputPanel>
+											<p:outputPanel layout="block"
+												rendered="#{post.ultimaAtualizacao ne null}" />
+
 											<p:outputPanel layout="block">
 												<h:outputText
 													value="#{viewUtils.nomeTipoPostagem(post.tipoPostagem)} #{viewUtils.servicosEnvioUtilizados(post)}" />

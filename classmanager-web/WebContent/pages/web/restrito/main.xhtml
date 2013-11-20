@@ -156,6 +156,54 @@
 					</p:dataTable>
 				</p:fieldset>
 
+				<p:fieldset id="panelUltimosGruposAtualizados"
+					styleClass="centro notificacao"
+					legend="#{notificacaoSessionBean.notificacaoUltimosGruposAtualizados.header}">
+					<p:dataTable styleClass="width-full centro" rows="5"
+						paginator="true" paginatorPosition="bottom"
+						value="#{notificacaoSessionBean.notificacaoUltimosGruposAtualizados.listaNotificacao}"
+						var="notif" emptyMessage="#{message.Nenhum_Item_Exibicao}">
+
+						<p:column styleClass="width-80">
+							<f:facet name="header">
+								<p:outputPanel>
+									<h:outputText style="font-size: 9px;"
+										value="#{notificacaoSessionBean.notificacaoUltimosGruposAtualizados.ultimaAtualizacao}">
+										<f:convertDateTime pattern="HH:mm" />
+									</h:outputText>
+									<p:spacer width="3px" />
+									<p:commandButton
+										id="botaoAtualizarNotificacaoUltimosGruposAtualizados"
+										icon="ui-icon-refresh" onstart="modalStatus.show()"
+										oncomplete="modalStatus.hide()"
+										update=":formTelaInicial:panelUltimosGruposAtualizados"
+										action="#{notificacaoSessionBean.notificacaoUltimosGruposAtualizados.atualizar}">
+									</p:commandButton>
+									<p:tooltip
+										for="botaoAtualizarNotificacaoUltimosGruposAtualizados"
+										value="#{message.Atualizar}" />
+								</p:outputPanel>
+							</f:facet>
+							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}"
+								value="#{notif.titulo}">
+								<f:param name="id" value="#{notif.id}" />
+							</p:commandLink>
+						</p:column>
+						<p:column styleClass="width-20">
+							<f:facet name="header">
+								<h:outputText value="#{message.Ultima_Atualizacao}"/>
+							</f:facet>
+							<p:commandLink action="#{grupoBean.visualizaMeuGrupo}">
+								<f:param name="id" value="#{notif.id}" />
+								<h:outputText value="#{notif.ultimaAtualizacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+								</h:outputText>
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+				</p:fieldset>
+
 			</p:panelGrid>
 
 			<p:confirmDialog id="modalConfirmacaoEntradaGrupoID"

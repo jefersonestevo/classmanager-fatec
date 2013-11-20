@@ -14,4 +14,7 @@ public interface IDaoPostagem extends IDaoCRUD<Postagem, Long> {
 
 	public List<Postagem> pesquisarPorGrupo(Long idGrupo)
 			throws ClassManagerException;
+
+	public List<Postagem> pesquisarPostagensDosGrupos(List<Long> idGrupos)
+			throws ClassManagerException;
 }

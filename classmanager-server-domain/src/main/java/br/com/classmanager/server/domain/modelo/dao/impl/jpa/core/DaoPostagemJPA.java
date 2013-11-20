@@ -64,4 +64,22 @@ public class DaoPostagemJPA extends DaoCRUDJPA<Postagem, Long> implements
 		return getTemplate().pesquisarQuery(getEntidadePersistente(),
 				query.toString(), new Object[] { idGrupo });
 	}
+
+	@Override
+	public List<Postagem> pesquisarPostagensDosGrupos(List<Long> idGrupos)
+			throws ClassManagerException {
+		StringBuilder query = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+
+		query.append(" SELECT post FROM ");
+		query.append(getEntidadePersistente().getName() + " AS post ");
+		query.append(" WHERE 1 = 2 ");
+		for (Long id : idGrupos) {
+			query.append(" OR post.grupo.id = ? ");
+			params.add(id);
+		}
+
+		return getTemplate().pesquisarQuery(getEntidadePersistente(),
+				query.toString(), params.toArray());
+	}
 }

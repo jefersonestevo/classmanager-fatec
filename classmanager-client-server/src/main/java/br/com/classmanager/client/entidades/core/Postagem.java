@@ -108,6 +108,10 @@ public class Postagem extends BeanJPA<Long> {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "postagem")
 	private List<ComentarioPostagem> listaComentarios = new ArrayList<ComentarioPostagem>();
 
+	@Column(name = "ultima_atualizacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date ultimaAtualizacao;
+
 	public Long getId() {
 		return id;
 	}
@@ -224,6 +228,14 @@ public class Postagem extends BeanJPA<Long> {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public Date getUltimaAtualizacao() {
+		return ultimaAtualizacao;
+	}
+
+	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
+		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
 
 }
