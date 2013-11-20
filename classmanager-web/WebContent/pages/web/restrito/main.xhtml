@@ -95,16 +95,21 @@
 
 							<p:outputPanel rendered="#{notif.status eq 0}">
 								<p:commandButton label="#{message.Aceitar}" icon="ui-icon-check"
+									id="botaoConfirmarEntradaGrupoPendente"
 									onclick="modalConfirmacaoEntradaGrupo.show()">
 									<f:setPropertyActionListener value="#{notif.id}"
 										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
 								</p:commandButton>
+								<p:tooltip for="botaoConfirmarEntradaGrupoPendente"
+									value="#{message.Hint_Botao_Confirmar_Entrada_Grupo_Pendente}" />
 								<p:commandButton label="#{message.Negar}" icon="ui-icon-close"
 									id="negarEntradaGrupoPendente"
 									onclick="modalConfirmacaoRejeicaoGrupo.show()">
 									<f:setPropertyActionListener value="#{notif.id}"
 										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
 								</p:commandButton>
+								<p:tooltip for="negarEntradaGrupoPendente"
+									value="#{message.Hint_Botao_Negar_Entrada_Grupo_Pendente}" />
 							</p:outputPanel>
 							<p:outputPanel rendered="#{notif.status eq 1}">
 								<p:commandButton label="#{message.Cancelar_Solicitacao}"
@@ -114,6 +119,8 @@
 										for="cancelarSolicitacaoGrupoPendente"
 										target="#{notificacaoSessionBean.notificacaoGrupoPendente.idSelecionado}" />
 								</p:commandButton>
+								<p:tooltip for="cancelarSolicitacaoGrupoPendente"
+									value="#{message.Hint_Botao_Cancelar_Solicitacao_Grupo}" />
 							</p:outputPanel>
 						</p:column>
 

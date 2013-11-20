@@ -21,6 +21,7 @@ import br.com.classmanager.client.dto.action.core.ManterGrupoAction;
 import br.com.classmanager.client.dto.geral.ListaDTO;
 import br.com.classmanager.client.entidades.core.ComentarioPostagem;
 import br.com.classmanager.client.entidades.core.Grupo;
+import br.com.classmanager.client.entidades.core.MiniCurriculo;
 import br.com.classmanager.client.entidades.core.Postagem;
 import br.com.classmanager.client.entidades.core.ServicoEnvio;
 import br.com.classmanager.client.entidades.enums.TipoPostagem;
@@ -58,6 +59,7 @@ public class PostagemBean extends GenericManagedBean {
 			new ComparadorPostagemPorDataGeracao());
 
 	private String comentarioPostagem;
+	private MiniCurriculo miniCurriculo;
 
 	private Integer tipoPostagemSelecionada;
 	private List<SelectItem> listaTiposPostagensHabilitadas;
@@ -148,6 +150,7 @@ public class PostagemBean extends GenericManagedBean {
 			AdicionaComentarioPostagemAction action = new AdicionaComentarioPostagemAction();
 			action.setComentarioPostagem(this.comentarioPostagem);
 			action.setPostagem(this.postagemAtual);
+			action.setMiniCurriculo(null);
 			service.execute(action);
 
 			Long idPostagem = this.postagemAtual.getId();
@@ -158,10 +161,28 @@ public class PostagemBean extends GenericManagedBean {
 		}
 	}
 
+	public void adicionarComentarioPostagemComCurriculo() {
+		// try {
+		// AdicionaComentarioPostagemAction action = new
+		// AdicionaComentarioPostagemAction();
+		// action.setPostagem(this.postagemAtual);
+		// action.setMiniCurriculo(this.miniCurriculo);
+		// action.setComentarioPostagem(getMessage("Message_Padrao_Envio_Mini_Curriculo_Vaga"));
+		// service.execute(action);
+		//
+		// Long idPostagem = this.postagemAtual.getId();
+		// this.preenchePostagemAtual(idPostagem);
+		// this.comentarioPostagem = null;
+		// } catch (ClassManagerException e) {
+		// addExceptionMessage(e);
+		// }
+	}
+
 	public String irParaTelaVisualizarPostagemGrupo(Long idPostagem) {
 		try {
 			this.preenchePostagemAtual(idPostagem);
 			this.comentarioPostagem = null;
+			this.miniCurriculo = new MiniCurriculo();
 			this.grupoBean.visualizaMeuGrupo(this.grupoAtual.getId());
 
 			for (ComentarioPostagem coment : this.postagemAtual
@@ -307,6 +328,14 @@ public class PostagemBean extends GenericManagedBean {
 
 	public void setComentarioPostagem(String comentarioPostagem) {
 		this.comentarioPostagem = comentarioPostagem;
+	}
+
+	public MiniCurriculo getMiniCurriculo() {
+		return miniCurriculo;
+	}
+
+	public void setMiniCurriculo(MiniCurriculo miniCurriculo) {
+		this.miniCurriculo = miniCurriculo;
 	}
 
 }

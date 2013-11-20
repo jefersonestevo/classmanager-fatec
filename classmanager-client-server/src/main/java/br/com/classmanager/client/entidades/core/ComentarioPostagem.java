@@ -2,6 +2,7 @@ package br.com.classmanager.client.entidades.core;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,6 +55,9 @@ public class ComentarioPostagem extends BeanJPA<Long> {
 	@Column(length = TamanhoCampo.TAMANHO_GRANDE, nullable = false)
 	private String descricao;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comentarioPostagem")
+	private MiniCurriculo miniCurriculo;
+
 	public Long getId() {
 		return id;
 	}
@@ -91,6 +96,14 @@ public class ComentarioPostagem extends BeanJPA<Long> {
 
 	public void setDataGeracao(Date dataGeracao) {
 		this.dataGeracao = dataGeracao;
+	}
+
+	public MiniCurriculo getMiniCurriculo() {
+		return miniCurriculo;
+	}
+
+	public void setMiniCurriculo(MiniCurriculo miniCurriculo) {
+		this.miniCurriculo = miniCurriculo;
 	}
 
 }

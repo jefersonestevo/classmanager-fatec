@@ -13,6 +13,7 @@ import br.com.classmanager.client.entidades.core.Postagem;
 import br.com.classmanager.client.exceptions.ClassManagerException;
 import br.com.classmanager.server.domain.modelo.dao.def.DAO;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoComentarioPostagem;
+import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoMiniCurriculo;
 import br.com.classmanager.server.domain.modelo.dao.interfaces.core.IDaoPostagem;
 import br.com.classmanager.server.domain.service.Servico;
 
@@ -28,6 +29,10 @@ public class AdicionaComentarioPostagemService extends
 	@DAO
 	private IDaoPostagem daoPostagem;
 
+	@Inject
+	@DAO
+	private IDaoMiniCurriculo daoMiniCurriculo;
+
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public ComentarioPostagem execute(AdicionaComentarioPostagemAction request)
@@ -40,6 +45,11 @@ public class AdicionaComentarioPostagemService extends
 		comentario.setPostagem(request.getPostagem());
 
 		daoComentarioPostagem.inserir(comentario);
+
+		if (request.getMiniCurriculo() != null) {
+			request.getMiniCurriculo().setComentarioPostagem(comentario);
+			daoMiniCurriculo.inserir(request.getMiniCurriculo());
+		}
 
 		Postagem post = daoPostagem.pesquisar(comentario.getPostagem().getId());
 		post.setUltimaAtualizacao(new Date());

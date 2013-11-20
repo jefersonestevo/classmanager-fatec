@@ -72,14 +72,19 @@
 
 				<p:spacer style="width: 100%; height: 3px;" />
 
-				<h:panelGrid styleClass="width-full" columns="2"
-					id="panelFormComentarioPostagem" columnClasses="width-30, width-70">
+				<h:panelGrid styleClass="width-full" columns="3"
+					id="panelFormComentarioPostagem"
+					columnClasses="width-30, width-50, width-20">
 
 					<h:outputText value="#{message.Comentario_Postagem_Descricao}" />
 					<p:inputTextarea id="frmInsercaoComentarioPostagem" rows="6"
 						cols="65" value="#{postagemBean.comentarioPostagem}"
 						required="true"
 						requiredMessage="#{message.Comentario_Postagem_Descricao_Obrigatorio}" />
+					<p:commandButton icon="ui-icon-mail-closed" immediate="true"
+						rendered="#{(postagemBean.postagemAtual.tipoPostagemNumber eq 2)}"
+						onclick="modalEnviarEmailVaga.show()" id="botaoEnviarEmailVaga"
+						style="width: 50px; height: 50px;" />
 				</h:panelGrid>
 
 				<p:outputPanel layout="block" styleClass="width-full centro"
@@ -125,6 +130,60 @@
 					</p:outputPanel>
 				</p:outputPanel>
 			</h:panelGrid>
+		</h:form>
+
+		<h:form id="formModalEnviarEmailVaga">
+
+			<p:dialog widgetVar="modalEnviarEmailVaga"
+				id="modalEnviarEmailVagaID" showEffect="fade" hideEffect="fade"
+				modal="true" styleClass="width-80" width="700" height="500">
+
+				<h:panelGrid columns="1" styleClass="width-full centro">
+
+					<h:panelGrid columns="2" styleClass="width-full"
+						columnClasses="width-50, width-50">
+
+						<h:outputText value="* #{message.Nome}" />
+						<p:inputText value="#{postagemBean.miniCurriculo.nome}"
+							required="true"
+							requiredMessage="#{message.Mini_Curriculo_Nome_Obrigatorio}" />
+
+						<h:outputText value="#{message.Endereco}" />
+						<p:inputText value="#{postagemBean.miniCurriculo.endereco}" />
+
+						<h:outputText value="#{message.Email}" />
+						<p:inputText value="#{postagemBean.miniCurriculo.email}" />
+
+						<h:outputText value="#{message.Telefone}" />
+						<p:inputMask mask="(99) 9999-9999"
+							value="#{postagemBean.miniCurriculo.telefone}" />
+
+						<h:outputText value="#{message.Pretensao_Salarial}" />
+						<p:inputText
+							value="#{postagemBean.miniCurriculo.pretensaoSalarial}" />
+
+					</h:panelGrid>
+
+					<h:outputText value="* #{message.Descricao_Geral}" />
+					<p:editor value="#{postagemBean.miniCurriculo.descricaoGeral}"
+						maxlength="1900" style="width: 100% !important;"
+						requiredMessage="#{message.Mini_Curriculo_Descricao_Geral_Obrigatorio}" />
+
+					<p:outputPanel layout="block" styleClass="width-full centro"
+						id="panelBotosEnvioEmailVaga">
+						<p:commandButton value="#{message.Enviar}"
+							onstart="modalStatus.show()"
+							oncomplete="modalStatus.hide(); modalEnviarEmailVaga.hide();"
+							action="#{postagemBean.adicionarComentarioPostagemComCurriculo}"
+							update=":formVisualizaPostagemGrupo:panelVisualizacaoComentariosPostagem, :formVisualizaPostagemGrupo:panelFormComentarioPostagem, :formModalEnviarEmailVaga"
+							icon="ui-icon-disk">
+						</p:commandButton>
+						<p:commandButton value="#{message.Fechar}" immediate="true"
+							onclick="modalEnviarEmailVaga.hide()" icon="ui-icon-close" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+			</p:dialog>
 		</h:form>
 
 	</ui:define>

@@ -1,6 +1,7 @@
 package br.com.classmanager.client.dto.action.core;
 
 import br.com.classmanager.client.dto.def.DTOServicoAction;
+import br.com.classmanager.client.entidades.core.MiniCurriculo;
 import br.com.classmanager.client.entidades.core.Postagem;
 
 public class AdicionaComentarioPostagemAction extends DTOServicoAction {
@@ -9,6 +10,7 @@ public class AdicionaComentarioPostagemAction extends DTOServicoAction {
 
 	private Postagem postagem;
 	private String comentarioPostagem;
+	private MiniCurriculo miniCurriculo;
 
 	public String getComentarioPostagem() {
 		return comentarioPostagem;
@@ -24,6 +26,14 @@ public class AdicionaComentarioPostagemAction extends DTOServicoAction {
 
 	public void setPostagem(Postagem postagem) {
 		this.postagem = postagem;
+	}
+
+	public MiniCurriculo getMiniCurriculo() {
+		return miniCurriculo;
+	}
+
+	public void setMiniCurriculo(MiniCurriculo miniCurriculo) {
+		this.miniCurriculo = miniCurriculo;
 	}
 
 }
